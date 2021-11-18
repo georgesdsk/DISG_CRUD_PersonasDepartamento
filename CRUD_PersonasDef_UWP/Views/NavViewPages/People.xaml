@@ -9,7 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <RelativePanel>
-        <ListView RelativePanel.AlignLeftWithPanel="True">
+        <ListView RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True">
             <ListView.Header>
                 <CommandBar Background="Transparent" >
                     <AppBarButton Icon="Add" Label="Añadir" />
@@ -17,6 +17,15 @@
                     <AppBarButton Icon="Delete" Label="Borrar" />
                 </CommandBar>
             </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Symbol="Account"/>
+                        <TextBlock Text="{Binding Nombre}" Margin="0,0,0,5"/>
+                        <TextBlock Text="{Binding Apellido}" Margin="0,0,0,5"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
     </RelativePanel>
 </Page>

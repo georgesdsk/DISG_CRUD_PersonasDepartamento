@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Gestora\" />
     <Folder Include="Listados\" />
   </ItemGroup>
 

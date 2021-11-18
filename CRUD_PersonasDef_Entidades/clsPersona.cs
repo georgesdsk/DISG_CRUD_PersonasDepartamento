@@ -12,20 +12,22 @@ namespace Ejercicios_UD10.Models
     public class clsPersona :INotifyPropertyChanged
     {
         #region atributos privados
+        private int id;
         private string nombre;
         private string apellidos;
         private int telefono;
         private string direccion;
-        private byte[] foto;
+        private string urlFoto;
         //foto
         //Para añadir foto a bdd poner url d una foto que esté subida a un servidor
         // Tanmbien se puede añadir mediante un array de bytes. Consultar
         //Datetime
-        private string fechaNacimiento;
-        private int IDDepartamento;
-        
+        private DateTime fechaNacimiento;
+        private int iDDepartamento;
+
         #endregion
         #region propiedades publicas
+        public int Id { get => id; set => id = value; }
         public String Nombre
         {
             get
@@ -37,46 +39,47 @@ namespace Ejercicios_UD10.Models
                 nombre = value;
             }
         }
-
-        public string Apellido
+        public string Apellidos
         {
             get
             {
-                return apellido;
+                return apellidos;
             }
             set
             {
-                apellido = value;
+                apellidos = value;
             }
         }
-
         public String Direccion
         {
             get { return direccion; }
             set { direccion = value; }
         }
-
-        public String FechaNacimiento
+        public DateTime FechaNacimiento
         {
             get { return fechaNacimiento; }
             set { fechaNacimiento = value; }
         }
-
         public int Telefono
         {
             get { return telefono; }
             set { telefono = value; }
         }
+
+        public string Foto { get => urlFoto; set => urlFoto = value; }
+        public int IDDepartamento { get => iDDepartamento; set => iDDepartamento = value; }
         #endregion
         #region constructores
         //Constructor por defecto
 
-        public clsPersona(string nombre, string apellido, string direccion, string fecha, int tel) {
+        public clsPersona(string nombre, string apellidos, string direccion, DateTime fecha, int tel, int idDepartamento, String urlFoto) {
             this.Nombre = nombre;
-            this.Apellido = apellido;
+            this.Apellidos = apellidos;
             this.Direccion = direccion;
             this.FechaNacimiento = fecha;
             this.Telefono = tel;
+            this.IDDepartamento = idDepartamento;
+            this.urlFoto = urlFoto;
         }
         public clsPersona() {
            

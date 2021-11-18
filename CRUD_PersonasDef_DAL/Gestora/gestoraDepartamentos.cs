@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CRUD_PersonasDef_DAL.Gestora
 {
-    class gestoraDepartamentos
+    public class gestoraDepartamentos
     {
     }
 }

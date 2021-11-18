@@ -20,7 +20,7 @@ using System.Data.SqlClient;
 //
 
 
-namespace _07_CRUD_Personas_DAL.Conexion
+namespace CRUD_Personas_DAL.Conexion
 {
     public class clsMyConnection
     {

@@ -1,0 +1,27 @@
+﻿<Page
+    x:Class="CRUD_PersonasDef_UWP.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CRUD_PersonasDef_UWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <RelativePanel>
+        <NavigationView x:Name="NavView" RelativePanel.AlignHorizontalCenterWithPanel="True" MinWidth="2" PaneDisplayMode="Top"  
+                         ItemInvoked="NavView_ItemInvoked" Loaded="NavView_Loaded" IsBackEnabled="False" IsBackButtonVisible="Collapsed">
+            <NavigationView.MenuItems>
+                <NavigationViewItem Content="Personas" Tag="People" Icon="People"/>
+                <NavigationViewItem Content="Departamentos" Tag="Departments" Icon="Shop"/>
+            </NavigationView.MenuItems>
+            <Frame x:Name="ContentFrame" Height="800">
+                <Frame.ContentTransitions>
+                    <TransitionCollection>
+                        <NavigationThemeTransition/>
+                    </TransitionCollection>
+                </Frame.ContentTransitions>
+            </Frame>
+        </NavigationView>
+    </RelativePanel>
+</Page>

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CRUD_PersonasDef_BL\CRUD_PersonasDef_BL.csproj" />
+    <ProjectReference Include="..\CRUD_PersonasDef_Entidades\CRUD_PersonasDef_Entidades.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Ejercicios_UD10.Models
+namespace CRUD_PersonasDef_Entidades
 {
     public class clsPersona :INotifyPropertyChanged
     {

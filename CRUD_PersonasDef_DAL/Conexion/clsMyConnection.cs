@@ -35,10 +35,10 @@ namespace CRUD_Personas_DAL.Conexion
         public clsMyConnection()
         {
 
-            this.server = "alvarolruiz.database.windows.net";
-            this.dataBase = "alvarolruiz";
+            this.server = "georgesdsk.database.windows.net";
+            this.dataBase = "georgesdsk";
             this.user = "saboresdelatierra";
-            this.pass = "#mitesoro99";
+            this.pass = "#Mitesoro";
 
         }
         //Con parámetros por si quisiera cambiar las conexiones

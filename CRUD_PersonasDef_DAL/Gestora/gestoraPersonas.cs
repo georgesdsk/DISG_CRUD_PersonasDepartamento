@@ -31,11 +31,12 @@ namespace CRUD_PersonasDef_DAL.Gestora
         {
             miComando = new SqlCommand();
             ObservableCollection<clsPersona> nuestroPueblo = new ObservableCollection<clsPersona>();
+            clsPersona nuestraPersona;
             miComando.CommandText = CONSULTA_PERSONAS;
-            SqlConnection c = miConexion.getConnection();
+            SqlConnection c = miConexion.getConnection(); // referenciamos la conexion a una variable para luego cerrarla
             miComando.Connection = c;
             miLector = miComando.ExecuteReader();
-            clsPersona nuestraPersona;
+            
             
             if (miLector.HasRows)
             {

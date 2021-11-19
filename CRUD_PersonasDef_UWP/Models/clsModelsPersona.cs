@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace CRUD_PersonasDef_UWP.Models
 {
 
-    /*Me tiene que venir la lista de clsPersona y cuando la reciba en el ViewModel la convierto en clModelsPersona
+    /*Me tiene que venir la lista de clsPersona y cuando la reciba en el ViewModel la convierto en clModelsPersonadfsfdsfd
      */
    public class clsModelsPersona: clsPersona
     {

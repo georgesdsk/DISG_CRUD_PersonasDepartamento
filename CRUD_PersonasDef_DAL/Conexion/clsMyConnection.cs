@@ -29,6 +29,10 @@ namespace CRUD_Personas_DAL.Conexion
         public String dataBase { get; set; }
         public String user { get; set; }
         public String pass { get; set; }
+        
+        SqlConnection miConexion;
+
+        public SqlConnection MiConexion { get => miConexion; }
 
         //Constructores
 
@@ -58,22 +62,22 @@ namespace CRUD_Personas_DAL.Conexion
         /// </summary>
         /// <pre>Nada.</pre>
         /// <returns>Una conexión abierta con la base de datos</returns>
-        public SqlConnection getConnection()
+        public void getConnection()
         {
-            SqlConnection connection = new SqlConnection();
+            MiConexion = new SqlConnection();
 
             try
             {
                             
-                connection.ConnectionString = $"server={server};database={dataBase};uid={user};pwd={pass};";
-                connection.Open();
+                MiConexion.ConnectionString = $"server={server};database={dataBase};uid={user};pwd={pass};";
+                MiConexion.Open();
             }
             catch (SqlException)
             {
                 throw;
             }
 
-            return connection;
+           
 
         }
 
@@ -86,11 +90,11 @@ namespace CRUD_Personas_DAL.Conexion
         /// <post>La conexion es cerrada</post>
         /// <param name="connection">SqlConnection pr referencia. Conexion a cerrar
         /// </param>
-        public void closeConnection(ref SqlConnection connection)
+        public void closeConnection()
         {
             try
             {
-                connection.Close();
+                MiConexion.Close();
             }
             catch (SqlException)
             {

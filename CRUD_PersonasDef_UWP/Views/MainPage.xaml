@@ -5,10 +5,13 @@
     xmlns:local="using:CRUD_PersonasDef_UWP.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:mv=""
+    xmlns:mv="using:CRUD_PersonasDef_UWP.ViewModel"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    >
+    <Page.DataContext>
+        <mv:PersonasVM></mv:PersonasVM>
+    </Page.DataContext>
     
     <RelativePanel><!-- HAcerlo como si fuera para un movil-->
         <NavigationView x:Name="navigationView">
@@ -17,8 +20,17 @@
                 <NavigationViewItem Icon="Play" Content="Menu Item1" Tag="SamplePage1"></NavigationViewItem>             
             </NavigationView.MenuItems>
         </NavigationView>
-        <ListView RelativePanel.RightOf="navigationView">
-            
+        <ListView RelativePanel.RightOf="navigationView" SelectedItem="{Binding PersonaSeleccionadavm}" ItemsSource="{Binding VmListaPersonasConDepartamento}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <!-- La foto-->
+                        <TextBlock Text="{Binding Nombre}"></TextBlock>
+                        <TextBlock Text="{Binding Apellidos}"></TextBlock>
+                    </StackPanel>
+
+                </DataTemplate>
+            </ListView.ItemTemplate>
             
         </ListView>
         

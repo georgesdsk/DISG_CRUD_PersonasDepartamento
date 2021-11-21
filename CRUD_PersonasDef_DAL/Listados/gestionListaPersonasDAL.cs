@@ -2,7 +2,6 @@
 using CRUD_PersonasDef_Entidades;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Text;
 
 namespace CRUD_PersonasDef_DAL.Listados
@@ -11,10 +10,9 @@ namespace CRUD_PersonasDef_DAL.Listados
     {
 
         #region propiedadesPrivadas
-        string CONSULTA_PERSONAS = "SELECT * FROM Personas";
         clsMyConnection miConexion;
         SqlDataReader miLector; // Es mejor poner un datareader por cada metodo o uno comun para todos (Si se pueden ejecutar varios a la vez)
-        SqlCommand miComando; 
+        SqlCommand miComando;
         
         public GestionListaPersonasDAL()
         {
@@ -62,9 +60,20 @@ namespace CRUD_PersonasDef_DAL.Listados
                 }
             }
             miLector.Close();
-            miConexion.closeConnection(ref c);
+            miConexion.closeConnection();
             return nuestroPueblo;
         }
+
+        public int RemovePersona(int id) {
+            
+            miComando = new SqlCommand();
+            miComando.CommandText = "DELETE FROM Persona Where IDPersona =@id" + id; // funciona el @id
+            miConexion.getConnection();
+            miComando.Connection = miConexion;
+            return miComando.ExecuteNonQuery();
+        }
+
+
         #endregion
 
         

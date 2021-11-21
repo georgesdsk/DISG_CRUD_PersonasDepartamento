@@ -189,10 +189,6 @@
       <Project>{f01b4768-053f-47ff-b2b5-6ece36a5efc9}</Project>
       <Name>CRUD_PersonasDef_BL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CRUD_PersonasDef_DAL\CRUD_PersonasDef_DAL.csproj">
-      <Project>{cb9acde5-a53a-48c9-bd01-4708d8a070bd}</Project>
-      <Name>CRUD_PersonasDef_DAL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CRUD_PersonasDef_Entidades\CRUD_PersonasDef_Entidades.csproj">
       <Project>{d37b772a-f5bb-4719-8ee9-33cb59885fa3}</Project>
       <Name>CRUD_PersonasDef_Entidades</Name>

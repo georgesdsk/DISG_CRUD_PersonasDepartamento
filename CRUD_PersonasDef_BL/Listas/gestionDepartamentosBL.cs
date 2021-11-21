@@ -6,12 +6,12 @@ using System.Text;
 
 namespace CRUD_PersonasDef_BL.Listas
 {
-   public class gestionDepartamentosBL
+   public class GestionDepartamentosBL
     {
         List<clsDepartamento> listaDepartamentosBL;
         GestionListaDepartamentosDAL gestionListaDepartamentosDAL;
 
-        public gestionDepartamentosBL()
+        public GestionDepartamentosBL()
         {
             gestionListaDepartamentosDAL = new GestionListaDepartamentosDAL();
         }

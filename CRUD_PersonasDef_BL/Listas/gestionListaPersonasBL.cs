@@ -23,5 +23,10 @@ namespace CRUD_PersonasDef_BL
                 return gestionListaPersonasDAL.GetListadoPersonas();
             } 
         }
+
+        public int BorrarPersonaBL(clsPersona personaSeleccionadavm)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

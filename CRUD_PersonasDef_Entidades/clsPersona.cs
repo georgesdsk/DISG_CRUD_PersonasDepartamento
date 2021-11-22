@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CRUD_PersonasDef_Entidades
 {
-    public class clsPersona :INotifyPropertyChanged
+    public class clsPersona 
     {
         #region atributos privados
         private int id;
@@ -72,7 +72,8 @@ namespace CRUD_PersonasDef_Entidades
         #region constructores
         //Constructor por defecto
 
-        public clsPersona(string nombre, string apellidos, string direccion, DateTime fecha, int tel, int idDepartamento, String urlFoto) {
+        public clsPersona(int id, string nombre, string apellidos, string direccion, DateTime fecha, int tel, int idDepartamento, String urlFoto) {
+            this.id = id;
             this.Nombre = nombre;
             this.Apellidos = apellidos;
             this.Direccion = direccion;
@@ -85,16 +86,8 @@ namespace CRUD_PersonasDef_Entidades
            
         }
         #endregion
-        #region metodos
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-        #endregion
+        
+    
     }
 }
 

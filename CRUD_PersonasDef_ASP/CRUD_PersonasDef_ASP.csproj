@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CRUD_PersonasDef_BL\CRUD_PersonasDef_BL.csproj" />
     <ProjectReference Include="..\CRUD_PersonasDef_Entidades\CRUD_PersonasDef_Entidades.csproj" />
   </ItemGroup>

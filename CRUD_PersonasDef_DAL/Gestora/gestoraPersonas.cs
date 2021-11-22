@@ -26,7 +26,6 @@ namespace CRUD_PersonasDef_DAL.Gestora
            
         }
 
-
         /// <summary>
         /// Va a actualizar la persona al completo con los datos pasados( clase persona)
         /// </summary>

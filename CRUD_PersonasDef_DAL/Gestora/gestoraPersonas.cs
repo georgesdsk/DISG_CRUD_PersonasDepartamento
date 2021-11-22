@@ -3,7 +3,7 @@ using CRUD_PersonasDef_Entidades;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
+using System.Data.SqlClient;
 using System.Text;
 
 namespace CRUD_PersonasDef_DAL.Gestora
@@ -33,11 +33,12 @@ namespace CRUD_PersonasDef_DAL.Gestora
         /// <returns></returns>
         public int UpdatePersona(clsPersona personaActualizar)
         {
-            miComando = "UPDATE Personas set nombrePersona = @nombre, apellidosPersona = @apellidos, direccion = @direccion, fechaNacimiento = @fechaNacimiento, telefono = @telefono, Foto = @foto WHERE IDPersona = " + personaActualizar.Id;
+            miComando.CommandText = "UPDATE Personas set nombrePersona = @nombre, apellidosPersona = @apellidos, direccion = @direccion, fechaNacimiento = @fechaNacimiento, telefono = @telefono, Foto = @foto WHERE IDPersona = " + personaActualizar.Id;
             miComando.Parameters.AddWithValue("@nombre", personaActualizar.Nombre);
             miComando.Parameters.AddWithValue("@apellidos", personaActualizar.Apellidos);
             miComando.Parameters.AddWithValue("@direccion", personaActualizar.Direccion);
             miComando.Parameters.AddWithValue("@fechaNacimiento", personaActualizar.FechaNacimiento); // ave que tal
+
             if (personaActualizar.Telefono != null)
             {
                 miComando.Parameters.AddWithValue("@telefono", personaActualizar.Telefono);

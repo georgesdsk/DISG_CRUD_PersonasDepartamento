@@ -59,7 +59,7 @@ namespace CRUD_Personas_DAL.Conexion
         /// <returns>Una conexión abierta con la base de datos</returns>
         public void getConnection()
         {
-            MiConexion = new SqlConnection();
+            miConexion = new SqlConnection();
 
             try
             {

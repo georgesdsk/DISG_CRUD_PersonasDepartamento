@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CRUD_PersonasDef_BL.Listas;
+using CRUD_PersonasDef_BL.Gestoras;
 
 namespace CRUD_PersonasDef_UWP.ViewModel
 {
@@ -19,15 +20,17 @@ namespace CRUD_PersonasDef_UWP.ViewModel
     {
 
         // tengo que coger toda la lista de personas y la lista de departamentos con su ID y vincular persona.ID -> nombre departamento
+        GestionListaPersonasBL gestionListaPersonasBL;
+        GestionDepartamentosBL gestionDepartamentosBL;
+        GestoraDepartamentoBL gestoraDepartamentoBL;
+        GestoraPersonaBL gestoraPersonaBL;
 
         ObservableCollection<clsPersonaModel> vmListaPersonasConDepartamento;
         List<clsPersona> vmListaPersonasOrginal;
         List<clsDepartamento> vmListaDepartamentos; // para conseguir el nombre segun el id
-        GestionListaPersonasBL gestionListaPersonasBL;
-        GestionDepartamentosBL gestionDepartamentosBL;
         clsPersonaModel personaSeleccionadavm;
 
-
+        
 
         /// <summary>
         /// Hacemos la llamada en el constructor ya que para hacer la vista hay que mostrar la lista 
@@ -36,6 +39,9 @@ namespace CRUD_PersonasDef_UWP.ViewModel
         {
             gestionListaPersonasBL = new GestionListaPersonasBL();
             gestionDepartamentosBL = new GestionDepartamentosBL();
+            gestoraDepartamentoBL = new GestoraDepartamentoBL();
+            gestoraPersonaBL = new GestoraPersonaBL();
+
             vmListaDepartamentos = gestionDepartamentosBL.ListaDepartamentosBL;
             vmListaPersonasOrginal = gestionListaPersonasBL.ListaPersonasBL;
 
@@ -68,11 +74,42 @@ namespace CRUD_PersonasDef_UWP.ViewModel
         }
 
 
-        public int BorrarPersonaEjemplo() {
+        public String BorrarPersona() {
 
-           return gestionListaPersonasBL.BorrarPersonaBL((clsPersona)personaSeleccionadavm);
-        
+            return cambiosRealizados(
+                gestionListaPersonasBL.BorrarPersonaBL((clsPersona)personaSeleccionadavm)
+                );
         }
+
+        public String cambiosRealizados(int i) {
+            String devolucion = personaSeleccionadavm.Nombre + " " + personaSeleccionadavm.Apellidos;
+            if (i > 0)
+            {
+                devolucion += " ha sido cambiada";
+            }
+            else {
+                devolucion += " el cambio ha dado ERROR";
+            }
+            return devolucion;
+        }
+
+        /// <summary>
+        /// estara bindeado a la persona seleccionada
+        /// </summary>
+        /// <returns></returns>
+        public String ActualizarPersona() {
+
+            return cambiosRealizados(
+                gestoraPersonaBL.UpdatePersonaBL((clsPersona)personaSeleccionadavm)
+                );
+        }
+
+
+
+        public String AnhadirPersona() { //
+            return null;
+        }
+
 
     }
 }

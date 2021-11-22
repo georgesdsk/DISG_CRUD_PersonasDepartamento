@@ -2,6 +2,7 @@
 using CRUD_PersonasDef_Entidades;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Text;
 
 namespace CRUD_PersonasDef_DAL.Gestora
@@ -19,12 +20,12 @@ namespace CRUD_PersonasDef_DAL.Gestora
 
         public int UpdateDepartamento(clsDepartamento departamento)
     {
-        miComando = "update Departamento set nombreDepartamento=@nombre where idDepartamento ="+ departamento.ID;
+        miComando.CommandText = "update Departamento set nombreDepartamento=@nombre where idDepartamento ="+ departamento.ID;
         miComando.Parameters.AddWithValue("@nombre", departamento.Nombre);
-        miComando.Connection =  mi
+        miConexion.getConnection();
+        miComando.Connection = miConexion.MiConexion;
         return miComando.ExecuteNonQuery();
     }
-
 
 
     }

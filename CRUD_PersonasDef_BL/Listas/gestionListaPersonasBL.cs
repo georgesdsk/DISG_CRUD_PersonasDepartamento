@@ -18,15 +18,20 @@ namespace CRUD_PersonasDef_BL
             gestionListaPersonasDAL = new GestionListaPersonasDAL();
         }
 
+        #region metodos
+
         public List<clsPersona> ListaPersonasBL { get {
 
                 return gestionListaPersonasDAL.GetListadoPersonas();
             } 
         }
 
+       
         public int BorrarPersonaBL(clsPersona personaSeleccionadavm)
         {
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 }

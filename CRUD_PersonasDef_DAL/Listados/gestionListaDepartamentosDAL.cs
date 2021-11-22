@@ -15,10 +15,12 @@ namespace CRUD_PersonasDef_DAL.Listados
         SqlDataReader miLector; // Es mejor poner un datareader por cada metodo o uno comun para todos (Si se pueden ejecutar varios a la vez)
         SqlCommand miComando;
         #endregion
+
         public GestionListaDepartamentosDAL()
         {
             miConexion = new clsMyConnection();
         }
+
         public List<clsDepartamento> ListadoDepartamentosDAL() {
             List<clsDepartamento> listaDepartamentos = new List<clsDepartamento>();
             clsDepartamento departamentoManejado;

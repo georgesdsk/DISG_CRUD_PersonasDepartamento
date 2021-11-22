@@ -2,6 +2,7 @@
 using CRUD_PersonasDef_Entidades;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Text;
 
 namespace CRUD_PersonasDef_DAL.Listados
@@ -27,7 +28,7 @@ namespace CRUD_PersonasDef_DAL.Listados
             miComando = new SqlCommand();
             List<clsPersona> nuestroPueblo = new List<clsPersona>();
             clsPersona nuestraPersona;
-            miComando.CommandText = CONSULTA_PERSONAS;
+            miComando.CommandText = "SELECT * FROM Personas";
             miConexion.getConnection();
             miComando.Connection = miConexion.MiConexion; // el getter de la conexion
             miLector = miComando.ExecuteReader();
@@ -69,7 +70,7 @@ namespace CRUD_PersonasDef_DAL.Listados
             miComando = new SqlCommand();
             miComando.CommandText = "DELETE FROM Persona Where IDPersona =@id" + id; // funciona el @id
             miConexion.getConnection();
-            miComando.Connection = miConexion;
+            miComando.Connection = miConexion.MiConexion;
             return miComando.ExecuteNonQuery();
         }
 

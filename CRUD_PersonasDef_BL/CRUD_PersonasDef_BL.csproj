@@ -9,8 +9,4 @@
     <ProjectReference Include="..\CRUD_PersonasDef_Entidades\CRUD_PersonasDef_Entidades.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Gestoras\" />
-  </ItemGroup>
-
 </Project>

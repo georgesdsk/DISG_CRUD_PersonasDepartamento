@@ -33,7 +33,7 @@
                         <!-- La foto-->
                         <Image Margin="20" Height="100" Source="{Binding Foto}"></Image>
                         <TextBlock FontSize="20" Margin="10" Text="{Binding Nombre}"></TextBlock>
-                        <TextBlock FontSize="20" Margin="10" Text="{Binding Apellidos}"></TextBlock>
+                        <TextBlock FontSize="21" Margin="10" Text="{Binding Apellidos}"></TextBlock>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

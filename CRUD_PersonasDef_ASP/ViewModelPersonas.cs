@@ -1,5 +1,6 @@
 ﻿using CRUD_PersonasDef_ASP.Models;
 using CRUD_PersonasDef_BL;
+using CRUD_PersonasDef_BL.Gestoras;
 using CRUD_PersonasDef_BL.Listas;
 using CRUD_PersonasDef_Entidades;
 using System;
@@ -15,6 +16,7 @@ namespace CRUD_PersonasDef_ASP
         List<clsDepartamento> listaDepartamento;
         GestionListaPersonasBL gestionListaPersonasBL;
         GestionDepartamentosBL gestionDepartamentosBL;
+        GestoraPersonaBL gestoraPersonaBL;
 
 
         public ViewModelPersonas()
@@ -24,7 +26,7 @@ namespace CRUD_PersonasDef_ASP
 
             gestionListaPersonasBL = new GestionListaPersonasBL(); 
             gestionDepartamentosBL = new GestionDepartamentosBL();
-
+            gestoraPersonaBL = new GestoraPersonaBL();
             listaPersonasVMOriginal = gestionListaPersonasBL.ListaPersonasBL;
             listaDepartamento = gestionDepartamentosBL.ListaDepartamentosBL;
         }
@@ -43,8 +45,14 @@ namespace CRUD_PersonasDef_ASP
                     listaPersonasVMconDepartamento.Add(new clsPersonaModel(nombreDepartamento,persona));
                 }
                 return listaPersonasVMconDepartamento;
-
             } 
         }
+
+        public int DeletePersona(int idPersona) {
+           return gestoraPersonaBL.BorrarPersonaBL(idPersona);   
+        }
+
+       
+
     }
 }

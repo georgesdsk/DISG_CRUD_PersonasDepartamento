@@ -20,8 +20,9 @@ namespace CRUD_PersonasDef_DAL.Gestora
 
         public int UpdateDepartamento(clsDepartamento departamento)
     {
-        miComando.CommandText = "update Departamento set nombreDepartamento=@nombre where idDepartamento ="+ departamento.ID;
+        miComando.CommandText = "update Departamento set nombreDepartamento=@nombre where idDepartamento =@id";
         miComando.Parameters.AddWithValue("@nombre", departamento.Nombre);
+        miComando.Parameters.AddWithValue("@id", departamento.ID);
         miConexion.getConnection();
         miComando.Connection = miConexion.MiConexion;
         return miComando.ExecuteNonQuery();

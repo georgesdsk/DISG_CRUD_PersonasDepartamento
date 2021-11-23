@@ -26,12 +26,6 @@ namespace CRUD_PersonasDef_BL
             } 
         }
 
-       
-        public int BorrarPersonaBL(clsPersona personaSeleccionadavm)
-        {
-            throw new NotImplementedException();
-        }
-
         #endregion
     }
 }

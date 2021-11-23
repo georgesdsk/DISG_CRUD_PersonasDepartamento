@@ -65,16 +65,7 @@ namespace CRUD_PersonasDef_DAL.Listados
             return nuestroPueblo;
         }
 
-        public int RemovePersona(int id) {
-            
-            miComando = new SqlCommand();
-            miComando.CommandText = "DELETE FROM Persona Where IDPersona =@id" + id; // funciona el @id
-            miConexion.getConnection();
-            miComando.Connection = miConexion.MiConexion;
-            return miComando.ExecuteNonQuery();
-        }
-
-
+   
         #endregion
 
         

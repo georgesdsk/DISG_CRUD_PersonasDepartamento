@@ -22,6 +22,18 @@ namespace CRUD_PersonasDef_BL.Gestoras
             return gestoraPersonaDAL.UpdatePersona(clsPersona);
         }
 
+        public int BorrarPersonaBL(int id)
+        {
+            return gestoraPersonaDAL.RemovePersona(id);
+        }
+
+        public int InsertPersona(clsPersona clsPersona) {
+        
+            return gestoraPersonaDAL.insertPersona(clsPersona);
+        
+        }
+
+
 
     }
 }

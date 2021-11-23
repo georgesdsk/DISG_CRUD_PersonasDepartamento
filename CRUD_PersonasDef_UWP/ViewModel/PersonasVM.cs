@@ -20,15 +20,15 @@ namespace CRUD_PersonasDef_UWP.ViewModel
     {
 
         // tengo que coger toda la lista de personas y la lista de departamentos con su ID y vincular persona.ID -> nombre departamento
-        GestionListaPersonasBL gestionListaPersonasBL;
-        GestionDepartamentosBL gestionDepartamentosBL;
+        ListadoPersonasBL gestionListaPersonasBL;
+        ListadoDepartamentosBL gestionDepartamentosBL;
         GestoraDepartamentoBL gestoraDepartamentoBL;
         GestoraPersonaBL gestoraPersonaBL;
 
-        ObservableCollection<clsPersonaModel> vmListaPersonasConDepartamento;
+        ObservableCollection<clsPersonaConDepartamento> vmListaPersonasConDepartamento;
         List<clsPersona> vmListaPersonasOrginal;
         List<clsDepartamento> vmListaDepartamentos; // para conseguir el nombre segun el id
-        clsPersonaModel personaSeleccionadavm;
+        clsPersonaConDepartamento personaSeleccionadavm;
 
         
 
@@ -37,8 +37,8 @@ namespace CRUD_PersonasDef_UWP.ViewModel
         /// </summary>
         public PersonasVM()
         {
-            gestionListaPersonasBL = new GestionListaPersonasBL();
-            gestionDepartamentosBL = new GestionDepartamentosBL();
+            gestionListaPersonasBL = new ListadoPersonasBL();
+            gestionDepartamentosBL = new ListadoDepartamentosBL();
             gestoraDepartamentoBL = new GestoraDepartamentoBL();
             gestoraPersonaBL = new GestoraPersonaBL();
 
@@ -47,17 +47,18 @@ namespace CRUD_PersonasDef_UWP.ViewModel
 
         }
 
-        public ObservableCollection<clsPersonaModel> VmListaPersonasConDepartamento {
+        public ObservableCollection<clsPersonaConDepartamento> VmListaPersonasConDepartamento {
             get {
-                vmListaPersonasConDepartamento = new ObservableCollection<clsPersonaModel>();
+                vmListaPersonasConDepartamento = new ObservableCollection<clsPersonaConDepartamento>();
                 int id;
                 String nombreDepartamento;
-                clsPersonaModel clsPersona;
+                clsPersonaConDepartamento clsPersona;
                 //recorrer la lista original, y hacerle el get del id del departamento,  hacerle el get a la lista de departamentos con el find
                 foreach (clsPersona persona in vmListaPersonasOrginal) {
                     id = persona.IDDepartamento;
                     nombreDepartamento = vmListaDepartamentos.Find(x => x.ID == id).Nombre;
-                    clsPersona = (clsPersonaModel)persona;
+                    clsPersona =  new clsPersonaConDepartamento(persona.Id, persona.Nombre, persona.Apellidos, persona.Direccion, persona.FechaNacimiento, persona.Telefono, persona.IDDepartamento, persona.Foto, nombreDepartamento
+                        );
                     clsPersona.NombreDepartamento = nombreDepartamento;
                     vmListaPersonasConDepartamento.Add(clsPersona);
                 }
@@ -65,7 +66,7 @@ namespace CRUD_PersonasDef_UWP.ViewModel
             }
         }
 
-        public clsPersonaModel PersonaSeleccionadavm { get => personaSeleccionadavm;
+        public clsPersonaConDepartamento PersonaSeleccionadavm { get => personaSeleccionadavm;
             set {
 
                 personaSeleccionadavm = value;

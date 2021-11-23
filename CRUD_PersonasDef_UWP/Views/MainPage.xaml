@@ -16,30 +16,27 @@
     </Page.DataContext>
     
     <RelativePanel><!-- HAcerlo como si fuera para un movil-->
-        <NavigationView  x:Name="navigationView" PaneDisplayMode="Top" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" HorizontalAlignment="Stretch" VerticalAlignment="Top" FontFamily="Bahnschrift SemiLight">
+        <NavigationView  x:Name="navigationView" RelativePanel.AlignBottomWithPanel="True"
+                         RelativePanel.AlignTopWithPanel="True" 
+                         PaneDisplayMode="Left"
+                         ItemInvoked="navigationView_ItemInvoked"
+                         >
             <NavigationView.MenuItems>
-                <NavigationViewItemHeader Content="Listas" FontSize="20"></NavigationViewItemHeader>
-                <NavigationViewItem Icon="People"  Content="Personas" Tag="SamplePage1"></NavigationViewItem>             
-                <NavigationViewItem Icon="Bookmarks" Content="Departamentos" Tag="SamplePage1"></NavigationViewItem>             
+                
+                <NavigationViewItemHeader>Listados</NavigationViewItemHeader>
+                <NavigationViewItemSeparator></NavigationViewItemSeparator>
+                <NavigationViewItem  Icon="People"  Content="Personas" Tag="Personas"></NavigationViewItem>
+                <NavigationViewItem Icon="Bookmarks" Content="Departamentos" Tag="Departamentos"></NavigationViewItem>
+                
+                <NavigationViewItemHeader Margin="0,20,0,0"> Acciones sobre la lista</NavigationViewItemHeader>
+                <NavigationViewItemSeparator></NavigationViewItemSeparator>
+                <CommandBar MinHeight="3" Background="Transparent" >
+                    <AppBarButton  Icon="Add" Label="Añadir" />
+                    <AppBarButton Icon="Edit" Label="Editar" />
+                    <AppBarButton Icon="Delete" Label="Borrar" />
+                </CommandBar>
             </NavigationView.MenuItems>
-            <NavigationView.PaneCustomContent>
-                <HyperlinkButton x:Name="PaneHyperlink" Content="More info" Margin="12,0" Visibility="Collapsed" />
-            </NavigationView.PaneCustomContent>
-
         </NavigationView>
-        <ListView x:Name="listaPersonas" RelativePanel.AlignLeftWithPanel="True" RelativePanel.Below="navigationView" SelectedItem="{Binding PersonaSeleccionadavm}" ItemsSource="{Binding VmListaPersonasConDepartamento}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <!-- La foto-->
-                        <TextBlock Text="{Binding Nombre}"></TextBlock>
-                        <TextBlock Text="{Binding Apellidos}"></TextBlock>
-                    </StackPanel>
-
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            
-        </ListView>
-        
+        <Frame RelativePanel.RightOf="navigationView" x:Name="contentFrame"></Frame>
     </RelativePanel>
 </Page>

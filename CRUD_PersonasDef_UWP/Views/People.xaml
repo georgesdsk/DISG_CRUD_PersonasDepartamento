@@ -1,0 +1,46 @@
+﻿<Page
+    x:Class="CRUD_PersonasDef_UWP.Views.People"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CRUD_PersonasDef_UWP.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mv ="using:CRUD_PersonasDef_UWP.ViewModel"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.DataContext>
+        <mv:PersonasVM></mv:PersonasVM>
+    </Page.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Margin="20" Text="Lista de personas" FontWeight="Bold" FontSize="48"></TextBlock>
+        <ListView Grid.Column="0" Grid.Row="1" x:Name="listaPersonas"
+              SelectedItem="{Binding PersonaSeleccionadavm, Mode=TwoWay,
+              UpdateSourceTrigger=PropertyChanged}" 
+              ItemsSource="{Binding VmListaPersonasConDepartamento}">
+            <ListView.ItemTemplate >
+                <DataTemplate>
+                    <StackPanel  Margin="10" Orientation="Horizontal" >
+                        <!-- La foto-->
+                        <Image Margin="20" Height="100" Source="{Binding Foto}"></Image>
+                        <TextBlock FontSize="20" Margin="10" Text="{Binding Nombre}"></TextBlock>
+                        <TextBlock FontSize="20" Margin="10" Text="{Binding Apellidos}"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Border Grid.RowSpan="3"  BorderThickness="1" BorderBrush="White" HorizontalAlignment="Right"/>
+
+        <AppBarButton Margin="20" Background="#FF861A1A" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Icon="Add" Grid.Column="0" Grid.Row="1"></AppBarButton>
+        <TextBlock Margin="30,20"  Grid.Column="1" Grid.Row="0" Text="Informacion de la persona" FontWeight="Bold" FontSize="48"></TextBlock>
+    </Grid>
+</Page>

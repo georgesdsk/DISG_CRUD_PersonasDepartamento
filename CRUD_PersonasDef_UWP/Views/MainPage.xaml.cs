@@ -26,5 +26,28 @@ namespace CRUD_PersonasDef_UWP.Views
         {
             this.InitializeComponent();
         }
+
+        private void navigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        {
+
+            NavigationViewItem itemSeleccionado = (NavigationViewItem)sender.SelectedItem;
+            if (itemSeleccionado.Tag.Equals("Personas"))
+            {
+                contentFrame.Navigate(typeof(People));
+            }
+            else {
+                
+                contentFrame.Navigate(typeof(Departments));
+
+            }
+
+
+        }
+
+        private void AnhadirClick(object sender, RoutedEventArgs e)
+        {
+            
+
+        }
     }
 }

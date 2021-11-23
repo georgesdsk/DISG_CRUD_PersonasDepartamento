@@ -14,8 +14,8 @@ namespace CRUD_PersonasDef_ASP
         List<clsPersonaModel> listaPersonasVMconDepartamento;
         List<clsPersona> listaPersonasVMOriginal;
         List<clsDepartamento> listaDepartamento;
-        GestionListaPersonasBL gestionListaPersonasBL;
-        GestionDepartamentosBL gestionDepartamentosBL;
+        ListadoPersonasBL gestionListaPersonasBL;
+        ListadoDepartamentosBL gestionDepartamentosBL;
         GestoraPersonaBL gestoraPersonaBL;
 
 
@@ -24,8 +24,8 @@ namespace CRUD_PersonasDef_ASP
             this.listaPersonasVMconDepartamento = new List<clsPersonaModel>();
             listaDepartamento= new List<clsDepartamento>(); 
 
-            gestionListaPersonasBL = new GestionListaPersonasBL(); 
-            gestionDepartamentosBL = new GestionDepartamentosBL();
+            gestionListaPersonasBL = new ListadoPersonasBL(); 
+            gestionDepartamentosBL = new ListadoDepartamentosBL();
             gestoraPersonaBL = new GestoraPersonaBL();
             listaPersonasVMOriginal = gestionListaPersonasBL.ListaPersonasBL;
             listaDepartamento = gestionDepartamentosBL.ListaDepartamentosBL;

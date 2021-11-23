@@ -15,8 +15,7 @@ using Windows.UI.Xaml.Navigation;
 
 // La plantilla de elemento Página en blanco está documentada en https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace CRUD_PersonasDef_UWP.Views.NavViewPages
-{
+namespace CRUD_PersonasDef_UWP.Views { 
     /// <summary>
     /// Una página vacía que se puede usar de forma independiente o a la que se puede navegar dentro de un objeto Frame.
     /// </summary>
@@ -25,6 +24,11 @@ namespace CRUD_PersonasDef_UWP.Views.NavViewPages
         public People()
         {
             this.InitializeComponent();
+        }
+
+        private void Image_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+
         }
     }
 }

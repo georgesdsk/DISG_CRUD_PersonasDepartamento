@@ -7,7 +7,7 @@ using System.Text;
 
 namespace CRUD_PersonasDef_DAL.Listados
 {
-   public class GestionListaPersonasDAL
+   public class ListadoPersonasDAL
     {
 
         #region propiedadesPrivadas
@@ -15,7 +15,7 @@ namespace CRUD_PersonasDef_DAL.Listados
         SqlDataReader miLector; // Es mejor poner un datareader por cada metodo o uno comun para todos (Si se pueden ejecutar varios a la vez)
         SqlCommand miComando;
         
-        public GestionListaPersonasDAL()
+        public ListadoPersonasDAL()
         {
             miConexion = new clsMyConnection();
         }

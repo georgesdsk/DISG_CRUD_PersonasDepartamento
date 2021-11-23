@@ -8,14 +8,14 @@ using System.Text;
 // esto puede fallar
 namespace CRUD_PersonasDef_BL
 {
-   public class GestionListaPersonasBL
+   public class listadoPersonasBL
     {
 
-        GestionListaPersonasDAL gestionListaPersonasDAL;
+        ListadoPersonasDAL gestionListaPersonasDAL;
 
-        public GestionListaPersonasBL()
+        public listadoPersonasBL()
         {
-            gestionListaPersonasDAL = new GestionListaPersonasDAL();
+            gestionListaPersonasDAL = new ListadoPersonasDAL();
         }
 
         #region metodos

@@ -7,10 +7,24 @@
     xmlns:mv ="using:CRUD_PersonasDef_UWP.ViewModel"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    RequestedTheme="Light">
     <Page.DataContext>
         <mv:PersonasVM></mv:PersonasVM>
     </Page.DataContext>
+    
+    <Page.Resources>
+        <Style x:Key="TextBlockInfo" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="30"></Setter>
+            <Setter Property="Margin" Value="20"></Setter>
+        </Style>
+        <Style x:Key="TextBoxInfo" TargetType="TextBox">
+            <Setter Property="FontSize" Value="30"></Setter>
+            <Setter Property="Margin" Value="20"></Setter>
+            <Setter Property="MinWidth" Value="200"></Setter>
+        </Style>
+
+    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -23,24 +37,44 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <TextBlock Margin="20" Text="Lista de personas" FontWeight="Bold" FontSize="48"></TextBlock>
-        <ListView Grid.Column="0" Grid.Row="1" x:Name="listaPersonas"
+        <ListView BorderThickness="1" BorderBrush="{ThemeResource AppBarBorderThemeBrush}" Margin="20" Grid.Column="0" Grid.Row="1" x:Name="listaPersonas"
               SelectedItem="{Binding PersonaSeleccionadavm, Mode=TwoWay,
               UpdateSourceTrigger=PropertyChanged}" 
               ItemsSource="{Binding VmListaPersonasConDepartamento}">
             <ListView.ItemTemplate >
                 <DataTemplate>
-                    <StackPanel  Margin="10" Orientation="Horizontal" >
+                    <StackPanel  Margin="5,0" Orientation="Horizontal" >
                         <!-- La foto-->
-                        <Image Margin="20" Height="100" Source="{Binding Foto}"></Image>
+                        <Image Margin="15" Height="100" Source="{Binding Foto}"></Image>
                         <TextBlock FontSize="20" Margin="10" Text="{Binding Nombre}"></TextBlock>
-                        <TextBlock FontSize="21" Margin="10" Text="{Binding Apellidos}"></TextBlock>
+                        <TextBlock FontSize="20" Margin="10" Text="{Binding Apellidos}"></TextBlock>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Border Grid.RowSpan="3"  BorderThickness="1" BorderBrush="White" HorizontalAlignment="Right"/>
+        <Border Grid.RowSpan="3"  BorderThickness="1" BorderBrush="{ThemeResource AppBarBorderThemeBrush}" HorizontalAlignment="Right"/>
 
-        <AppBarButton Margin="20" Background="#FF861A1A" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Icon="Add" Grid.Column="0" Grid.Row="1"></AppBarButton>
-        <TextBlock Margin="30,20"  Grid.Column="1" Grid.Row="0" Text="Informacion de la persona" FontWeight="Bold" FontSize="48"></TextBlock>
+        <AppBarButton Margin="20" Background="{ThemeResource BackButtonPointerOverBackgroundThemeBrush}" BorderBrush="{ThemeResource CheckBoxBorderThemeBrush}" BorderThickness="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Icon="Add" Grid.Column="0" Grid.Row="1"></AppBarButton>
+        <TextBlock Margin="30,20"  Grid.Column="1" Grid.Row="0" Text="Información de la persona" FontWeight="Bold" FontSize="48"></TextBlock>
+        <Grid Margin="20" BorderBrush="{ThemeResource AppBarToggleButtonCheckedDisabledBackgroundThemeBrush}" BorderThickness="1" Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition ></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Style="{StaticResource TextBlockInfo}"></TextBlock>
+            <RichEditBox></RichEditBox>
+
+        </Grid>
+
     </Grid>
 </Page>

@@ -30,5 +30,10 @@ namespace CRUD_PersonasDef_UWP.Views {
         {
 
         }
+
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

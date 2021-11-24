@@ -8,12 +8,12 @@ using System.Text;
 // esto puede fallar
 namespace CRUD_PersonasDef_BL
 {
-   public class listadoPersonasBL
+   public class ListadoPersonasBL
     {
 
         ListadoPersonasDAL gestionListaPersonasDAL;
 
-        public listadoPersonasBL()
+        public ListadoPersonasBL()
         {
             gestionListaPersonasDAL = new ListadoPersonasDAL();
         }
@@ -26,6 +26,11 @@ namespace CRUD_PersonasDef_BL
             } 
         }
 
-        #endregion
+        public int BorrarPersonaBL(clsPersona personaSeleccionadavm)
+        {
+            throw new NotImplementedException();
+        }
+
+#endregion
     }
 }

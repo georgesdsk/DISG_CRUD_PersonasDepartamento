@@ -25,6 +25,8 @@ namespace CRUD_PersonasDef_UWP.Views
         public MainPage()
         {
             this.InitializeComponent();
+
+           
         }
 
         private void navigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)

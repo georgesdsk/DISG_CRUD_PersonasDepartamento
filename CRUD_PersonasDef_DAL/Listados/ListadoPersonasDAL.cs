@@ -60,6 +60,7 @@ namespace CRUD_PersonasDef_DAL.Listados
                     nuestroPueblo.Add(nuestraPersona);
                 }
             }
+            
             miLector.Close();
             miConexion.closeConnection();
             return nuestroPueblo;

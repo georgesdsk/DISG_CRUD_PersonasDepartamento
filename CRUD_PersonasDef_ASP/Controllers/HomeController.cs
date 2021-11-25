@@ -29,21 +29,47 @@ namespace CRUD_PersonasDef_ASP.Controllers
         public IActionResult Index()
         {
             ViewModelPersonas viewModelPersonas = new ViewModelPersonas();  
-            return View(viewModelPersonas.ListaPersonasVMconDepartamento);
+            return View(viewModelPersonas.VmListaPersonasConDepartamento);
         }
 
         public IActionResult Delete(int id) {
-            return View();
+            ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
+            return View(viewModelPersonas.getPersona(id));
         }
-        
-
-             public IActionResult DeleteAction(int id)
+        public IActionResult DeleteAction(int id)
         {
             ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
-            //tienes que pasarle la persona a borrar
-            viewModelPersonas.DeletePersona(id);
-            viewModelPersonas = new ViewModelPersonas();
-            return View("Index", viewModelPersonas.ListaPersonasVMconDepartamento);
+            accionaRealizada(viewModelPersonas.DeletePersona(id));
+            return View("Index", viewModelPersonas.VmListaPersonasConDepartamento);
+        }
+        public IActionResult Update(int id) {
+            ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
+            return View("Update", viewModelPersonas.getPersona(id));
+        }
+
+        [HttpPost]
+        public IActionResult Update(clsPersona clsPersona) {
+            ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
+            accionaRealizada(viewModelPersonas.UpdatePersona(clsPersona));
+            viewModelPersonas = new ViewModelPersonas(); //actualizamos la lista, TODO METODO PARA ACTULZARLA Y NO LLAMAR AL CONSTRUCTOR
+            return View("Index", viewModelPersonas.VmListaPersonasConDepartamento);
+        }
+
+      
+
+        /// <summary>
+        /// Analisis: 
+        /// </summary>
+        /// <param name="resultado"></param>
+        public void accionaRealizada(int resultado) {
+            if (resultado > 0)
+            {
+                ViewBag.mensaje = "Accion realizada con exito";
+            }
+            else
+            {
+                ViewBag.mensaje = "Ha habido un fallo";
+            }
         }
 
 

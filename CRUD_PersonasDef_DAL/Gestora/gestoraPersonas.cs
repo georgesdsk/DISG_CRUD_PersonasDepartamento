@@ -66,13 +66,15 @@ namespace CRUD_PersonasDef_DAL.Gestora
 
         public int RemovePersona(int id)
         {
-
+            int resultado;
             miComando = new SqlCommand();
             miComando.CommandText = "DELETE FROM Personas Where IDPersona =@id"; // funciona el @id
             miComando.Parameters.AddWithValue("@id", id);
             miConexion.getConnection();
             miComando.Connection = miConexion.MiConexion;
-            return miComando.ExecuteNonQuery();
+            resultado = miComando.ExecuteNonQuery();
+            miConexion.closeConnection();
+            return resultado;
         }
 
 

@@ -12,7 +12,7 @@ namespace CRUD_PersonasDef_DAL.Gestora
     /// GESTORA se encarga de una sola persona mientras que los listados dobre los listados
     /// </summary>
     
-    public class GestoraPersonas
+    public class GestoraPersonasDAL
     {
         private clsMyConnection miConexion;
         private SqlDataReader miLector;
@@ -20,7 +20,7 @@ namespace CRUD_PersonasDef_DAL.Gestora
         private SqlCommand miComando;
    
         
-        public GestoraPersonas()
+        public GestoraPersonasDAL()
         {
             miConexion = new clsMyConnection();
            
@@ -50,29 +50,39 @@ namespace CRUD_PersonasDef_DAL.Gestora
         /// <returns></returns>
         public int UpdatePersona(clsPersona personaActualizar)
         {
-            miComando.CommandText = "UPDATE Personas set nombrePersona = @nombre, apellidosPersona = @apellidos, direccion = @direccion, fechaNacimiento = @fechaNacimiento, telefono = @telefono, Foto = @foto WHERE IDPersona =@IDPersona " ;
+            int resultado;
+            miComando = new SqlCommand();
+            miComando.CommandText = "UPDATE Personas set nombrePersona = @nombre, apellidosPersona = @apellidos, direccion = @direccion," +
+                " fechaNacimiento = @fechaNacimiento, telefono = @telefono, IDDepartamento = @IDDepartamento, Foto = @foto  WHERE IDPersona =@IDPersona " ;
             miComando.Parameters.AddWithValue("@nombre", personaActualizar.Nombre);
             miComando.Parameters.AddWithValue("@apellidos", personaActualizar.Apellidos);
             miComando.Parameters.AddWithValue("@direccion", personaActualizar.Direccion);
             miComando.Parameters.AddWithValue("@fechaNacimiento", personaActualizar.FechaNacimiento); // ave que tal
+            miComando.Parameters.AddWithValue("@IDDepartamento", personaActualizar.IDDepartamento);
             miComando.Parameters.AddWithValue("@IDPersona", personaActualizar.Id);
             if (personaActualizar.Telefono != null)
             {
                 miComando.Parameters.AddWithValue("@telefono", personaActualizar.Telefono);
             }
             miComando.Parameters.AddWithValue("@foto", personaActualizar.Foto);
-            return miComando.ExecuteNonQuery();
+            miConexion.getConnection();
+            miComando.Connection = miConexion.MiConexion;
+            resultado = miComando.ExecuteNonQuery();
+            miConexion.closeConnection();   
+            return resultado;
         }
 
         public int RemovePersona(int id)
         {
-
+            int resultado;
             miComando = new SqlCommand();
             miComando.CommandText = "DELETE FROM Personas Where IDPersona =@id"; // funciona el @id
             miComando.Parameters.AddWithValue("@id", id);
             miConexion.getConnection();
             miComando.Connection = miConexion.MiConexion;
-            return miComando.ExecuteNonQuery();
+            resultado = miComando.ExecuteNonQuery();
+            miConexion.closeConnection();
+            return resultado;
         }
 
 

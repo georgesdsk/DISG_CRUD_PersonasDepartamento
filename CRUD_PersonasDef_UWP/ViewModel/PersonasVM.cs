@@ -47,13 +47,19 @@ namespace CRUD_PersonasDef_UWP.ViewModel
             gestoraDepartamentoBL = new GestoraDepartamentoBL();
             gestoraPersonaBL = new GestoraPersonaBL();
 
-            VmListaDepartamentos1 = listadoDepartamentosBL.ListaDepartamentosBL;
-            vmListaPersonasOrginal = listadoPersonasBL.ListaPersonasBL;
-            
-
             vmDCActualizarPersona = new DelegateCommand(dcActionActualizarPersona, dcCanExecuteActualizarPersona);
             vmDCEliminarPersona = new DelegateCommand(dcActionEliminarPersona, dcCanExecuteEliminarPersona);
             vmDCAnhadirPersona = new DelegateCommand(dcActionAnhadirPersona, dcCanExecuteAnhadirPersona);
+
+            actualizarListas();
+            
+        }
+
+
+
+        private void actualizarListas() {
+            vmListaDepartamentos = listadoDepartamentosBL.ListaDepartamentosBL;
+            vmListaPersonasOrginal = listadoPersonasBL.ListaPersonasBL;
         }
 
         #region commands
@@ -79,8 +85,10 @@ namespace CRUD_PersonasDef_UWP.ViewModel
 
         private void dcActionEliminarPersona()
         {
-            BorrarPersona();
-            NotifyPropertyChanged("VmListaPersonasConDepartamento");
+            cambiosRealizados(listadoPersonasBL.BorrarPersonaBL((clsPersona)personaSeleccionadavm)); // mensaje de si seguro desea eliminar)
+            personaSeleccionadavm = null;
+            actualizarListas();
+            NotifyPropertyChanged("VmListaPersonasConDepartamento"); // si la notifica, tiene que sal
             NotifyPropertyChanged("personaSeleccionadavm"); 
             
         }
@@ -94,7 +102,11 @@ namespace CRUD_PersonasDef_UWP.ViewModel
 
         private void dcActionActualizarPersona()
         {
-            throw new NotImplementedException();
+            cambiosRealizados( gestoraPersonaBL.UpdatePersonaBL(personaSeleccionadavm));
+            actualizarListas();
+            NotifyPropertyChanged("VmListaPersonasConDepartamento"); // si la notifica, tiene que sal
+            NotifyPropertyChanged("personaSeleccionadavm");
+
         }
 
       
@@ -110,7 +122,7 @@ namespace CRUD_PersonasDef_UWP.ViewModel
                 //recorrer la lista original, y hacerle el get del id del departamento,  hacerle el get a la lista de departamentos con el find
                 foreach (clsPersona persona in vmListaPersonasOrginal) {
                     id = persona.IDDepartamento;
-                    nombreDepartamento = VmListaDepartamentos.Find(x => x.ID == id).Nombre;
+                    nombreDepartamento = vmListaDepartamentos.Find(x => x.ID == id).Nombre;
                     clsPersona =  new clsPersonaConDepartamento(persona.Id, persona.Nombre, persona.Apellidos, persona.Direccion, persona.FechaNacimiento, persona.Telefono, persona.IDDepartamento, persona.Foto, nombreDepartamento
                         );
                     clsPersona.NombreDepartamento = nombreDepartamento;
@@ -125,16 +137,15 @@ namespace CRUD_PersonasDef_UWP.ViewModel
                 personaSeleccionadavm = value;
                 NotifyPropertyChanged("PersonaSeleccionadavm");
                 vmDCEliminarPersona.RaiseCanExecuteChanged();
+                VmDCActualizarPersona.RaiseCanExecuteChanged();
             }
         }
 
-        public List<clsDepartamento> VmListaDepartamentos { get => VmListaDepartamentos1;
-            set => VmListaDepartamentos1 = value;
-        }
+        
         public DelegateCommand VmDCEliminarPersona { get => vmDCEliminarPersona; }
         public DelegateCommand VmDCActualizarPersona { get => vmDCActualizarPersona;}
         public DelegateCommand VmDCAnhadirPersona { get => vmDCAnhadirPersona; }
-        public List<clsDepartamento> VmListaDepartamentos1 { get => vmListaDepartamentos; set => vmListaDepartamentos = value; }
+        public List<clsDepartamento> VmListaDepartamentos { get => vmListaDepartamentos; set => vmListaDepartamentos = value; }
         
 
         /// <summary>
@@ -142,13 +153,8 @@ namespace CRUD_PersonasDef_UWP.ViewModel
         /// Precondiciones: una perssonaSeleccionada
         /// </summary>
         /// <returns></returns>
-        public String BorrarPersona() {
-            return cambiosRealizados(
-                listadoPersonasBL.BorrarPersonaBL((clsPersona)personaSeleccionadavm) // mensaje de si seguro desea eliminar
-                );
-        }
-
-        public String cambiosRealizados(int i) {
+     
+        public void cambiosRealizados(int i) {
             String devolucion = personaSeleccionadavm.Nombre + " " + personaSeleccionadavm.Apellidos;
             if (i > 0)
             {
@@ -157,22 +163,9 @@ namespace CRUD_PersonasDef_UWP.ViewModel
             else {
                 devolucion += " el cambio ha dado ERROR";
             }
-            return devolucion;
-        }
+           //TODO MOSTRAR EL MENSAJE
 
-        /// <summary>
-        /// estara bindeado a la persona seleccionada
-        /// </summary>
-        /// <returns></returns>
-        public String ActualizarPersona() {
 
-            return cambiosRealizados(
-                gestoraPersonaBL.UpdatePersonaBL((clsPersona)personaSeleccionadavm)
-                );
-        }
-
-        public String AnhadirPersona() { //
-            return null;
         }
 
 

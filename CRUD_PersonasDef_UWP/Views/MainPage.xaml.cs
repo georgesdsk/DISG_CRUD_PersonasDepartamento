@@ -25,10 +25,16 @@ namespace CRUD_PersonasDef_UWP.Views
         public MainPage()
         {
             this.InitializeComponent();
-
-           
+            
         }
+        /*PAra una vista distinta pra el edit y enviarle la persona seleccionada, 
+       
+         PAra enviar ONvaigatedTO(e){
+          (cls)e
+        mainVM mainVM = (mainVM) this.DataContext;
+         mainVM
 
+        */ 
         private void navigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
 
@@ -38,18 +44,8 @@ namespace CRUD_PersonasDef_UWP.Views
                 contentFrame.Navigate(typeof(People));
             }
             else {
-                
                 contentFrame.Navigate(typeof(Departments));
-
             }
-
-
-        }
-
-        private void AnhadirClick(object sender, RoutedEventArgs e)
-        {
-            
-
         }
     }
 }

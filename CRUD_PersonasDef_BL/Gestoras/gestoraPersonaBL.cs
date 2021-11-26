@@ -10,11 +10,11 @@ namespace CRUD_PersonasDef_BL.Gestoras
     {
 
 
-        GestoraPersonas gestoraPersonaDAL;
+        GestoraPersonasDAL gestoraPersonaDAL;
 
         public GestoraPersonaBL()
         {
-            gestoraPersonaDAL = new GestoraPersonas();
+            gestoraPersonaDAL = new GestoraPersonasDAL();
         }
 
         public int UpdatePersonaBL(clsPersona clsPersona)

@@ -1,4 +1,5 @@
-﻿using CRUD_PersonasDef_DAL.Listados;
+﻿using CRUD_PersonasDef_DAL.Gestora;
+using CRUD_PersonasDef_DAL.Listados;
 using CRUD_PersonasDef_Entidades;
 using System;
 using System.Collections.Generic;
@@ -11,24 +12,27 @@ namespace CRUD_PersonasDef_BL
    public class ListadoPersonasBL
     {
 
-        ListadoPersonasDAL gestionListaPersonasDAL;
+        ListadoPersonasDAL listaPersonasDAL;
+        GestoraPersonasDAL gestoraPersonasDAL;
 
         public ListadoPersonasBL()
         {
-            gestionListaPersonasDAL = new ListadoPersonasDAL();
+            listaPersonasDAL = new ListadoPersonasDAL();
+            gestoraPersonasDAL = new GestoraPersonasDAL();
         }
 
         #region metodos
 
         public List<clsPersona> ListaPersonasBL { get {
 
-                return gestionListaPersonasDAL.GetListadoPersonas();
+                return listaPersonasDAL.GetListadoPersonas();
             } 
         }
 
         public int BorrarPersonaBL(clsPersona personaSeleccionadavm)
         {
-            throw new NotImplementedException();
+            return gestoraPersonasDAL.RemovePersona(personaSeleccionadavm.Id);
+
         }
 
 #endregion

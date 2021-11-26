@@ -94,10 +94,15 @@
             <ComboBox Grid.Column="1" Grid.Row="5" Margin="10" ItemsSource="{Binding VmListaDepartamentos}" SelectedItem="{Binding PersonaSeleccionadavm.IDDepartamento, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ></ComboBox>
 
             <StackPanel Grid.Column="2" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <AppBarButton Background="{ThemeResource BackButtonPointerOverBackgroundThemeBrush}" BorderBrush="{ThemeResource CheckBoxBorderThemeBrush}" BorderThickness="2" Icon="Save" ></AppBarButton>
+                <AppBarButton Command="{Binding VmDCActualizarPersona}" Background="{ThemeResource BackButtonPointerOverBackgroundThemeBrush}" BorderBrush="{ThemeResource CheckBoxBorderThemeBrush}" BorderThickness="2" Icon="Save" ></AppBarButton>
                 <AppBarButton Command="{Binding VmDCEliminarPersona}" Background="{ThemeResource BackButtonPointerOverBackgroundThemeBrush}" BorderBrush="{ThemeResource CheckBoxBorderThemeBrush}" BorderThickness="2" Icon="Delete" ></AppBarButton>
             </StackPanel>
-            <Image Margin="10" Grid.Column="2" Grid.RowSpan="2" Grid.Row="0" Source="{Binding PersonaSeleccionadavm.Foto}"></Image>
+            
+            <Image Margin="30" Grid.Column="2" Grid.RowSpan="2" Grid.Row="0">
+                <Image.Source>
+                    <BitmapImage UriSource="{Binding PersonaSeleccionadavm.Foto}"></BitmapImage>
+                </Image.Source>
+            </Image>
             <!--foto-->
             <!--selectItemdepartamento-->
 

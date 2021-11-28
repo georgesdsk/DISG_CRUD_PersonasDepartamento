@@ -5,32 +5,26 @@ using CRUD_PersonasDef_BL.Listas;
 using CRUD_PersonasDef_Entidades;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 
 namespace CRUD_PersonasDef_ASP
 {
     public class ViewModelPersonas
     {
-
         List<clsPersonaConDepartamento> vmListaPersonasConDepartamento;
         List<clsPersona> vmListaPersonasOriginal;
         List<clsDepartamento> listaDepartamento;
         ListadoPersonasBL gestionListaPersonasBL;
         ListadoDepartamentosBL gestionDepartamentosBL;
         GestoraPersonaBL gestoraPersonaBL;
-        clsPersona personaSeleccionada;
-
-
-
-        public ViewModelPersonas()
+      
+       public ViewModelPersonas()
         {
             gestionDepartamentosBL = new ListadoDepartamentosBL();
             gestoraPersonaBL = new GestoraPersonaBL();
             gestionListaPersonasBL = new ListadoPersonasBL();
-            vmListaPersonasOriginal = gestionListaPersonasBL.ListaPersonasBL;
-            listaDepartamento = gestionDepartamentosBL.ListaDepartamentosBL;
             vmListaPersonasConDepartamento = new List<clsPersonaConDepartamento>();
-            vmListaPersonasConDepartamento = VmListaPersonasConDepartamento;
-            
+       
         }
 
         /// <summary>
@@ -39,10 +33,20 @@ namespace CRUD_PersonasDef_ASP
 
         public List<clsPersonaConDepartamento> VmListaPersonasConDepartamento
         {
-            get {
-                vmListaPersonasOriginal.ForEach(x => vmListaPersonasConDepartamento.Add(
-                    new clsPersonaConDepartamento(listaDepartamento.Find(y => y.ID == x.IDDepartamento).Nombre, x))
-                );
+            get
+            {
+                try
+                {
+                    listaDepartamento = gestionDepartamentosBL.ListaDepartamentosBL;
+                    vmListaPersonasOriginal = gestionListaPersonasBL.ListaPersonasBL;
+
+                    vmListaPersonasOriginal.ForEach(x => vmListaPersonasConDepartamento.Add(
+                        new clsPersonaConDepartamento(listaDepartamento.Find(y => y.ID == x.IDDepartamento).Nombre, x))
+                    );
+                }
+                catch (SqlException ex) {
+                    vmListaPersonasConDepartamento = new List<clsPersonaConDepartamento>();
+                }
                 /*
                  * Sin lambda
                 String nombreDepartamento;
@@ -54,20 +58,32 @@ namespace CRUD_PersonasDef_ASP
                 */
                 return vmListaPersonasConDepartamento;
             }
-        }
+            }
 
-        public clsPersona PersonaSeleccionada { get => personaSeleccionada; set => personaSeleccionada = value; }
 
         public int UpdatePersona(clsPersona clsPersona)
         {
-            return gestoraPersonaBL.UpdatePersonaBL(clsPersona);
+            int resultado = -1;
+            try { 
+                  resultado = gestoraPersonaBL.UpdatePersonaBL(clsPersona);
+            } catch (SqlException ex) {
+            }
+            return resultado;
+
         }
 
         public int DeletePersona(int idPersona) {
-            return gestoraPersonaBL.BorrarPersonaBL(idPersona);
+
+            int resultado = -1;
+            try
+            {
+                resultado = gestoraPersonaBL.BorrarPersonaBL(idPersona);
+            }
+            catch (SqlException ex)
+            {
+            }
+            return resultado;
         }
-
-
 
         /// <summary>
         /// Analisis: devolver el objeto de persona con departamento segun el id pasado
@@ -77,23 +93,43 @@ namespace CRUD_PersonasDef_ASP
         /// <param name="id"></param>
         /// <returns></returns>
 
-        public clsPersonaConDepartamento getPersona(int id) {
-            
+        public clsPersonaConDepartamento getPersona(int id)
+        {
             clsPersonaConDepartamento personaConDepartamento = null;
             bool encontrado = false;
 
-            for (int i = 0; i < vmListaPersonasConDepartamento.Count && !encontrado; i++)
+            try
             {
-                if (vmListaPersonasConDepartamento[i].Id == id)
+                vmListaPersonasOriginal = gestionListaPersonasBL.ListaPersonasBL;
+                vmListaPersonasConDepartamento = VmListaPersonasConDepartamento;
+                for (int i = 0; i < vmListaPersonasConDepartamento.Count && !encontrado; i++)
                 {
-                    personaConDepartamento = vmListaPersonasConDepartamento[i];
-                    encontrado = true;
+                    if (vmListaPersonasConDepartamento[i].Id == id)
+                    {
+                        personaConDepartamento = vmListaPersonasConDepartamento[i];
+                        encontrado = true;
+                    }
                 }
+            }
+            catch (SqlException ex) {
+            // luego hay que controlar que esa persona no este a null
             }
             return personaConDepartamento;
         }
 
-       
+        public int create(clsPersona clsPersona)
+        {
+            int resultado = -1;
+            try
+            {
+                resultado = gestoraPersonaBL.InsertPersona(clsPersona);
+            }
+            catch (SqlException ex)
+            {
+            }
+            return resultado;
 
+
+        }
     }
 }

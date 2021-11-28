@@ -1,21 +1,18 @@
-﻿@model CRUD_PersonasDef_ASP.Models.clsPersonaConDepartamento
+﻿@model CRUD_PersonasDef_Entidades.clsPersona
+
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
 }
 
-<h1>Edit</h1>
-<!-- Como guardo la info de cada persona ??? en la p seleccionada, pero como le pongo los atributs, a lo mejor al hacer submit se cambie el objeto que se pase como modelo-->
+<h1>Create</h1>
+
 <h4>clsPersona</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Update">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>
+           
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
                 <input asp-for="Nombre" class="form-control" />
@@ -52,7 +49,7 @@
                 <span asp-validation-for="IDDepartamento" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit"  value="Save" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>

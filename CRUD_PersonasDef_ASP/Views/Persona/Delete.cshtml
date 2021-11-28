@@ -1,4 +1,4 @@
-﻿@model CRUD_PersonasDef_ASP.Models.clsPersonaConDepartamento
+﻿@model CRUD_PersonasDef_Entidades.clsPersona
 
 @{
     ViewData["Title"] = "Delete";
@@ -11,66 +11,58 @@
     <h4>clsPersona</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Id)
         </dt>
-        <dd class="col-sm-10">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Id)
         </dd>
-        <dt class="col-sm-2">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Nombre)
         </dt>
-        <dd class="col-sm-10">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Nombre)
         </dd>
-        <dt class="col-sm-2">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Apellidos)
         </dt>
-        <dd class="col-sm-10">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Apellidos)
         </dd>
-        <dt class="col-sm-2">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Direccion)
         </dt>
-        <dd class="col-sm-10">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Direccion)
         </dd>
-        <dt class="col-sm-2">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.FechaNacimiento)
         </dt>
-        <dd class="col-sm-10">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FechaNacimiento)
         </dd>
-        <dt class="col-sm-2">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Telefono)
         </dt>
-        <dd class="col-sm-10">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Telefono)
         </dd>
-        <dt class="col-sm-2">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Foto)
         </dt>
-        <dd class="col-sm-10">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Foto)
         </dd>
-        <dt class="col-sm-2">
-            <!--
-            <select name ="IDDepartamento">
-                arroba foreach(clsDepartamento dpto in Model.ListaDepartamentos )
-                {
-                    <option value="dpto.IDDepartmento">dpto.Nombre </option>
-                }
-            </select>
-            -->
-
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IDDepartamento)
         </dt>
-        <dd class="col-sm-10">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.IDDepartamento)
         </dd>
     </dl>
-
+    
     <form asp-action="Delete">
-        <input type="submit" value="Delete"  class="btn btn-danger" /> |
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>
 </div>

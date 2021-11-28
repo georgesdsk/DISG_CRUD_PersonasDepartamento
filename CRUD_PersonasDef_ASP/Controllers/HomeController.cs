@@ -1,5 +1,6 @@
 ﻿using CRUD_PersonasDef_ASP.Models;
 using CRUD_PersonasDef_Entidades;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -14,7 +15,7 @@ namespace CRUD_PersonasDef_ASP.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         //VIEWMODEL
-
+        private String MENSAJE_ERROR = "Ha habido un error al conectarse a la base de datos, intentelo mas tarde";
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -28,37 +29,133 @@ namespace CRUD_PersonasDef_ASP.Controllers
 
         public IActionResult Index()
         {
-            ViewModelPersonas viewModelPersonas = new ViewModelPersonas();  
-            return View(viewModelPersonas.VmListaPersonasConDepartamento);
+                ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
+                   List<clsPersonaConDepartamento> listaPersonas = viewModelPersonas.VmListaPersonasConDepartamento;
+            if (listaPersonas == null)
+            {
+                ViewBag.mensajes = MENSAJE_ERROR;
+                return View();
+            }
+            else
+            {
+                return View(listaPersonas);
+            }
+                
         }
-
         public IActionResult Delete(int id) {
             ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
-            return View(viewModelPersonas.getPersona(id));
+            clsPersonaConDepartamento personaAuxiliar = viewModelPersonas.getPersona(id);
+            if (personaAuxiliar == null) // si ha dado excepcion
+            {
+                ViewBag.mensaje = MENSAJE_ERROR;
+                return View("Index");
+            }
+            else { 
+                return View(personaAuxiliar);
+            }
         }
-        public IActionResult DeleteAction(int id)
+        [HttpPost]
+        public IActionResult Delete(int id, IFormCollection collection) 
         {
             ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
             accionaRealizada(viewModelPersonas.DeletePersona(id));
-            return View("Index", viewModelPersonas.VmListaPersonasConDepartamento);
+            List<clsPersonaConDepartamento> listaPersonas = viewModelPersonas.VmListaPersonasConDepartamento;
+            if (listaPersonas == null)
+            {
+                ViewBag.mensajes = MENSAJE_ERROR;
+                return View("Index");
+            }
+            else
+            {
+                return View("Index",listaPersonas);
+            }
         }
         public IActionResult Update(int id) {
             ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
-            return View("Update", viewModelPersonas.getPersona(id));
+             clsPersonaConDepartamento personaAuxiliar = viewModelPersonas.getPersona(id);
+            if (personaAuxiliar == null) // si ha dado excepcion
+            {
+                ViewBag.mensaje = MENSAJE_ERROR;
+                return View("Index", new List<clsPersonaConDepartamento>() );
+            }
+            else { 
+                return View(personaAuxiliar);
+            }
         }
-
         [HttpPost]
-        public IActionResult Update(clsPersona clsPersona) {
+        public IActionResult Update(int id, IFormCollection collection) {
             ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
-            accionaRealizada(viewModelPersonas.UpdatePersona(clsPersona));
-            viewModelPersonas = new ViewModelPersonas(); //actualizamos la lista, TODO METODO PARA ACTULZARLA Y NO LLAMAR AL CONSTRUCTOR
-            return View("Index", viewModelPersonas.VmListaPersonasConDepartamento);
+            accionaRealizada(viewModelPersonas.UpdatePersona(construirPersona(collection)));
+            //viewModelPersonas = new ViewModelPersonas(); //actualizamos la lista, TODO METODO PARA ACTULZARLA Y NO LLAMAR AL CONSTRUCTOR
+            List<clsPersonaConDepartamento> listaPersonas = viewModelPersonas.VmListaPersonasConDepartamento;
+
+            if (listaPersonas == null)
+            {
+                ViewBag.mensajes = MENSAJE_ERROR;
+                return View("Index", new List<clsPersonaConDepartamento>());
+            }
+            else
+            {
+                return View("Index",listaPersonas);
+            }
+          
         }
 
-      
+        public IActionResult Create() {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create(IFormCollection collection) {
+            ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
+            accionaRealizada(viewModelPersonas.create(construirPersona(collection)));
+            //viewModelPersonas = new ViewModelPersonas(); //actualizamos la lista, TODO METODO PARA ACTULZARLA Y NO LLAMAR AL CONSTRUCTOR
+            List<clsPersonaConDepartamento> listaPersonas = viewModelPersonas.VmListaPersonasConDepartamento;
+
+            if (listaPersonas == null)
+            {
+                ViewBag.mensajes = MENSAJE_ERROR;
+                return View("Index");
+            }
+            else
+            {
+                return View("Index", listaPersonas);
+            }
+
+
+        }
 
         /// <summary>
-        /// Analisis: 
+        /// Recibe una coleccion de datos de la vista y la convierte en una personal, se utiliiza en el metodo de actualizar persona y anhadir persona
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <returns></returns>
+
+        private clsPersona construirPersona(IFormCollection collection) {
+            
+            string nombre, apellidos, direccion, urlFoto;
+            int id, tel, idDepartamento;
+            DateTime fecha;
+            if (collection["id"] == null)
+            {
+                id = 0; //Se utiliza para que el metodo no de error a la hora de crear una persona que tiene el id a null
+            }
+            else { }
+            id = Int32.Parse(collection["id"]);
+            nombre = collection["Nombre"];
+            apellidos = collection["Apellidos"];
+            direccion = collection["Direccion"];
+            fecha = DateTime.Parse(collection["FechaNacimiento"]);
+            tel = Int32.Parse(collection["Telefono"]);
+            idDepartamento = Int32.Parse(collection["IDDepartamento"]);
+            urlFoto  = collection["Foto"];
+
+            return new clsPersona(id,nombre, apellidos, direccion, fecha, tel, idDepartamento, urlFoto);
+
+        }
+
+
+        /// <summary>
+        /// Analisis: Mostrara un mensaje en la pantalla principal que indicara si la accion realizada ha sido satisfactoria(x>0), si ha fallado la base de datos(x-1), o si no se ha modificado nada 
         /// </summary>
         /// <param name="resultado"></param>
         public void accionaRealizada(int resultado) {
@@ -66,13 +163,14 @@ namespace CRUD_PersonasDef_ASP.Controllers
             {
                 ViewBag.mensaje = "Accion realizada con exito";
             }
-            else
+            else if(resultado == -1)
             {
-                ViewBag.mensaje = "Ha habido un fallo";
+                ViewBag.mensaje = MENSAJE_ERROR;
+            }else 
+            {
+                ViewBag.mensaje = "Error, no se ha modificado la informacion";
             }
         }
-
-
 
         public IActionResult Privacy()
         {

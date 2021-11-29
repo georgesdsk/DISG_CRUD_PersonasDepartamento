@@ -50,8 +50,8 @@ namespace CRUD_PersonasDef_DAL.Gestora
             return resultado;
         }
 
-        public int insertPersona(clsPersona personaNueva) {
-
+        public int insertPersona(clsPersona personaNueva)
+        {
           String comandoInsertar = "INSERT INTO Personas(nombrePersona,apellidosPersona,direccion,fechaNacimiento, telefono,Foto,IDDepartamento ) values( @nombre, @apellidos, @direccion, @fechaNacimiento, @telefono, @foto, @IDDepartamento)";
           return  nuevaOEditadaPersona(personaNueva, comandoInsertar);
 

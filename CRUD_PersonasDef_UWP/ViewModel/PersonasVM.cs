@@ -47,14 +47,12 @@ namespace CRUD_PersonasDef_UWP.ViewModel
             gestoraDepartamentoBL = new GestoraDepartamentoBL();
             gestoraPersonaBL = new GestoraPersonaBL();
 
-            VmListaDepartamentos1 = listadoDepartamentosBL.ListaDepartamentosBL;
-            vmListaPersonasOrginal = listadoPersonasBL.ListaPersonasBL;
-            
-
             vmDCActualizarPersona = new DelegateCommand(dcActionActualizarPersona, dcCanExecuteActualizarPersona);
             vmDCEliminarPersona = new DelegateCommand(dcActionEliminarPersona, dcCanExecuteEliminarPersona);
             vmDCAnhadirPersona = new DelegateCommand(dcActionAnhadirPersona, dcCanExecuteAnhadirPersona);
         }
+
+       
 
         #region commands
         /// <summary>
@@ -77,11 +75,17 @@ namespace CRUD_PersonasDef_UWP.ViewModel
             return !(personaSeleccionadavm == null);
         }
 
+
+        /// <summary>
+        /// analisis:Borra a una persona de la capa bl que este seleccionada en ese momento
+        /// Precondiciones: una perssonaSeleccionada
+        /// </summary>
+        /// <returns></returns>
         private void dcActionEliminarPersona()
         {
-            BorrarPersona();
+            gestoraPersonaBL.BorrarPersonaBL(personaSeleccionadavm.Id); // mensaje de si seguro desea 
             NotifyPropertyChanged("VmListaPersonasConDepartamento");
-            NotifyPropertyChanged("personaSeleccionadavm"); 
+            NotifyPropertyChanged("PersonaSeleccionadavm"); 
             
         }
         #endregion
@@ -94,7 +98,10 @@ namespace CRUD_PersonasDef_UWP.ViewModel
 
         private void dcActionActualizarPersona()
         {
-            throw new NotImplementedException();
+            gestoraPersonaBL.UpdatePersonaBL(personaSeleccionadavm);
+            NotifyPropertyChanged("PersonaSeleccionadavm");
+            NotifyPropertyChanged("VmListaPersonasConDepartamento");
+
         }
 
       
@@ -103,6 +110,10 @@ namespace CRUD_PersonasDef_UWP.ViewModel
 
         public ObservableCollection<clsPersonaConDepartamento> VmListaPersonasConDepartamento {
             get {
+
+                VmListaDepartamentos = listadoDepartamentosBL.ListaDepartamentosBL; // para que se actalicen los cambios
+                vmListaPersonasOrginal = listadoPersonasBL.ListaPersonasBL;
+
                 vmListaPersonasConDepartamento = new ObservableCollection<clsPersonaConDepartamento>();
                 int id;
                 String nombreDepartamento;
@@ -125,28 +136,17 @@ namespace CRUD_PersonasDef_UWP.ViewModel
                 personaSeleccionadavm = value;
                 NotifyPropertyChanged("PersonaSeleccionadavm");
                 vmDCEliminarPersona.RaiseCanExecuteChanged();
+                vmDCActualizarPersona.RaiseCanExecuteChanged(); 
             }
         }
 
-        public List<clsDepartamento> VmListaDepartamentos { get => VmListaDepartamentos1;
-            set => VmListaDepartamentos1 = value;
-        }
+       
         public DelegateCommand VmDCEliminarPersona { get => vmDCEliminarPersona; }
         public DelegateCommand VmDCActualizarPersona { get => vmDCActualizarPersona;}
         public DelegateCommand VmDCAnhadirPersona { get => vmDCAnhadirPersona; }
-        public List<clsDepartamento> VmListaDepartamentos1 { get => vmListaDepartamentos; set => vmListaDepartamentos = value; }
+        public List<clsDepartamento> VmListaDepartamentos { get => vmListaDepartamentos; set => vmListaDepartamentos = value; }
         
 
-        /// <summary>
-        /// analisis:Borra a una persona de la capa bl que este seleccionada en ese momento
-        /// Precondiciones: una perssonaSeleccionada
-        /// </summary>
-        /// <returns></returns>
-        public String BorrarPersona() {
-            return cambiosRealizados(
-                listadoPersonasBL.BorrarPersonaBL((clsPersona)personaSeleccionadavm) // mensaje de si seguro desea eliminar
-                );
-        }
 
         public String cambiosRealizados(int i) {
             String devolucion = personaSeleccionadavm.Nombre + " " + personaSeleccionadavm.Apellidos;

@@ -60,7 +60,7 @@ namespace CRUD_PersonasDef_ASP
             }
             }
 
-
+        //TODO Hacer que devuelva  una string
         public int UpdatePersona(clsPersona clsPersona)
         {
             int resultado = -1;
@@ -71,6 +71,12 @@ namespace CRUD_PersonasDef_ASP
             return resultado;
 
         }
+
+        /// <summary>
+        /// Borra la persona indicada por el id, si me da una excepcion devuelve un -1, y si ninguna fila queda afectada un 0
+        /// </summary>
+        /// <param name="idPersona"></param>
+        /// <returns></returns>
 
         public int DeletePersona(int idPersona) {
 

@@ -20,6 +20,7 @@
                          RelativePanel.AlignTopWithPanel="True" 
                          PaneDisplayMode="Left"
                          ItemInvoked="navigationView_ItemInvoked"
+                         
                          >
             <NavigationView.MenuItems>
                 
@@ -33,7 +34,7 @@
                 <CommandBar MinHeight="3" Background="Transparent" >
                     <AppBarButton  Icon="Add" Label="Añadir" />
                     <AppBarButton Icon="Edit" Label="Editar" />
-                    <AppBarButton Icon="Delete" Label="Borrar" />
+                    <AppBarButton Icon="Delete" Label="Borrar"   /><!--- poner el hover-->
                 </CommandBar>
             </NavigationView.MenuItems>
         </NavigationView>

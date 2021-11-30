@@ -35,6 +35,8 @@ namespace CRUD_PersonasDef_UWP.ViewModel
         DelegateCommand vmDCActualizarPersona;
         DelegateCommand vmDCAnhadirPersona;
 
+        String visibilidadMenuInfo;
+        String visibilidadMenuEdicion;
 
         #region constructor
         /// <summary>
@@ -50,24 +52,37 @@ namespace CRUD_PersonasDef_UWP.ViewModel
             vmDCActualizarPersona = new DelegateCommand(dcActionActualizarPersona, dcCanExecuteActualizarPersona);
             vmDCEliminarPersona = new DelegateCommand(dcActionEliminarPersona, dcCanExecuteEliminarPersona);
             vmDCAnhadirPersona = new DelegateCommand(dcActionAnhadirPersona, dcCanExecuteAnhadirPersona);
+
+            visibilidadMenuInfo = "Visible";
+            visibilidadMenuEdicion = "Collapsed";
         }
 
        
 
         #region commands
         /// <summary>
-        /// Tiene que estar en otra pantalla
+        /// Siempre se podrá hacer
         /// </summary>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
         private bool dcCanExecuteAnhadirPersona()
         {
-            return ! (personaSeleccionadavm == null);
+            return true;
         }
 
+        /// <summary>
+        /// Mostrara el menu de edicion de la persona
+        /// 
+        /// </summary>
         private void dcActionAnhadirPersona()
         {
-            throw new NotImplementedException();
+            visibilidadMenuInfo = "Collapsed";
+            visibilidadMenuEdicion = "Visible";
+            NotifyPropertyChanged("VisibilidadMenuInfo");
+            NotifyPropertyChanged("VisibilidadMenuEdicion");
+            NotifyPropertyChanged("VmListaPersonasConDepartamento");
+            NotifyPropertyChanged("VmListaPersonasConDepartamento");
+           
         }
     
         private bool dcCanExecuteEliminarPersona()
@@ -86,15 +101,19 @@ namespace CRUD_PersonasDef_UWP.ViewModel
             gestoraPersonaBL.BorrarPersonaBL(personaSeleccionadavm.Id); // mensaje de si seguro desea 
             NotifyPropertyChanged("VmListaPersonasConDepartamento");
             NotifyPropertyChanged("PersonaSeleccionadavm"); 
-            
         }
         #endregion
 
-        
+       
         private bool dcCanExecuteActualizarPersona()
         {
             return !(personaSeleccionadavm == null);
         }
+
+        /// <summary>
+        /// estara bindeado a la persona seleccionada
+        /// </summary>
+        /// <returns></returns>
 
         private void dcActionActualizarPersona()
         {
@@ -134,7 +153,11 @@ namespace CRUD_PersonasDef_UWP.ViewModel
         public clsPersonaConDepartamento PersonaSeleccionadavm { get => personaSeleccionadavm;
             set {
                 personaSeleccionadavm = value;
+                visibilidadMenuEdicion = "Collapsed";
+                visibilidadMenuInfo = "Visible";
                 NotifyPropertyChanged("PersonaSeleccionadavm");
+                NotifyPropertyChanged("VisibilidadMenuInfo");
+                NotifyPropertyChanged("VisibilidadMenuEdicion");
                 vmDCEliminarPersona.RaiseCanExecuteChanged();
                 vmDCActualizarPersona.RaiseCanExecuteChanged(); 
             }
@@ -145,8 +168,8 @@ namespace CRUD_PersonasDef_UWP.ViewModel
         public DelegateCommand VmDCActualizarPersona { get => vmDCActualizarPersona;}
         public DelegateCommand VmDCAnhadirPersona { get => vmDCAnhadirPersona; }
         public List<clsDepartamento> VmListaDepartamentos { get => vmListaDepartamentos; set => vmListaDepartamentos = value; }
-        
-
+        public string VisibilidadMenuInfo { get => visibilidadMenuInfo;}
+        public string VisibilidadMenuEdicion { get => visibilidadMenuEdicion;}
 
         public String cambiosRealizados(int i) {
             String devolucion = personaSeleccionadavm.Nombre + " " + personaSeleccionadavm.Apellidos;
@@ -160,20 +183,7 @@ namespace CRUD_PersonasDef_UWP.ViewModel
             return devolucion;
         }
 
-        /// <summary>
-        /// estara bindeado a la persona seleccionada
-        /// </summary>
-        /// <returns></returns>
-        public String ActualizarPersona() {
-
-            return cambiosRealizados(
-                gestoraPersonaBL.UpdatePersonaBL((clsPersona)personaSeleccionadavm)
-                );
-        }
-
-        public String AnhadirPersona() { //
-            return null;
-        }
+       
 
 
         public event PropertyChangedEventHandler PropertyChanged;

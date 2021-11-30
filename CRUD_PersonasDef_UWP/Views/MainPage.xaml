@@ -8,36 +8,36 @@
     xmlns:mv="using:CRUD_PersonasDef_UWP.ViewModel"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-   
+    RequestedTheme="Dark"
     >
    
     <Page.DataContext>
         <mv:PersonasVM></mv:PersonasVM>
     </Page.DataContext>
-    
-    <RelativePanel><!-- HAcerlo como si fuera para un movil-->
-        <NavigationView  x:Name="navigationView" RelativePanel.AlignBottomWithPanel="True"
-                         RelativePanel.AlignTopWithPanel="True" 
+
+    <RelativePanel>
+        <NavigationView  x:Name="navigationView" 
                          PaneDisplayMode="Left"
+                         RelativePanel.AlignTopWithPanel="True"
+                         RelativePanel.AlignBottomWithPanel="True"
+                         RelativePanel.AlignLeftWithPanel="True"
                          ItemInvoked="navigationView_ItemInvoked"
-                         
                          >
             <NavigationView.MenuItems>
-                
                 <NavigationViewItemHeader>Listados</NavigationViewItemHeader>
                 <NavigationViewItemSeparator></NavigationViewItemSeparator>
                 <NavigationViewItem  Icon="People"  Content="Personas" Tag="Personas"></NavigationViewItem>
                 <NavigationViewItem Icon="Bookmarks" Content="Departamentos" Tag="Departamentos"></NavigationViewItem>
-                
-                <NavigationViewItemHeader Margin="0,20,0,0"> Acciones sobre la lista</NavigationViewItemHeader>
+                <NavigationViewItemHeader Margin="0,20,0,0">Acciones sobre la lista</NavigationViewItemHeader>
                 <NavigationViewItemSeparator></NavigationViewItemSeparator>
-                <CommandBar MinHeight="3" Background="Transparent" >
-                    <AppBarButton  Icon="Add" Label="Añadir" />
-                    <AppBarButton Icon="Edit" Label="Editar" />
-                    <AppBarButton Icon="Delete" Label="Borrar"   /><!--- poner el hover-->
+                <CommandBar DefaultLabelPosition="Right" Background="Transparent">
+                    <AppBarButton Icon="Add" Command="{Binding VmDCAnhadirPersona}" Label="Añadir persona"/>
+                    <AppBarButton Icon="Edit" Command="{Binding VmDCActualizarPersona}" Label="Editar" />
+                    <AppBarButton Icon="Delete" Command="{Binding VmDCEliminarPersona}" Label="Borrar" /><!--- poner el hover-->
                 </CommandBar>
             </NavigationView.MenuItems>
+            <Frame  RelativePanel.RightOf="navigationView"   x:Name="contentFrame"></Frame>
         </NavigationView>
-        <Frame RelativePanel.RightOf="navigationView" x:Name="contentFrame"></Frame>
+        
     </RelativePanel>
 </Page>

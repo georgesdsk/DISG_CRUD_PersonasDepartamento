@@ -5,44 +5,48 @@ using CRUD_PersonasDef_BL.Listas;
 using CRUD_PersonasDef_Entidades;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 
 namespace CRUD_PersonasDef_ASP
 {
     public class ViewModelPersonas
     {
-
-        List<clsPersonaConDepartamento> vmListaPersonasConDepartamento;
-        List<clsPersona> vmListaPersonasOriginal;
+        List<Models.clsPersonaConDepartamento> vmListaPersonasConDepartamento;
+        List<CRUD_PersonasDef_Entidades.clsPersona> vmListaPersonasOriginal;
         List<clsDepartamento> listaDepartamento;
         ListadoPersonasBL gestionListaPersonasBL;
         ListadoDepartamentosBL gestionDepartamentosBL;
         GestoraPersonaBL gestoraPersonaBL;
-        clsPersona personaSeleccionada;
-
-
-
-        public ViewModelPersonas()
+      
+       public ViewModelPersonas()
         {
             gestionDepartamentosBL = new ListadoDepartamentosBL();
             gestoraPersonaBL = new GestoraPersonaBL();
             gestionListaPersonasBL = new ListadoPersonasBL();
-            vmListaPersonasOriginal = gestionListaPersonasBL.ListaPersonasBL;
-            listaDepartamento = gestionDepartamentosBL.ListaDepartamentosBL;
-            vmListaPersonasConDepartamento = new List<clsPersonaConDepartamento>();
-            vmListaPersonasConDepartamento = VmListaPersonasConDepartamento;
-            
+            vmListaPersonasConDepartamento = new List<Models.clsPersonaConDepartamento>();
+       
         }
 
         /// <summary>
         /// Recorrer la lista original, y hacerle el get del id del departamento,  hacerle el get a la lista de departamentos con el find
         /// </summary>
 
-        public List<clsPersonaConDepartamento> VmListaPersonasConDepartamento
+        public List<Models.clsPersonaConDepartamento> VmListaPersonasConDepartamento
         {
-            get {
-                vmListaPersonasOriginal.ForEach(x => vmListaPersonasConDepartamento.Add(
-                    new clsPersonaConDepartamento(listaDepartamento.Find(y => y.ID == x.IDDepartamento).Nombre, x))
-                );
+            get
+            {
+                try
+                {
+                    listaDepartamento = gestionDepartamentosBL.ListaDepartamentosBL;
+                    vmListaPersonasOriginal = gestionListaPersonasBL.ListaPersonasBL;
+
+                    vmListaPersonasOriginal.ForEach(x => vmListaPersonasConDepartamento.Add(
+                        new Models.clsPersonaConDepartamento(listaDepartamento.Find(y => y.ID == x.IDDepartamento).Nombre, x))
+                    );
+                }
+                catch (SqlException ex) {
+                    vmListaPersonasConDepartamento = new List<Models.clsPersonaConDepartamento>();
+                }
                 /*
                  * Sin lambda
                 String nombreDepartamento;
@@ -54,20 +58,38 @@ namespace CRUD_PersonasDef_ASP
                 */
                 return vmListaPersonasConDepartamento;
             }
-        }
+            }
 
-        public clsPersona PersonaSeleccionada { get => personaSeleccionada; set => personaSeleccionada = value; }
-
-        public int UpdatePersona(clsPersona clsPersona)
+        //TODO Hacer que devuelva  una string
+        public int UpdatePersona(CRUD_PersonasDef_Entidades.clsPersona clsPersona)
         {
-            return gestoraPersonaBL.UpdatePersonaBL(clsPersona);
+            int resultado = -1;
+            try { 
+                  resultado = gestoraPersonaBL.UpdatePersonaBL(clsPersona);
+            } catch (SqlException ex) {
+            }
+            return resultado;
+
         }
+
+        /// <summary>
+        /// Borra la persona indicada por el id, si me da una excepcion devuelve un -1, y si ninguna fila queda afectada un 0
+        /// </summary>
+        /// <param name="idPersona"></param>
+        /// <returns></returns>
 
         public int DeletePersona(int idPersona) {
-            return gestoraPersonaBL.BorrarPersonaBL(idPersona);
+
+            int resultado = -1;
+            try
+            {
+                resultado = gestoraPersonaBL.BorrarPersonaBL(idPersona);
+            }
+            catch (SqlException ex)
+            {
+            }
+            return resultado;
         }
-
-
 
         /// <summary>
         /// Analisis: devolver el objeto de persona con departamento segun el id pasado
@@ -77,23 +99,43 @@ namespace CRUD_PersonasDef_ASP
         /// <param name="id"></param>
         /// <returns></returns>
 
-        public clsPersonaConDepartamento getPersona(int id) {
-            
-            clsPersonaConDepartamento personaConDepartamento = null;
+        public Models.clsPersonaConDepartamento getPersona(int id)
+        {
+            Models.clsPersonaConDepartamento personaConDepartamento = null;
             bool encontrado = false;
 
-            for (int i = 0; i < vmListaPersonasConDepartamento.Count && !encontrado; i++)
+            try
             {
-                if (vmListaPersonasConDepartamento[i].Id == id)
+                vmListaPersonasOriginal = gestionListaPersonasBL.ListaPersonasBL;
+                vmListaPersonasConDepartamento = VmListaPersonasConDepartamento;
+                for (int i = 0; i < vmListaPersonasConDepartamento.Count && !encontrado; i++)
                 {
-                    personaConDepartamento = vmListaPersonasConDepartamento[i];
-                    encontrado = true;
+                    if (vmListaPersonasConDepartamento[i].Id == id)
+                    {
+                        personaConDepartamento = vmListaPersonasConDepartamento[i];
+                        encontrado = true;
+                    }
                 }
+            }
+            catch (SqlException ex) {
+            // luego hay que controlar que esa persona no este a null
             }
             return personaConDepartamento;
         }
 
-       
+        public int create(CRUD_PersonasDef_Entidades.clsPersona clsPersona)
+        {
+            int resultado = -1;
+            try
+            {
+                resultado = gestoraPersonaBL.InsertPersona(clsPersona);
+            }
+            catch (SqlException ex)
+            {
+            }
+            return resultado;
 
+
+        }
     }
 }

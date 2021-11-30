@@ -11,7 +11,7 @@ namespace CRUD_PersonasDef_ASP.Models
 
     /*Me tiene que venir la lista de clsPersona y cuando la reciba en el ViewModel la convierto en clModelsPersonadfsfdsfd
      */
-    public class clsPersonaConDepartamento : clsPersona
+    public class clsPersonaConDepartamento : CRUD_PersonasDef_Entidades.clsPersona
     {
         String nombreDepartamento; // esto se tiene que rellenar en el viewModel
 
@@ -23,13 +23,16 @@ namespace CRUD_PersonasDef_ASP.Models
 
         }
 
-        public clsPersonaConDepartamento(string nombreDepartamento, clsPersona clsPersona) : base(clsPersona.Id ,clsPersona.Nombre, clsPersona.Apellidos,
+        public clsPersonaConDepartamento(string nombreDepartamento, clsPersona clsPersona ) : base(clsPersona.Id ,clsPersona.Nombre, clsPersona.Apellidos,
             clsPersona.Direccion, clsPersona.FechaNacimiento, clsPersona.Telefono, clsPersona.IDDepartamento, clsPersona.Foto)
         {
             NombreDepartamento = nombreDepartamento;
         }
 
-
+        public clsPersonaConDepartamento()
+        {
+            this.Nombre = "error";
+        }
 
         public string NombreDepartamento { get => nombreDepartamento; set => nombreDepartamento = value; }
     }

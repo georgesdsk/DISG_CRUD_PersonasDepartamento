@@ -82,6 +82,17 @@ namespace CRUD_PersonasDef_Entidades
             this.IDDepartamento = idDepartamento;
             this.urlFoto = urlFoto;
         }
+
+        public clsPersona(string nombre, string apellidos, string direccion, DateTime fecha, int tel, int idDepartamento, String urlFoto)
+        {
+            this.Nombre = nombre;
+            this.Apellidos = apellidos;
+            this.Direccion = direccion;
+            this.FechaNacimiento = fecha;
+            this.Telefono = tel;
+            this.IDDepartamento = idDepartamento;
+            this.urlFoto = urlFoto;
+        }
         public clsPersona() {
            
         }

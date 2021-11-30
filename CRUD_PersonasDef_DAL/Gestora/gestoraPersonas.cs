@@ -26,21 +26,34 @@ namespace CRUD_PersonasDef_DAL.Gestora
            
         }
 
-        public int insertPersona(clsPersona personaNueva) {
 
-            miComando.CommandText = "INSERT INTO Personas(nombre,apellidos,direccion,fechaNacimiento, telefono,Foto) values( @nombre, @apellidos, @direccion, @fechaNacimiento, @telefono, @foto WHERE IDPersona = @IDPersona" ;
-            miComando.Parameters.AddWithValue("@nombre", personaNueva.Nombre);
-            miComando.Parameters.AddWithValue("@apellidos", personaNueva.Apellidos);
-            miComando.Parameters.AddWithValue("@direccion", personaNueva.Direccion);
-            miComando.Parameters.AddWithValue("@fechaNacimiento", personaNueva.FechaNacimiento);
-            if (personaNueva.Telefono != null)
+        private int  nuevaOEditadaPersona(clsPersona clsPersona, String textComando) {
+            int resultado;
+            miComando = new SqlCommand();
+            miComando.CommandText = textComando;
+            miComando.Parameters.AddWithValue("@nombre", clsPersona.Nombre);
+            miComando.Parameters.AddWithValue("@apellidos", clsPersona.Apellidos);
+            miComando.Parameters.AddWithValue("@direccion", clsPersona.Direccion);
+            miComando.Parameters.AddWithValue("@fechaNacimiento", clsPersona.FechaNacimiento); // ave que tal
+            miComando.Parameters.AddWithValue("@IDPersona", clsPersona.Id);
+            if (clsPersona.Telefono != null)
             {
-                miComando.Parameters.AddWithValue("@telefono", personaNueva.Telefono);
+                miComando.Parameters.AddWithValue("@telefono", clsPersona.Telefono);
             }
-            miComando.Parameters.AddWithValue("@Foto", personaNueva.Telefono);
-            miComando.Parameters.AddWithValue("@IDPersona", personaNueva.Id);
+            miComando.Parameters.AddWithValue("@foto", clsPersona.Foto);
+            miComando.Parameters.AddWithValue("@IDDepartamento", clsPersona.IDDepartamento);
+            miConexion.getConnection();
+            miComando.Connection = miConexion.MiConexion;
+            resultado = miComando.ExecuteNonQuery();
+            miConexion.closeConnection();
 
-            return miComando.ExecuteNonQuery(); 
+            return resultado;
+        }
+
+        public int insertPersona(clsPersona personaNueva)
+        {
+          String comandoInsertar = "INSERT INTO Personas(nombrePersona,apellidosPersona,direccion,fechaNacimiento, telefono,Foto,IDDepartamento ) values( @nombre, @apellidos, @direccion, @fechaNacimiento, @telefono, @foto, @IDDepartamento)";
+          return  nuevaOEditadaPersona(personaNueva, comandoInsertar);
 
         }
 
@@ -50,18 +63,8 @@ namespace CRUD_PersonasDef_DAL.Gestora
         /// <returns></returns>
         public int UpdatePersona(clsPersona personaActualizar)
         {
-            miComando.CommandText = "UPDATE Personas set nombrePersona = @nombre, apellidosPersona = @apellidos, direccion = @direccion, fechaNacimiento = @fechaNacimiento, telefono = @telefono, Foto = @foto WHERE IDPersona =@IDPersona " ;
-            miComando.Parameters.AddWithValue("@nombre", personaActualizar.Nombre);
-            miComando.Parameters.AddWithValue("@apellidos", personaActualizar.Apellidos);
-            miComando.Parameters.AddWithValue("@direccion", personaActualizar.Direccion);
-            miComando.Parameters.AddWithValue("@fechaNacimiento", personaActualizar.FechaNacimiento); // ave que tal
-            miComando.Parameters.AddWithValue("@IDPersona", personaActualizar.Id);
-            if (personaActualizar.Telefono != null)
-            {
-                miComando.Parameters.AddWithValue("@telefono", personaActualizar.Telefono);
-            }
-            miComando.Parameters.AddWithValue("@foto", personaActualizar.Foto);
-            return miComando.ExecuteNonQuery();
+            String comandoActualizar = "UPDATE Personas set nombrePersona = @nombre, apellidosPersona = @apellidos, direccion = @direccion, fechaNacimiento = @fechaNacimiento, telefono = @telefono, Foto = @foto, IDDepartamento = @IDDepartamento WHERE IDPersona =@IDPersona " ;
+            return nuevaOEditadaPersona(personaActualizar, comandoActualizar);
         }
 
         public int RemovePersona(int id)

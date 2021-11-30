@@ -31,7 +31,7 @@ namespace CRUD_PersonasDef_ASP.Models
 
         public clsPersonaConDepartamento()
         {
-            this.Nombre = "error";
+            
         }
 
         public string NombreDepartamento { get => nombreDepartamento; set => nombreDepartamento = value; }

@@ -17,14 +17,15 @@ namespace CRUD_PersonasDef_ASP
         ListadoPersonasBL gestionListaPersonasBL;
         ListadoDepartamentosBL gestionDepartamentosBL;
         GestoraPersonaBL gestoraPersonaBL;
-      
-       public ViewModelPersonas()
+
+        public ViewModelPersonas()
         {
+            listaDepartamento = new List<clsDepartamento>();    
             gestionDepartamentosBL = new ListadoDepartamentosBL();
             gestoraPersonaBL = new GestoraPersonaBL();
             gestionListaPersonasBL = new ListadoPersonasBL();
-            vmListaPersonasConDepartamento = new List<Models.clsPersonaConDepartamento>();
-       
+            vmListaPersonasConDepartamento = new List<clsPersonaConDepartamento>();
+
         }
 
         /// <summary>
@@ -41,10 +42,11 @@ namespace CRUD_PersonasDef_ASP
                     vmListaPersonasOriginal = gestionListaPersonasBL.ListaPersonasBL;
 
                     vmListaPersonasOriginal.ForEach(x => vmListaPersonasConDepartamento.Add(
-                        new Models.clsPersonaConDepartamento(listaDepartamento.Find(y => y.ID == x.IDDepartamento).Nombre, x))
+                        new clsPersonaConDepartamento(listaDepartamento.Find(y => y.ID == x.IDDepartamento).Nombre, x))
                     );
                 }
-                catch (SqlException ex) {
+                catch (SqlException ex)
+                {
                     vmListaPersonasConDepartamento = new List<Models.clsPersonaConDepartamento>();
                 }
                 /*
@@ -58,15 +60,18 @@ namespace CRUD_PersonasDef_ASP
                 */
                 return vmListaPersonasConDepartamento;
             }
-            }
+        }
 
         //TODO Hacer que devuelva  una string
         public int UpdatePersona(CRUD_PersonasDef_Entidades.clsPersona clsPersona)
         {
             int resultado = -1;
-            try { 
-                  resultado = gestoraPersonaBL.UpdatePersonaBL(clsPersona);
-            } catch (SqlException ex) {
+            try
+            {
+                resultado = gestoraPersonaBL.UpdatePersonaBL(clsPersona);
+            }
+            catch (SqlException ex)
+            {
             }
             return resultado;
 
@@ -78,7 +83,8 @@ namespace CRUD_PersonasDef_ASP
         /// <param name="idPersona"></param>
         /// <returns></returns>
 
-        public int DeletePersona(int idPersona) {
+        public int DeletePersona(int idPersona)
+        {
 
             int resultado = -1;
             try
@@ -99,9 +105,9 @@ namespace CRUD_PersonasDef_ASP
         /// <param name="id"></param>
         /// <returns></returns>
 
-        public Models.clsPersonaConDepartamento getPersona(int id)
+        public clsPersonaConDepartamento getPersona(int id)
         {
-            Models.clsPersonaConDepartamento personaConDepartamento = null;
+            clsPersonaConDepartamento personaConDepartamento = null;
             bool encontrado = false;
 
             try
@@ -117,13 +123,30 @@ namespace CRUD_PersonasDef_ASP
                     }
                 }
             }
-            catch (SqlException ex) {
-            // luego hay que controlar que esa persona no este a null
+            catch (SqlException ex)
+            {
+                // luego hay que controlar que esa persona no este a null
             }
             return personaConDepartamento;
         }
 
-        public int create(CRUD_PersonasDef_Entidades.clsPersona clsPersona)
+        public clsPersonaTodosDepartamentos newPersona() {
+            listaDepartamento = gestionDepartamentosBL.ListaDepartamentosBL;
+            return new clsPersonaTodosDepartamentos(listaDepartamento);
+        }
+
+        /// <summary>
+        /// Devuelve le persona con toda la lista de departamentos segun su id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public clsPersonaTodosDepartamentos getPersonaConDepartamentos(int id)
+        {
+
+            return new clsPersonaTodosDepartamentos(getPersona(id), listaDepartamento);
+        }
+
+        public int create(clsPersona clsPersona)
         {
             int resultado = -1;
             try

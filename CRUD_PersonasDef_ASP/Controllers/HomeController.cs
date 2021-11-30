@@ -43,7 +43,7 @@ namespace CRUD_PersonasDef_ASP.Controllers
         public IActionResult Index()
         {
             ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
-            List<Models.clsPersonaConDepartamento> listaPersonas = viewModelPersonas.VmListaPersonasConDepartamento;
+            List<clsPersonaConDepartamento> listaPersonas = viewModelPersonas.VmListaPersonasConDepartamento;
             if (listaPersonas == null)
             {
                 ViewBag.mensajesNegativo = MENSAJE_ERROR;
@@ -62,7 +62,7 @@ namespace CRUD_PersonasDef_ASP.Controllers
             if (personaAuxiliar == null) // si ha dado excepcion
             {
                 ViewBag.mensajeNegativo = MENSAJE_ERROR;
-                return base.View("Index", new List<Models.clsPersonaConDepartamento>());// le paso la lista vacia para que no me de problema al cargar la pagina, tambien podría enviar la vista de error
+                return View("Index", new List<Models.clsPersonaConDepartamento>());// le paso la lista vacia para que no me de problema al cargar la pagina, tambien podría enviar la vista de error
             }
             else {
                 
@@ -76,7 +76,7 @@ namespace CRUD_PersonasDef_ASP.Controllers
         {
             ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
             accionaRealizada(viewModelPersonas.DeletePersona(id));
-            List<Models.clsPersonaConDepartamento> listaPersonas = viewModelPersonas.VmListaPersonasConDepartamento;
+            List<clsPersonaConDepartamento> listaPersonas = viewModelPersonas.VmListaPersonasConDepartamento;
             if (listaPersonas == null)
             {
                 ViewBag.mensajeNegativo = MENSAJE_ERROR;
@@ -93,14 +93,14 @@ namespace CRUD_PersonasDef_ASP.Controllers
 
         public IActionResult Update(int id) {
             ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
-            Models.clsPersonaConDepartamento personaAuxiliar = viewModelPersonas.getPersona(id);
+            clsPersonaTodosDepartamentos personaAuxiliar = viewModelPersonas.getPersonaConDepartamentos(id);
             if (personaAuxiliar == null) // si ha dado excepcion
             {
                 ViewBag.mensajenNegativo = MENSAJE_ERROR;
-                return base.View("Index", new List<Models.clsPersonaConDepartamento>() );
+                return base.View("Index", new List<clsPersonaConDepartamento>() );
             }
             else {
-                ViewBag.mensajePositivo = MENSAJE_EXITO;
+                
                 return View(personaAuxiliar);
             }
         }
@@ -111,12 +111,12 @@ namespace CRUD_PersonasDef_ASP.Controllers
             ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
             accionaRealizada(viewModelPersonas.UpdatePersona(construirPersona(collection)));
             //viewModelPersonas = new ViewModelPersonas(); //actualizamos la lista, TODO METODO PARA ACTULZARLA Y NO LLAMAR AL CONSTRUCTOR
-            List<Models.clsPersonaConDepartamento> listaPersonas = viewModelPersonas.VmListaPersonasConDepartamento;
+            List<clsPersonaConDepartamento> listaPersonas = viewModelPersonas.VmListaPersonasConDepartamento;
 
             if (listaPersonas == null)
             {
                 ViewBag.mensajes = MENSAJE_ERROR; // si la conexion falla tras hacer la consulta
-                return base.View("Index", new List<Models.clsPersonaConDepartamento>()); //RedirectToAction
+                return base.View("Index", new List<clsPersonaConDepartamento>()); //RedirectToAction
             }
             else
             {
@@ -126,10 +126,11 @@ namespace CRUD_PersonasDef_ASP.Controllers
 
 
         public IActionResult Create() {
-            return View();
+            ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
+            return View(viewModelPersonas.newPersona());
         }
         /// <summary>
-        /// Analisis: la lista collection se convierte en atributos de persona y es enviada para añadirla para la base de datos, si 
+        /// Analisis: la lista collection se convierte en atributos de persona y es enviada para añadirla para la base de datos, aqui necesitaria una persona normal, sin nombre departamento
         /// </summary>
         /// <param name="collection"></param>
         /// <returns></returns>
@@ -160,7 +161,7 @@ namespace CRUD_PersonasDef_ASP.Controllers
 
         public IActionResult Details(int id) {
             ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
-            CRUD_PersonasDef_Entidades.clsPersona personaAuxiliar;
+            clsPersonaConDepartamento personaAuxiliar;
             personaAuxiliar = viewModelPersonas.getPersona(id);
             if (personaAuxiliar == null)
             {
@@ -178,7 +179,7 @@ namespace CRUD_PersonasDef_ASP.Controllers
         /// <returns></returns>
         /// 
 
-        private CRUD_PersonasDef_Entidades.clsPersona construirPersona(IFormCollection collection) {
+        private clsPersona construirPersona(IFormCollection collection) {
             
             string nombre, apellidos, direccion, urlFoto, idCondicion;
             int id, tel, idDepartamento;
@@ -198,7 +199,7 @@ namespace CRUD_PersonasDef_ASP.Controllers
             idDepartamento = Int32.Parse(collection["IDDepartamento"]);
             urlFoto  = collection["Foto"];
 
-            return new CRUD_PersonasDef_Entidades.clsPersona(id, nombre, apellidos, direccion, fecha, tel, idDepartamento, urlFoto);
+            return new clsPersona(id, nombre, apellidos, direccion, fecha, tel, idDepartamento, urlFoto);
 
         }
 

@@ -1,4 +1,5 @@
-﻿@model CRUD_PersonasDef_Entidades.clsPersona
+﻿@using CRUD_PersonasDef_Entidades
+@model CRUD_PersonasDef_ASP.Models.clsPersonaTodosDepartamentos
 
 @{
     ViewData["Title"] = "Create";
@@ -12,7 +13,7 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-           
+
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
                 <input asp-for="Nombre" class="form-control" />
@@ -44,9 +45,13 @@
                 <span asp-validation-for="Foto" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IDDepartamento" class="control-label"></label>
-                <input asp-for="IDDepartamento" class="form-control" />
-                <span asp-validation-for="IDDepartamento" class="text-danger"></span>
+                <select name="IDDepartamento">
+                    @foreach (clsDepartamento dpto in Model.Departamentos)
+                    {
+                        <option value="@dpto.ID">@dpto.Nombre</option>
+                    }
+                </select>
+
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -60,5 +65,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }

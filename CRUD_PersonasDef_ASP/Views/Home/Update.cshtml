@@ -1,18 +1,16 @@
 ﻿@using CRUD_PersonasDef_Entidades
 @model CRUD_PersonasDef_ASP.Models.clsPersonaTodosDepartamentos
-@{
-    ViewData["Title"] = "Edit";
-}
 
-<h1>Edit</h1>
+
+<h1>Editar persona</h1>
 <!-- Como guardo la info de cada persona ??? en la p seleccionada, pero como le pongo los atributs, a lo mejor al hacer submit se cambie el objeto que se pase como modelo-->
-<h4>clsPersona</h4>
+<h4>Cambie los datos necesarios</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Update">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+             <div >
                 <label asp-for="Id" class="control-label"></label>
                 <input asp-for="Id" class="form-control" />
                 <span asp-validation-for="Id" class="text-danger"></span>
@@ -54,10 +52,9 @@
             <select name ="IDDepartamento">
                 @foreach(clsDepartamento dpto in Model.Departamentos )
                 {
-                    <option value="dpto.IDDepartmento">dpto.Nombre </option>
+                    <option value="@dpto.ID">@dpto.Nombre</option>
                 }
             </select>
-
                 <span asp-validation-for="IDDepartamento" class="text-danger"></span>
             </div>
             <div class="form-group">

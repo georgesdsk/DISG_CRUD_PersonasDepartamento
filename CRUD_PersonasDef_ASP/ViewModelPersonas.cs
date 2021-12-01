@@ -17,6 +17,7 @@ namespace CRUD_PersonasDef_ASP
         ListadoPersonasBL gestionListaPersonasBL;
         ListadoDepartamentosBL gestionDepartamentosBL;
         GestoraPersonaBL gestoraPersonaBL;
+        bool accionRealizada;
 
         public ViewModelPersonas()
         {
@@ -25,7 +26,7 @@ namespace CRUD_PersonasDef_ASP
             gestoraPersonaBL = new GestoraPersonaBL();
             gestionListaPersonasBL = new ListadoPersonasBL();
             vmListaPersonasConDepartamento = new List<clsPersonaConDepartamento>();
-
+            accionRealizada = true;
         }
 
         /// <summary>
@@ -61,6 +62,8 @@ namespace CRUD_PersonasDef_ASP
                 return vmListaPersonasConDepartamento;
             }
         }
+
+        public bool AccionRealizada { get => accionRealizada; set => accionRealizada = value; }
 
         //TODO Hacer que devuelva  una string
         public int UpdatePersona(CRUD_PersonasDef_Entidades.clsPersona clsPersona)

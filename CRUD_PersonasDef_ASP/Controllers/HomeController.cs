@@ -25,13 +25,11 @@ namespace CRUD_PersonasDef_ASP.Controllers
         {
             _logger = logger;
         }
-
-
-        
+ 
     /**TODO :
      *  LISTA DESPLEGABLE 
      *  ARREGLAR LA VISTA
-     * 
+     *  El viewBag no funcion con el RedirectToAction por lo que 
      * 
      * */
 
@@ -44,15 +42,13 @@ namespace CRUD_PersonasDef_ASP.Controllers
         {
             ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
             List<clsPersonaConDepartamento> listaPersonas = viewModelPersonas.VmListaPersonasConDepartamento;
+            
             if (listaPersonas == null)
             {
                 ViewBag.mensajesNegativo = MENSAJE_ERROR;
-                return RedirectToAction("index");
             }
-            else
-            {
-                return View(listaPersonas);
-            }
+            return View(listaPersonas);
+
         }
 
 
@@ -62,7 +58,7 @@ namespace CRUD_PersonasDef_ASP.Controllers
             if (personaAuxiliar == null) // si ha dado excepcion
             {
                 ViewBag.mensajeNegativo = MENSAJE_ERROR;
-                return View("Index", new List<Models.clsPersonaConDepartamento>());// le paso la lista vacia para que no me de problema al cargar la pagina, tambien podría enviar la vista de error
+                return RedirectToAction(nameof(Index));
             }
             else {
                 
@@ -72,22 +68,12 @@ namespace CRUD_PersonasDef_ASP.Controllers
 
 
         [HttpPost]
-        public IActionResult Delete(int id, IFormCollection collection) 
+        public IActionResult Delete(int id, clsPersonaConDepartamento)
         {
             ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
             accionaRealizada(viewModelPersonas.DeletePersona(id));
-            List<clsPersonaConDepartamento> listaPersonas = viewModelPersonas.VmListaPersonasConDepartamento;
-            if (listaPersonas == null)
-            {
-                ViewBag.mensajeNegativo = MENSAJE_ERROR;
-                return View("Index");
-            }
-            else
-            {
-                ViewBag.mensajePositivo = MENSAJE_EXITO;
-                //return View("Index",listaPersonas);
-                return RedirectToAction("Index");
-            }
+            
+        
         }
 
 
@@ -97,7 +83,7 @@ namespace CRUD_PersonasDef_ASP.Controllers
             if (personaAuxiliar == null) // si ha dado excepcion
             {
                 ViewBag.mensajenNegativo = MENSAJE_ERROR;
-                return base.View("Index", new List<clsPersonaConDepartamento>() );
+                return View("Index", new List<clsPersonaConDepartamento>() );
             }
             else {
                 
@@ -107,21 +93,11 @@ namespace CRUD_PersonasDef_ASP.Controllers
 
 
         [HttpPost]
-        public IActionResult Update(int id, IFormCollection collection) {
+        public IActionResult Update(int id, clsPersonaConDepartamento persona) {
             ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
-            accionaRealizada(viewModelPersonas.UpdatePersona(construirPersona(collection)));
-            //viewModelPersonas = new ViewModelPersonas(); //actualizamos la lista, TODO METODO PARA ACTULZARLA Y NO LLAMAR AL CONSTRUCTOR
-            List<clsPersonaConDepartamento> listaPersonas = viewModelPersonas.VmListaPersonasConDepartamento;
+            accionaRealizada(viewModelPersonas.UpdatePersona(persona));
+            return View(viewModelPersonas.getPersonaConDepartamentos(id)); //return RedirectToAction(nameof(Index));//
 
-            if (listaPersonas == null)
-            {
-                ViewBag.mensajes = MENSAJE_ERROR; // si la conexion falla tras hacer la consulta
-                return base.View("Index", new List<clsPersonaConDepartamento>()); //RedirectToAction
-            }
-            else
-            {
-                return View("Index",listaPersonas);
-            }
         }
 
 
@@ -139,17 +115,7 @@ namespace CRUD_PersonasDef_ASP.Controllers
         public IActionResult Create(IFormCollection collection) {
             ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
             accionaRealizada(viewModelPersonas.create(construirPersona(collection)));
-            //viewModelPersonas = new ViewModelPersonas(); //actualizamos la lista, TODO METODO PARA ACTULZARLA Y NO LLAMAR AL CONSTRUCTOR
-            List<Models.clsPersonaConDepartamento> listaPersonas = viewModelPersonas.VmListaPersonasConDepartamento;
-            if (listaPersonas == null)
-            {
-                ViewBag.mensajesNegativo = MENSAJE_ERROR;
-                return View("Index");
-            }
-            else
-            {
-                return View("Index", listaPersonas);
-            }
+            return RedirectToAction(nameof(Index));
         }
         /// <summary>
         /// Analisis: Muestra los detalles de la persona pasada por paramtros
@@ -203,14 +169,14 @@ namespace CRUD_PersonasDef_ASP.Controllers
 
         }
 
-
+        // se puede hacer un recurso no estatico?
 
 
         /// <summary>
         /// Analisis: Mostrara un mensaje en la pantalla principal que indicara si la accion realizada ha sido satisfactoria(x>0), si ha fallado la base de datos(x-1), o si no se ha modificado nada 
         /// </summary>
         /// <param name="resultado"></param>
-        public void accionaRealizada(int resultado) {
+        private void accionaRealizada(int resultado) {
             if (resultado > 0)
             {
                 ViewBag.mensajePositivo = "Accion realizada con exito";

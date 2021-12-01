@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<CRUD_PersonasDef_ASP.Models.clsPersonaConDepartamento>
-<h1 style="color:red"> @ViewBag.mensaje </h1>
+<h1 style="color:red"> @ViewBag.mensajeNegativo </h1>
+<h1 style="color:green"> @ViewBag.mensajePositivo </h1>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -7,10 +8,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.NombreDepartamento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
+                @Html.DisplayNameFor(model => model.Foto)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
@@ -22,17 +20,16 @@
                 @Html.DisplayNameFor(model => model.Direccion)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaNacimiento)
+                Fecha de nacimiento
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Telefono)
             </th>
+            
             <th>
-                @Html.DisplayNameFor(model => model.Foto)
+                Nombre del departamento
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IDDepartamento)
-            </th>
+           
             <th></th>
         </tr>
     </thead>
@@ -40,7 +37,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.NombreDepartamento)
+                <img src="@Html.DisplayFor(modelItem => item.Foto)" width="100" height="100"/>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
@@ -52,13 +49,14 @@
                 @Html.DisplayFor(modelItem => item.Direccion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FechaNacimiento)
+                @item.FechaNacimiento.ToString("d")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Telefono)
             </td>
+            
             <td>
-                <img src="@Html.DisplayFor(modelItem => item.Foto)" width="100" height="100"/>
+                @Html.DisplayFor(modelItem => item.NombreDepartamento)
             </td>
             
             <td>

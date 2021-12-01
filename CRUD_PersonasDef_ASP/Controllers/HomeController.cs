@@ -10,12 +10,16 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
+
+
+
 namespace CRUD_PersonasDef_ASP.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private String MENSAJE_ERROR = "Ha habido un error al conectarse a la base de datos, intentelo mas tarde";
+        private String MENSAJE_ERROR = "Ha habido un error en la conexión, reinicie la pagina";
+        private String MENSAJE_EXITO = "La acción se ha completado correctamente";
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -23,7 +27,13 @@ namespace CRUD_PersonasDef_ASP.Controllers
         }
 
 
-        //Excepciones
+        
+    /**TODO :
+     *  LISTA DESPLEGABLE 
+     *  ARREGLAR LA VISTA
+     * 
+     * 
+     * */
 
         /// <summary>
         /// Muestra toda la lista de personas
@@ -36,8 +46,8 @@ namespace CRUD_PersonasDef_ASP.Controllers
             List<clsPersonaConDepartamento> listaPersonas = viewModelPersonas.VmListaPersonasConDepartamento;
             if (listaPersonas == null)
             {
-                ViewBag.mensajes = MENSAJE_ERROR;
-                return View();
+                ViewBag.mensajesNegativo = MENSAJE_ERROR;
+                return RedirectToAction("index");
             }
             else
             {
@@ -48,13 +58,14 @@ namespace CRUD_PersonasDef_ASP.Controllers
 
         public IActionResult Delete(int id) {
             ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
-            clsPersonaConDepartamento personaAuxiliar = viewModelPersonas.getPersona(id);
+            Models.clsPersonaConDepartamento personaAuxiliar = viewModelPersonas.getPersona(id);
             if (personaAuxiliar == null) // si ha dado excepcion
             {
-                ViewBag.mensaje = MENSAJE_ERROR;
-                return View("Index", new List<clsPersonaConDepartamento>());
+                ViewBag.mensajeNegativo = MENSAJE_ERROR;
+                return View("Index", new List<Models.clsPersonaConDepartamento>());// le paso la lista vacia para que no me de problema al cargar la pagina, tambien podría enviar la vista de error
             }
-            else { 
+            else {
+                
                 return View(personaAuxiliar);
             }
         }
@@ -68,25 +79,28 @@ namespace CRUD_PersonasDef_ASP.Controllers
             List<clsPersonaConDepartamento> listaPersonas = viewModelPersonas.VmListaPersonasConDepartamento;
             if (listaPersonas == null)
             {
-                ViewBag.mensajes = MENSAJE_ERROR;
+                ViewBag.mensajeNegativo = MENSAJE_ERROR;
                 return View("Index");
             }
             else
             {
-                return View("Index",listaPersonas);
+                ViewBag.mensajePositivo = MENSAJE_EXITO;
+                //return View("Index",listaPersonas);
+                return RedirectToAction("Index");
             }
         }
 
 
         public IActionResult Update(int id) {
             ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
-             clsPersonaConDepartamento personaAuxiliar = viewModelPersonas.getPersona(id);
+            clsPersonaTodosDepartamentos personaAuxiliar = viewModelPersonas.getPersonaConDepartamentos(id);
             if (personaAuxiliar == null) // si ha dado excepcion
             {
-                ViewBag.mensaje = MENSAJE_ERROR;
-                return View("Index", new List<clsPersonaConDepartamento>() );
+                ViewBag.mensajenNegativo = MENSAJE_ERROR;
+                return base.View("Index", new List<clsPersonaConDepartamento>() );
             }
-            else { 
+            else {
+                
                 return View(personaAuxiliar);
             }
         }
@@ -101,8 +115,8 @@ namespace CRUD_PersonasDef_ASP.Controllers
 
             if (listaPersonas == null)
             {
-                ViewBag.mensajes = MENSAJE_ERROR;
-                return View("Index", new List<clsPersonaConDepartamento>()); //RedirectToAction
+                ViewBag.mensajes = MENSAJE_ERROR; // si la conexion falla tras hacer la consulta
+                return base.View("Index", new List<clsPersonaConDepartamento>()); //RedirectToAction
             }
             else
             {
@@ -112,19 +126,24 @@ namespace CRUD_PersonasDef_ASP.Controllers
 
 
         public IActionResult Create() {
-            return View();
+            ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
+            return View(viewModelPersonas.newPersona());
         }
-
+        /// <summary>
+        /// Analisis: la lista collection se convierte en atributos de persona y es enviada para añadirla para la base de datos, aqui necesitaria una persona normal, sin nombre departamento
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <returns></returns>
 
         [HttpPost]
         public IActionResult Create(IFormCollection collection) {
             ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
             accionaRealizada(viewModelPersonas.create(construirPersona(collection)));
             //viewModelPersonas = new ViewModelPersonas(); //actualizamos la lista, TODO METODO PARA ACTULZARLA Y NO LLAMAR AL CONSTRUCTOR
-            List<clsPersonaConDepartamento> listaPersonas = viewModelPersonas.VmListaPersonasConDepartamento;
+            List<Models.clsPersonaConDepartamento> listaPersonas = viewModelPersonas.VmListaPersonasConDepartamento;
             if (listaPersonas == null)
             {
-                ViewBag.mensajes = MENSAJE_ERROR;
+                ViewBag.mensajesNegativo = MENSAJE_ERROR;
                 return View("Index");
             }
             else
@@ -142,11 +161,11 @@ namespace CRUD_PersonasDef_ASP.Controllers
 
         public IActionResult Details(int id) {
             ViewModelPersonas viewModelPersonas = new ViewModelPersonas();
-            clsPersona personaAuxiliar;
+            clsPersonaConDepartamento personaAuxiliar;
             personaAuxiliar = viewModelPersonas.getPersona(id);
             if (personaAuxiliar == null)
             {
-                ViewBag.mensaje = MENSAJE_ERROR;
+                ViewBag.mensajeNegativo = MENSAJE_ERROR;
                 return View("Index");
             }
             else {
@@ -180,7 +199,7 @@ namespace CRUD_PersonasDef_ASP.Controllers
             idDepartamento = Int32.Parse(collection["IDDepartamento"]);
             urlFoto  = collection["Foto"];
 
-            return new clsPersona(id,nombre, apellidos, direccion, fecha, tel, idDepartamento, urlFoto);
+            return new clsPersona(id, nombre, apellidos, direccion, fecha, tel, idDepartamento, urlFoto);
 
         }
 
@@ -194,14 +213,14 @@ namespace CRUD_PersonasDef_ASP.Controllers
         public void accionaRealizada(int resultado) {
             if (resultado > 0)
             {
-                ViewBag.mensaje = "Accion realizada con exito";
+                ViewBag.mensajePositivo = "Accion realizada con exito";
             }
             else if(resultado == -1)
             {
-                ViewBag.mensaje = MENSAJE_ERROR;
+                ViewBag.mensajeNegativo = MENSAJE_ERROR;
             }else 
             {
-                ViewBag.mensaje = "Error, no se ha modificado la informacion";
+                ViewBag.mensajeNegativo = "Error, no se ha modificado la informacion";
             }
         }
 

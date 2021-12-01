@@ -11,27 +11,28 @@ namespace CRUD_PersonasDef_ASP
 {
     public class ViewModelPersonas
     {
-        List<clsPersonaConDepartamento> vmListaPersonasConDepartamento;
-        List<clsPersona> vmListaPersonasOriginal;
+        List<Models.clsPersonaConDepartamento> vmListaPersonasConDepartamento;
+        List<CRUD_PersonasDef_Entidades.clsPersona> vmListaPersonasOriginal;
         List<clsDepartamento> listaDepartamento;
         ListadoPersonasBL gestionListaPersonasBL;
         ListadoDepartamentosBL gestionDepartamentosBL;
         GestoraPersonaBL gestoraPersonaBL;
-      
-       public ViewModelPersonas()
+
+        public ViewModelPersonas()
         {
+            listaDepartamento = new List<clsDepartamento>();    
             gestionDepartamentosBL = new ListadoDepartamentosBL();
             gestoraPersonaBL = new GestoraPersonaBL();
             gestionListaPersonasBL = new ListadoPersonasBL();
             vmListaPersonasConDepartamento = new List<clsPersonaConDepartamento>();
-       
+
         }
 
         /// <summary>
         /// Recorrer la lista original, y hacerle el get del id del departamento,  hacerle el get a la lista de departamentos con el find
         /// </summary>
 
-        public List<clsPersonaConDepartamento> VmListaPersonasConDepartamento
+        public List<Models.clsPersonaConDepartamento> VmListaPersonasConDepartamento
         {
             get
             {
@@ -44,8 +45,9 @@ namespace CRUD_PersonasDef_ASP
                         new clsPersonaConDepartamento(listaDepartamento.Find(y => y.ID == x.IDDepartamento).Nombre, x))
                     );
                 }
-                catch (SqlException ex) {
-                    vmListaPersonasConDepartamento = new List<clsPersonaConDepartamento>();
+                catch (SqlException ex)
+                {
+                    vmListaPersonasConDepartamento = new List<Models.clsPersonaConDepartamento>();
                 }
                 /*
                  * Sin lambda
@@ -58,15 +60,18 @@ namespace CRUD_PersonasDef_ASP
                 */
                 return vmListaPersonasConDepartamento;
             }
-            }
+        }
 
         //TODO Hacer que devuelva  una string
-        public int UpdatePersona(clsPersona clsPersona)
+        public int UpdatePersona(CRUD_PersonasDef_Entidades.clsPersona clsPersona)
         {
             int resultado = -1;
-            try { 
-                  resultado = gestoraPersonaBL.UpdatePersonaBL(clsPersona);
-            } catch (SqlException ex) {
+            try
+            {
+                resultado = gestoraPersonaBL.UpdatePersonaBL(clsPersona);
+            }
+            catch (SqlException ex)
+            {
             }
             return resultado;
 
@@ -78,7 +83,8 @@ namespace CRUD_PersonasDef_ASP
         /// <param name="idPersona"></param>
         /// <returns></returns>
 
-        public int DeletePersona(int idPersona) {
+        public int DeletePersona(int idPersona)
+        {
 
             int resultado = -1;
             try
@@ -117,10 +123,27 @@ namespace CRUD_PersonasDef_ASP
                     }
                 }
             }
-            catch (SqlException ex) {
-            // luego hay que controlar que esa persona no este a null
+            catch (SqlException ex)
+            {
+                // luego hay que controlar que esa persona no este a null
             }
             return personaConDepartamento;
+        }
+
+        public clsPersonaTodosDepartamentos newPersona() {
+            listaDepartamento = gestionDepartamentosBL.ListaDepartamentosBL;
+            return new clsPersonaTodosDepartamentos(listaDepartamento);
+        }
+
+        /// <summary>
+        /// Devuelve le persona con toda la lista de departamentos segun su id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public clsPersonaTodosDepartamentos getPersonaConDepartamentos(int id)
+        {
+
+            return new clsPersonaTodosDepartamentos(getPersona(id), listaDepartamento);
         }
 
         public int create(clsPersona clsPersona)

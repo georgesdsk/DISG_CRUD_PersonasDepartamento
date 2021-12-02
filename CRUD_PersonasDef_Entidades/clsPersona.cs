@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -28,6 +30,11 @@ namespace CRUD_PersonasDef_Entidades
         #endregion
         #region propiedades publicas
         public int Id { get => id; set => id = value; }
+
+
+        [Required(ErrorMessage = "Campo obligatorio")]
+        [Display(Name ="Nombre")]
+        [MaxLength(50)]
         public String Nombre
         {
             get
@@ -39,6 +46,10 @@ namespace CRUD_PersonasDef_Entidades
                 nombre = value;
             }
         }
+
+        [Required(ErrorMessage = "Campo obligatorio")]
+        [Display(Name = "Apellidos")]
+        [MaxLength(50)]
         public string Apellidos
         {
             get
@@ -50,16 +61,25 @@ namespace CRUD_PersonasDef_Entidades
                 apellidos = value;
             }
         }
+
+        [Required(ErrorMessage = "Campo obligatorio")]
+        [Display(Name = "Direccion")]
+        [MaxLength(100)]
         public String Direccion
         {
             get { return direccion; }
             set { direccion = value; }
         }
+        [Required(ErrorMessage = "Campo obligatorio")]
+        [DataType(DataType.Date)]
+        [Display(Name = "Fecha de nacimiento")]
         public DateTime FechaNacimiento
         {
             get { return fechaNacimiento; }
             set { fechaNacimiento = value; }
         }
+
+        [DataType(DataType.PhoneNumber)]
         public int Telefono
         {
             get { return telefono; }
@@ -67,6 +87,7 @@ namespace CRUD_PersonasDef_Entidades
         }
 
         public string Foto { get => urlFoto; set => urlFoto = value; }
+
         public int IDDepartamento { get => iDDepartamento; set => iDDepartamento = value; }
         #endregion
         #region constructores

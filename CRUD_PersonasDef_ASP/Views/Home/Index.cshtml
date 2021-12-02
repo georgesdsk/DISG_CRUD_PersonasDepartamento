@@ -20,14 +20,14 @@
                 @Html.DisplayNameFor(model => model.Direccion)
             </th>
             <th>
-                Fecha de nacimiento
+                @Html.DisplayNameFor(model => model.FechaNacimiento)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Telefono)
             </th>
             
             <th>
-                Nombre del departamento
+                @Html.DisplayNameFor(model => model.NombreDepartamento)
             </th>
            
             <th></th>
@@ -37,7 +37,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                <img src="@Html.DisplayFor(modelItem => item.Foto)" width="100" height="100"/>
+                <img src="@item.Foto" width="100" height="100"/>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)

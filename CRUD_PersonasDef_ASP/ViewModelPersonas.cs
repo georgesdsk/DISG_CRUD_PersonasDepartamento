@@ -6,6 +6,7 @@ using CRUD_PersonasDef_Entidades;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace CRUD_PersonasDef_ASP
 {
@@ -14,10 +15,11 @@ namespace CRUD_PersonasDef_ASP
         List<Models.clsPersonaConDepartamento> vmListaPersonasConDepartamento;
         List<CRUD_PersonasDef_Entidades.clsPersona> vmListaPersonasOriginal;
         List<clsDepartamento> listaDepartamento;
+
         ListadoPersonasBL gestionListaPersonasBL;
         ListadoDepartamentosBL gestionDepartamentosBL;
         GestoraPersonaBL gestoraPersonaBL;
-        bool accionRealizada;
+      
 
         public ViewModelPersonas()
         {
@@ -26,7 +28,7 @@ namespace CRUD_PersonasDef_ASP
             gestoraPersonaBL = new GestoraPersonaBL();
             gestionListaPersonasBL = new ListadoPersonasBL();
             vmListaPersonasConDepartamento = new List<clsPersonaConDepartamento>();
-            accionRealizada = true;
+           
         }
 
         /// <summary>
@@ -43,12 +45,12 @@ namespace CRUD_PersonasDef_ASP
                     vmListaPersonasOriginal = gestionListaPersonasBL.ListaPersonasBL;
 
                     vmListaPersonasOriginal.ForEach(x => vmListaPersonasConDepartamento.Add(
-                        new clsPersonaConDepartamento(listaDepartamento.Find(y => y.ID == x.IDDepartamento).Nombre, x))
+                        new clsPersonaConDepartamento(listaDepartamento.First(y => y.ID == x.IDDepartamento).Nombre, x))
                     );
                 }
                 catch (SqlException ex)
                 {
-                    vmListaPersonasConDepartamento = new List<Models.clsPersonaConDepartamento>();
+                    vmListaPersonasConDepartamento = null;
                 }
                 /*
                  * Sin lambda
@@ -63,7 +65,6 @@ namespace CRUD_PersonasDef_ASP
             }
         }
 
-        public bool AccionRealizada { get => accionRealizada; set => accionRealizada = value; }
 
         //TODO Hacer que devuelva  una string
         public int UpdatePersona(CRUD_PersonasDef_Entidades.clsPersona clsPersona)
@@ -88,7 +89,6 @@ namespace CRUD_PersonasDef_ASP
 
         public int DeletePersona(int idPersona)
         {
-
             int resultado = -1;
             try
             {
@@ -156,7 +156,7 @@ namespace CRUD_PersonasDef_ASP
             {
                 resultado = gestoraPersonaBL.InsertPersona(clsPersona);
             }
-            catch (SqlException ex)
+            catch (Exception ex)
             {
             }
             return resultado;

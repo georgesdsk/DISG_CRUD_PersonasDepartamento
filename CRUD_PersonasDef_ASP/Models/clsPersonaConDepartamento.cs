@@ -2,6 +2,7 @@
 using CRUD_PersonasDef_Entidades;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +35,8 @@ namespace CRUD_PersonasDef_ASP.Models
             
         }
 
+        [Required(ErrorMessage = "Campo obligatorio")]
+        [Display(Name = "Nombre de departamento")]
         public string NombreDepartamento { get => nombreDepartamento; set => nombreDepartamento = value; }
     }
 }

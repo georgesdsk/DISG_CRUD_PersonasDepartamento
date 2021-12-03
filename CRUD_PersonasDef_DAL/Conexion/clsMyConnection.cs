@@ -33,7 +33,7 @@ namespace CRUD_Personas_DAL.Conexion
 
         public clsMyConnection()
         {
-            this.server = "georgesdsk.database.windows.net";
+            this.server = "georgesds.database.windows.net";
             this.dataBase = "BuenosDias__BB";
             this.user = "saboresdelatierra";
             this.pass = "#Mitesoro";

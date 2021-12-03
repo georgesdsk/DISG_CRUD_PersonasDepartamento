@@ -73,6 +73,7 @@ namespace CRUD_PersonasDef_Entidades
         [Required(ErrorMessage = "Campo obligatorio")]
         [DataType(DataType.Date)]
         [Display(Name = "Fecha de nacimiento")]
+        [DateAttribute]
         public DateTime FechaNacimiento
         {
             get { return fechaNacimiento; }
@@ -118,8 +119,15 @@ namespace CRUD_PersonasDef_Entidades
            
         }
         #endregion
-        
-    
+
+
+        public class DateAttribute : RangeAttribute
+        {
+            public DateAttribute()
+              : base(typeof(DateTime), DateTime.Now.AddYears(-120).ToShortDateString(), DateTime.Now.ToShortDateString()) { }
+        }
+
+
     }
 }
 

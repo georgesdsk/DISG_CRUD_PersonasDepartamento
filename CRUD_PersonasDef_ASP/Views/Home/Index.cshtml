@@ -2,7 +2,7 @@
 <h1 style="color:red"> @ViewBag.mensajeNegativo </h1>
 <h1 style="color:green"> @ViewBag.mensajePositivo </h1>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Añadir nueva persona</a>
 </p>
 <table class="table">
     <thead>
@@ -60,9 +60,9 @@
             </td>
             
             <td>
-                @Html.ActionLink("Update", "Update", new {  id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new {   id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new {  id=item.Id  })
+                @Html.ActionLink("Actualizar", "Update", new {  id=item.Id }) |
+                @Html.ActionLink("Detalles", "Details", new {   id=item.Id }) |
+                @Html.ActionLink("Borrar", "Delete", new {  id=item.Id  })
             </td>
         </tr>
 }

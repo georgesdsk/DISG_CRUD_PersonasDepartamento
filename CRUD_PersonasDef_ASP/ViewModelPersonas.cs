@@ -8,6 +8,14 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 
+
+/**
+ *  Esta clase funciona como el intermediario entre el controller y las  bases de datos, es decir le da todos los listados y/o personas necesitados al controller, para que asi el codigo del controller sea lo mas simple
+ *  posible. Ademas de ello hace el control de excepciones, porque algunos metodos salen repetidos en el controller, como el getListado o getPersona, y para evitar redundancia de try-catchs, he decidido ponerlos aqui.
+ *  Funcionan de manera que si todo ha ido bien devuelven el objeto de manera correcta, pero si ha habido algun problema, devuelven un null. Posteriormente, si el controller ve un null, devuelve el mensaje del error.
+ * 
+ * 
+ */
 namespace CRUD_PersonasDef_ASP
 {
     public class ViewModelPersonas
@@ -32,7 +40,9 @@ namespace CRUD_PersonasDef_ASP
         }
 
         /// <summary>
-        /// Recorrer la lista original, y hacerle el get del id del departamento,  hacerle el get a la lista de departamentos con el find
+        /// Recorrer la lista original de personas y dependiendo del id del departamanto que posea, metera esa persona con con el nombre del departamento conveniente
+        /// 
+        /// return: List <personaConDepartamento>
         /// </summary>
 
         public List<Models.clsPersonaConDepartamento> VmListaPersonasConDepartamento
@@ -66,7 +76,11 @@ namespace CRUD_PersonasDef_ASP
         }
 
 
-        //TODO Hacer que devuelva  una string
+        /// <summary>
+        /// Hace la peticion de actualizar la persona a la BL
+        /// </summary>
+        /// <param name="clsPersona"></param>
+        /// <returns></returns>
         public int UpdatePersona(CRUD_PersonasDef_Entidades.clsPersona clsPersona)
         {
             int resultado = -1;
@@ -85,7 +99,7 @@ namespace CRUD_PersonasDef_ASP
         /// Borra la persona indicada por el id, si me da una excepcion devuelve un -1, y si ninguna fila queda afectada un 0
         /// </summary>
         /// <param name="idPersona"></param>
-        /// <returns></returns>
+        /// <returns> int resultado de la consulta</returns>
 
         public int DeletePersona(int idPersona)
         {
@@ -117,6 +131,7 @@ namespace CRUD_PersonasDef_ASP
             {
                 vmListaPersonasOriginal = gestionListaPersonasBL.ListaPersonasBL;
                 vmListaPersonasConDepartamento = VmListaPersonasConDepartamento;
+                /**
                 for (int i = 0; i < vmListaPersonasConDepartamento.Count && !encontrado; i++)
                 {
                     if (vmListaPersonasConDepartamento[i].Id == id)
@@ -125,6 +140,9 @@ namespace CRUD_PersonasDef_ASP
                         encontrado = true;
                     }
                 }
+                */
+                personaConDepartamento = vmListaPersonasConDepartamento.First(x=> x.Id == id);
+
             }
             catch (SqlException ex)
             {
@@ -133,9 +151,22 @@ namespace CRUD_PersonasDef_ASP
             return personaConDepartamento;
         }
 
+
+        /// <summary>
+        /// Crea una nueva persona y se la pasa a BL para su posterior creacion
+        /// </summary>
+        /// <returns></returns>
         public clsPersonaTodosDepartamentos newPersona() {
-            listaDepartamento = gestionDepartamentosBL.ListaDepartamentosBL;
-            return new clsPersonaTodosDepartamentos(listaDepartamento);
+            listaDepartamento = new List<clsDepartamento>();
+            clsPersonaTodosDepartamentos persona = null;
+            try
+            {
+                listaDepartamento = gestionDepartamentosBL.ListaDepartamentosBL;
+                persona = new clsPersonaTodosDepartamentos(listaDepartamento);
+            }
+            catch (SqlException ex) {
+            }
+            return (persona);
         }
 
         /// <summary>
@@ -145,10 +176,24 @@ namespace CRUD_PersonasDef_ASP
         /// <returns></returns>
         public clsPersonaTodosDepartamentos getPersonaConDepartamentos(int id)
         {
-
-            return new clsPersonaTodosDepartamentos(getPersona(id), listaDepartamento);
+            listaDepartamento = new List<clsDepartamento>();
+            clsPersonaTodosDepartamentos persona = null;
+            try
+            {
+                listaDepartamento = gestionDepartamentosBL.ListaDepartamentosBL;
+                persona = new clsPersonaTodosDepartamentos(getPersona(id), listaDepartamento);
+            }
+            catch (SqlException ex)
+            {
+            }
+            return (persona);
         }
 
+        /// <summary>
+        /// Pasa la persona de los parametros a la bl para que la cree, si da excepcion, devuelve valor negativo
+        /// </summary>
+        /// <param name="clsPersona"></param>
+        /// <returns></returns>
         public int create(clsPersona clsPersona)
         {
             int resultado = -1;

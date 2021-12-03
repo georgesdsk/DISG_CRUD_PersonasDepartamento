@@ -45,15 +45,15 @@ namespace CRUD_PersonasDef_ASP.Controllers
             if (listaPersonas == null) // si la llamada a lista de la bl a dado error
             {
                 ViewBag.mensajeNegativo = MENSAJE_ERROR;
-                listaPersonas = new List<clsPersonaConDepartamento>();// para que se me muestre la lista vacia y no de un null pointer
+                listaPersonas = new List<clsPersonaConDepartamento>();// para que se me muestre la lista vacia y no de un null pointer en la vista principal
             }
-            else if (TempData["resultado"] != null) {
+            else if (TempData["resultado"] != null) { // si se ha ejecutado algun cambio anteriormente
+
                 if ((int)TempData["resultado"] > 0)
                 {
                     ViewBag.mensajePositivo = MENSAJE_EXITO;
                 }
                 else {
-
                     ViewBag.mensajeNeggativo = MENSAJE_ERROR;
                 }
 
@@ -97,7 +97,8 @@ namespace CRUD_PersonasDef_ASP.Controllers
             clsPersonaTodosDepartamentos personaAuxiliar = viewModelPersonas.getPersonaConDepartamentos(id);
             IActionResult vista;
             if (personaAuxiliar == null) // si ha dado excepcion
-            { 
+            {
+                TempData["resultado"] = -1;
                 vista = RedirectToAction(nameof(Index));
             }
             else
@@ -124,6 +125,7 @@ namespace CRUD_PersonasDef_ASP.Controllers
             IActionResult vista;
             if (personaAuxiliar == null) // si ha dado excepcion
             {
+                TempData["resultado"] = -1;
                 vista = RedirectToAction(nameof(Index));
             }
             else

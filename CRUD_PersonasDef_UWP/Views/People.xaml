@@ -5,25 +5,25 @@
     xmlns:local="using:CRUD_PersonasDef_UWP.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mv ="using:CRUD_PersonasDef_UWP.ViewModel"
+    xmlns:converter="using:CRUD_PersonasDef_UWP.ViewModel.Utilidades"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    RequestedTheme="Dark">
-   
-   <Page.DataContext>
+    RequestedTheme="Dark" MinWidth="400"   >
+
+    <Page.DataContext>
         <mv:PersonasVM></mv:PersonasVM>
     </Page.DataContext>
-    
+
     <Page.Resources>
         <Style x:Key="TextBlockInfo" TargetType="TextBlock">
             <Setter Property="FontSize" Value="15"></Setter>
-            <Setter Property="Margin" Value="20"></Setter>
+            <Setter Property="Margin" Value="10"></Setter>
             <Setter Property="TextWrapping" Value="WrapWholeWords"></Setter>
         </Style>
         <Style x:Key="TextBoxInfo" TargetType="TextBox">
             <Setter Property="FontSize" Value="15"></Setter>
-            <Setter Property="Margin" Value="20"></Setter>
-            <Setter Property="MinWidth" Value="100"></Setter>
+            <Setter Property="Margin" Value="10,20"></Setter>
             <Setter Property="TextWrapping" Value="WrapWholeWords"></Setter>
 
         </Style>
@@ -33,63 +33,58 @@
             <Setter Property="HorizontalAlignment" Value="Right"></Setter>
             <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
             <Setter Property="Margin" Value="10"></Setter>
-            
+
         </Style>
         <Style x:Key="Titulos" TargetType="TextBlock">
             <Setter Property="TextWrapping" Value="WrapWholeWords"></Setter>
 
             <Setter Property="Margin" Value="30,20"></Setter>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontSize" Value="30"/>
-            
+            <Setter Property="FontSize" Value="30"></Setter>
         </Style>
-
+        <converter:clsConverterDate x:Key="dataConverter"/>
     </Page.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="7*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="2*"/>
-        </Grid.ColumnDefinitions>
+    <RelativePanel>
+
+        <StackPanel x:Name="tituloIzquierdo"  RelativePanel.AlignLeftWithPanel="True" Orientation="Horizontal" >
+            <TextBlock Style="{StaticResource Titulos}" x:Name="tbInfoDePersona" Text="Información de la persona" Visibility="{Binding VisibilidadMenuInfo}" ></TextBlock>
+            <TextBlock Style="{StaticResource Titulos}" x:Name="tbAnhadirPersona" Text="Ingresa la nueva persona" Visibility="{Binding VisibilidadMenuEdicion}"></TextBlock>
+            <AppBarButton Style="{StaticResource Botones}" Visibility="{Binding VisibilidadMenuEdicion, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  Label="Guardar nueva persona" Command="{Binding VmDCGuardarNuevaPersona}"  Icon="Save" ></AppBarButton>
+            <AppBarButton   Style="{StaticResource Botones}" Label="Persona Nueva" Margin="15" Icon="Add"
+                      Command="{Binding VmDCAnhadirPersona}"
+                      HorizontalAlignment="Right"  VerticalAlignment="Top"
+                      Visibility="{Binding VisibilidadMenuInfo}"
+                      ></AppBarButton>
+        </StackPanel>
         
-        <ListView Background="{ThemeResource BackButtonPointerOverBackgroundThemeBrush}" BorderThickness="1" BorderBrush="{ThemeResource AppBarBorderThemeBrush}" Margin="20" Grid.Column="0" Grid.Row="1" x:Name="listaPersonas"
-              SelectedItem="{Binding PersonaSeleccionadavm, Mode=TwoWay,
-              UpdateSourceTrigger=PropertyChanged}" 
-              ItemsSource="{Binding VmListaPersonasConDepartamento}">
+        <ListView RelativePanel.Below="tituloIzquierdo" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWith="tituloIzquierdo" RelativePanel.AlignLeftWithPanel="True" Background="{ThemeResource BackButtonPointerOverBackgroundThemeBrush}" BorderThickness="1" BorderBrush="{ThemeResource AppBarBorderThemeBrush}"
+                  Margin="20,35"  x:Name="listaPersonas"
+              SelectedItem="{Binding PersonaSeleccionadavm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+              ItemsSource="{Binding VmListaPersonasConDepartamento}" >
             <ListView.ItemTemplate >
                 <DataTemplate>
                     <StackPanel Margin="5,0" Orientation="Horizontal">
                         <!-- La foto-->
-                        <Image Margin="15" Height="100" Source="{Binding Foto}"></Image>
-                        <TextBlock FontSize="15" Margin="10" Text="{Binding Nombre}"></TextBlock>
-                        <TextBlock FontSize="15" Margin="10" Text="{Binding Apellidos}"></TextBlock>
+                        <Image Margin="15" MinHeight="30" MaxHeight="100" Source="{Binding Foto}"></Image>
+                        <TextBlock FontSize="15" Margin="10" Style="{StaticResource TextBlockInfo}" Text="{Binding Nombre}"></TextBlock>
+                        <TextBlock FontSize="15" Margin="10" Style="{StaticResource TextBlockInfo}" Text="{Binding Apellidos}"></TextBlock>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Border Grid.RowSpan="3"  BorderThickness="1" BorderBrush="{ThemeResource AppBarBorderThemeBrush}" HorizontalAlignment="Right"/>
-        <TextBlock Style="{StaticResource Titulos}" Text="Lista de personas" Grid.Column="0" Grid.Row="0"></TextBlock>
-        <AppBarButton Style="{StaticResource Botones}" Label="Persona Nueva" Icon="Add" Grid.Column="0" Grid.Row="0"
-                      Command="{Binding VmDCAnhadirPersona}"
-                      HorizontalAlignment="Right"  VerticalAlignment="Center"
-                      ></AppBarButton>
-        <RelativePanel  Grid.Column="1" Grid.Row="0">
-             <TextBlock Style="{StaticResource Titulos}" x:Name="tbInfoDePersona" Text="Información de la persona" Visibility="{Binding VisibilidadMenuInfo}" ></TextBlock>
-             <TextBlock Style="{StaticResource Titulos}" x:Name="tbAnhadirPersona" Text="Ingresa la nueva persona" Visibility="{Binding VisibilidadMenuEdicion}"></TextBlock>
-            <StackPanel Visibility="{Binding VisibilidadMenuInfo}" Margin="30,10" Orientation="Horizontal" RelativePanel.RightOf="tbInfoDePersona">
+        <StackPanel x:Name="tituloDerecho" RelativePanel.RightOf="tituloIzquierdo" RelativePanel.AlignRightWithPanel="True" Orientation="Horizontal">
+            <TextBlock  Style="{StaticResource Titulos}" Text="Lista de personas" Grid.Column="0" Grid.Row="0"></TextBlock>
+            <StackPanel Visibility="{Binding VisibilidadMenuInfo}" Margin="15"  Orientation="Horizontal" >
                 <AppBarButton Style="{StaticResource Botones}" Label="Guardar cambios" Command="{Binding VmDCActualizarPersona}"  Icon="Save" ></AppBarButton>
                 <AppBarButton Style="{StaticResource Botones}" Label="Borrar persona" Command="{Binding VmDCEliminarPersona}"  Icon="Delete" ></AppBarButton>
             </StackPanel>
-            <AppBarButton Style="{StaticResource Botones}" Visibility="{Binding VisibilidadMenuEdicion, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  RelativePanel.RightOf="tbAnhadirPersona" Label="Guardar nueva persona" Command="{Binding VmDCGuardarNuevaPersona}"  Icon="Save" ></AppBarButton>
-            
-        </RelativePanel>
+        </StackPanel>
        
-        <Grid Margin="20" Background="{ThemeResource BackButtonPointerOverBackgroundThemeBrush}" BorderBrush="{ThemeResource AppBarToggleButtonCheckedDisabledBackgroundThemeBrush}" BorderThickness="1" Grid.Row="1" Grid.Column="1">
+        
+
+        <Grid x:Name="Formulario" RelativePanel.RightOf="listaPersonas" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="tituloDerecho" Margin="20" Background="{ThemeResource BackButtonPointerOverBackgroundThemeBrush}"
+              BorderBrush="{ThemeResource AppBarToggleButtonCheckedDisabledBackgroundThemeBrush}" BorderThickness="1" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
@@ -101,28 +96,30 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition ></ColumnDefinition>
-                <ColumnDefinition Width="2*"></ColumnDefinition>
-                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition ></ColumnDefinition>
+                <ColumnDefinition ></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
             <TextBlock Style="{StaticResource TextBlockInfo}" Grid.Row="0" Grid.Column="0"> Nombre:</TextBlock>
-            <TextBox Text="{Binding PersonaSeleccionadavm.Nombre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBoxInfo}" Grid.Row="0" Grid.Column="1"></TextBox>
-            
-            <TextBlock Style="{StaticResource TextBlockInfo}" Grid.Row="1" Grid.Column="0"> Apellidos:</TextBlock>
-            <TextBox Text="{Binding PersonaSeleccionadavm.Apellidos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TextBoxInfo}" Grid.Row="1" Grid.Column="1"></TextBox>  
-            
+            <TextBox x:Name="tbNombre" TextChanging="tbNombre_Changing" Text="{Binding PersonaSeleccionadavm.Nombre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TextBoxInfo}" Grid.Row="0" Grid.Column="1"></TextBox>
+
+            <TextBlock  Style="{StaticResource TextBlockInfo}" Grid.Row="1" Grid.Column="0"> Apellidos:</TextBlock>
+            <TextBox  x:Name="tbApellido" TextChanging="tbNombre_Changing"  Text="{Binding PersonaSeleccionadavm.Apellidos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TextBoxInfo}" Grid.Row="1" Grid.Column="1"></TextBox>
+
             <TextBlock Style="{StaticResource TextBlockInfo}" Grid.Row="2" Grid.Column="0"> Telefono:</TextBlock>
             <TextBox Text="{Binding PersonaSeleccionadavm.Telefono, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TextBoxInfo}" Grid.Row="2" Grid.Column="1"></TextBox>
-            
+
             <TextBlock Style="{StaticResource TextBlockInfo}" Grid.Row="3" Grid.Column="0"> Direccion</TextBlock>
             <TextBox Text="{Binding PersonaSeleccionadavm.Direccion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TextBoxInfo}" Grid.Row="3" Grid.Column="1"></TextBox>
-            
+
             <TextBlock Style="{StaticResource TextBlockInfo}" Grid.Row="4" Grid.Column="0"> Fecha de nacimiento</TextBlock>
-            <TextBox Text="{Binding PersonaSeleccionadavm.FechaNacimiento, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TextBoxInfo}" Grid.Row="4" Grid.Column="1"></TextBox><!--SimplificarFehcas-->
+            <DatePicker SelectedDate="{Binding PersonaSeleccionadavm.FechaNacimiento, Mode=TwoWay,Converter={StaticResource dataConverter}, UpdateSourceTrigger=PropertyChanged}" Margin="10" Grid.ColumnSpan="2" Grid.Row="4" Grid.Column="1"></DatePicker>
 
             <TextBlock Style="{StaticResource TextBlockInfo}" Grid.Row="5" Grid.Column="0"> Departamento</TextBlock>
-            <ComboBox Grid.Column="1" Grid.Row="5" Margin="20" ItemsSource="{Binding VmListaDepartamentos, Mode=TwoWay,
-                UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding PersonaSeleccionadavm.NombreDepartamento, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Id" >
+            <ComboBox Grid.Column="1" Grid.Row="5" Margin="10,20"
+                      ItemsSource="{Binding VmListaDepartamentos}"
+                      SelectedValue="{Binding PersonaSeleccionadavm.IDDepartamento, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedValuePath="ID" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Nombre}"></TextBlock>
@@ -130,13 +127,19 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-           
+
             <Image Margin="10" Grid.Column="2" Grid.RowSpan="2" Grid.Row="0" Source="{Binding PersonaSeleccionadavm.Foto}"></Image>
             <!--foto-->
             <!--selectItemdepartamento-->
 
-
         </Grid>
+        <StackPanel Background="{ThemeResource BackButtonPointerOverBackgroundThemeBrush}" Visibility="{Binding VisibilidadError}" Margin="20" BorderBrush="DarkRed" BorderThickness="5" RelativePanel.Below="Formulario" RelativePanel.RightOf="listaPersonas" >
+        <TextBlock Style="{StaticResource Titulos}" Foreground="Red">
+            Ha habido un fallo con la base de datos
+        </TextBlock>
+        </StackPanel>
 
-    </Grid>
+    </RelativePanel>
 </Page>
+
+

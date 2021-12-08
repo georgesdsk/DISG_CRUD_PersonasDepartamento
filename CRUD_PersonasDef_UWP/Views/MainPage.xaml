@@ -9,15 +9,18 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     RequestedTheme="Dark"
+    
     >
    
     <Page.DataContext>
         <mv:PersonasVM></mv:PersonasVM>
     </Page.DataContext>
-
+   
     <RelativePanel>
+        <RelativePanel.Background>
+            <ImageBrush ImageSource="/Assets/que-es-crud-01.png"   Stretch="None"  ></ImageBrush>
+        </RelativePanel.Background>
         <NavigationView  x:Name="navigationView" 
-                         PaneDisplayMode="Left"
                          RelativePanel.AlignTopWithPanel="True"
                          RelativePanel.AlignBottomWithPanel="True"
                          RelativePanel.AlignLeftWithPanel="True"
@@ -33,10 +36,11 @@
                 <CommandBar DefaultLabelPosition="Right" Background="Transparent">
                     <AppBarButton Icon="Add" Command="{Binding VmDCAnhadirPersona}" Label="Añadir persona"/>
                     <AppBarButton Icon="Edit" Command="{Binding VmDCActualizarPersona}" Label="Editar" />
-                    <AppBarButton Icon="Delete" Command="{Binding VmDCEliminarPersona}" Label="Borrar" /><!--- poner el hover-->
+                    <AppBarButton Icon="Delete" Command="{Binding VmDCEliminarPersona}" Label="Borrar" />
+                    <!--- poner el hover-->
                 </CommandBar>
             </NavigationView.MenuItems>
-            <Frame  RelativePanel.RightOf="navigationView"   x:Name="contentFrame"></Frame>
+            <Frame  RelativePanel.RightOf="navigationView" x:Name="contentFrame"></Frame>
         </NavigationView>
         
     </RelativePanel>

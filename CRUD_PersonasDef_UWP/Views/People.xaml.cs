@@ -15,7 +15,8 @@ using Windows.UI.Xaml.Navigation;
 
 // La plantilla de elemento Página en blanco está documentada en https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace CRUD_PersonasDef_UWP.Views { 
+namespace CRUD_PersonasDef_UWP.Views
+{
     /// <summary>
     /// Una página vacía que se puede usar de forma independiente o a la que se puede navegar dentro de un objeto Frame.
     /// </summary>
@@ -26,14 +27,23 @@ namespace CRUD_PersonasDef_UWP.Views {
             this.InitializeComponent();
         }
 
-        private void Image_SizeChanged(object sender, SizeChangedEventArgs e)
+
+        private void tbNombre_Changing(TextBox sender, TextBoxTextChangingEventArgs args)
         {
+            if (sender.Text == "")
+            {
+
+                sender.BorderThickness = new Thickness(3);
+                sender.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Red);
+                sender.PlaceholderForeground = new SolidColorBrush(Windows.UI.Colors.Red);
+            }
+            else
+            {
+                sender.BorderThickness = new Thickness(0);
+            }
 
         }
 
-        private void AppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+       
     }
 }

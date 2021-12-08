@@ -34,7 +34,7 @@ namespace CRUD_PersonasDef_DAL.Gestora
             miComando.Parameters.AddWithValue("@nombre", clsPersona.Nombre);
             miComando.Parameters.AddWithValue("@apellidos", clsPersona.Apellidos);
             miComando.Parameters.AddWithValue("@direccion", clsPersona.Direccion);
-            miComando.Parameters.AddWithValue("@fechaNacimiento", clsPersona.FechaNacimiento); // ave que tal
+            miComando.Parameters.AddWithValue("@fechaNacimiento", clsPersona.FechaNacimiento); // ave que talf
             miComando.Parameters.AddWithValue("@IDPersona", clsPersona.Id);
             if (clsPersona.Telefono != null)
             {

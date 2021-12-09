@@ -4,8 +4,9 @@ using System;
 namespace CRUD_PersonasDef_UWP.Models
 {
 
-    /*Me tiene que venir la lista de clsPersona y cuando la reciba en el ViewModel la convierto en clModelsPersonadfsfdsfd
-     */
+    /// <summary>
+    /// clase que ayuda 
+    /// </summary>
     public class clsPersonaConDepartamento : clsPersona
     {
         String nombreDepartamento; // esto se tiene que rellenar en el viewModel
@@ -19,7 +20,6 @@ namespace CRUD_PersonasDef_UWP.Models
 
         public clsPersonaConDepartamento()
         {
-
 
             this.Nombre = "";
             this.Apellidos = "";

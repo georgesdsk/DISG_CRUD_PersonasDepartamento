@@ -1,4 +1,4 @@
-﻿using CRUD_Personas_DAL.Conexion;
+﻿
 using CRUD_PersonasDef_Entidades;
 using System;
 using System.Collections.Generic;
@@ -8,8 +8,7 @@ using System.Text;
 namespace CRUD_PersonasDef_DAL.Gestora
 {
 
-   
-    public class gestoraDepartamentos
+  public class gestoraDepartamentos
     {
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
         private clsMyConnection miConexion;

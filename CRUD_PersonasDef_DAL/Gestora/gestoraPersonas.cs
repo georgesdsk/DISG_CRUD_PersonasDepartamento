@@ -1,4 +1,4 @@
-﻿using CRUD_Personas_DAL.Conexion;
+﻿
 using CRUD_PersonasDef_Entidades;
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ namespace CRUD_PersonasDef_DAL.Gestora
 {
     /// <summary>
     /// GESTORA se encarga de una sola persona mientras que los listados dobre los listados
+    /// Hace la funcionalidad de modificado, borrado y añadido de personas en la base de datos
     /// </summary>
     
     public class GestoraPersonas
@@ -26,7 +27,12 @@ namespace CRUD_PersonasDef_DAL.Gestora
            
         }
 
-
+        /// <summary>
+        /// Ejecuta la consulta que se le pase por parametros con la persona tambien. Hace la funcionalidad de actualizado o añadido de la persona en la base de datos
+        /// </summary>
+        /// <param name="clsPersona"></param>
+        /// <param name="textComando"></param>
+        /// <returns></returns>
         private int  nuevaOEditadaPersona(clsPersona clsPersona, String textComando) {
             int resultado;
             miComando = new SqlCommand();
@@ -50,6 +56,13 @@ namespace CRUD_PersonasDef_DAL.Gestora
             return resultado;
         }
 
+
+        /// <summary>
+        /// Llama a nuevaOEditada persona para que la añada en la bse de datos
+        /// </summary>
+        /// <param name="personaNueva"></param>
+        /// <returns></returns>
+
         public int insertPersona(clsPersona personaNueva)
         {
           String comandoInsertar = "INSERT INTO Personas(nombrePersona,apellidosPersona,direccion,fechaNacimiento, telefono,Foto,IDDepartamento ) values( @nombre, @apellidos, @direccion, @fechaNacimiento, @telefono, @foto, @IDDepartamento)";
@@ -67,6 +80,12 @@ namespace CRUD_PersonasDef_DAL.Gestora
             return nuevaOEditadaPersona(personaActualizar, comandoActualizar);
         }
 
+
+        /// <summary>
+        /// Borra de la base de datos la persona del id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public int RemovePersona(int id)
         {
             int resultado;

@@ -12,14 +12,15 @@ using CRUD_PersonasDef_BL.Listas;
 using CRUD_PersonasDef_BL.Gestoras;
 using System.ComponentModel;
 using System.Windows.Input;
+using Windows.UI.Xaml.Controls;
 
 namespace CRUD_PersonasDef_UWP.ViewModel
 {
     /// <summary>
-    /// va a trabajar con todas las propiedasdses que necesita la vista Personas
+    /// va a trabajar con todas las propiedasdses que necesita la vista Personas, es decir llamara a las clases 
+    /// que trabajan con la base de datos y devolver las listas preparadas para la vista
 
-    ///     la fecha en anadir persona
-    ///     los textboxese cambiarse de color al no estar rellenos, 
+    ///     
     /// </summary>
 
     public class PersonasVM : INotifyPropertyChanged
@@ -41,6 +42,9 @@ namespace CRUD_PersonasDef_UWP.ViewModel
         DelegateCommand vmDCMenuAnhadirPersona;
         DelegateCommand vmDCGuardarNuevaPersona;
 
+        /// <summary>
+        /// Variables que controlan la visibilidad de diferentes objetos
+        /// </summary>
         String visibilidadMenuInfo;
         String visibilidadMenuEdicion;
         String visibilidadError;
@@ -54,9 +58,11 @@ namespace CRUD_PersonasDef_UWP.ViewModel
         {
             listadoPersonasBL = new ListadoPersonasBL();
             listadoDepartamentosBL = new ListadoDepartamentosBL();
+            
             try
             {
                 vmListaDepartamentos = listadoDepartamentosBL.ListaDepartamentosBL;
+                visibilidadError = "Collapsed";
             }
             catch (Exception e)
             {
@@ -69,13 +75,13 @@ namespace CRUD_PersonasDef_UWP.ViewModel
             gestoraPersonaBL = new GestoraPersonaBL();
 
             vmDCActualizarPersona = new DelegateCommand(dcActionActualizarPersona, dcCanExecuteActualizarPersona);
-            vmDCEliminarPersona = new DelegateCommand(dcActionEliminarPersona, dcCanExecuteEliminarPersona);
+            vmDCEliminarPersona = new DelegateCommand(dcActionEliminarPersonaAsync, dcCanExecuteEliminarPersona);
             vmDCMenuAnhadirPersona = new DelegateCommand(dcActionAnhadirPersona, dcCanExecuteAnhadirPersona);
             vmDCGuardarNuevaPersona = new DelegateCommand(dcActionGuardarNuevaPersona, dcCanExecuteGuardarNuevaPersona);
 
             visibilidadMenuInfo = "Visible";
             visibilidadMenuEdicion = "Collapsed";
-            visibilidadError = "Collapsed";
+            
         }
 
         #region commands
@@ -117,45 +123,84 @@ namespace CRUD_PersonasDef_UWP.ViewModel
         /// Precondiciones: una perssonaSeleccionada
         /// </summary>ddd
         /// <returns></returns>
-        private void dcActionEliminarPersona()
+        private async void dcActionEliminarPersonaAsync()
         {
-
-            try
+            ContentDialog deleteFileDialog = new ContentDialog
             {
-                gestoraPersonaBL.BorrarPersonaBL(personaSeleccionadavm.Id); // mensaje de si seguro desea 
-                visibilidadError = "Collapsed";
+                Title = "Eliminar esta persona?",
+                Content = "Eliminar esta persona?",
+                PrimaryButtonText = "Delete",
+                CloseButtonText = "Cancel"
+            };
+
+            ContentDialogResult result = await deleteFileDialog.ShowAsync();
+
+
+            if (result == ContentDialogResult.Primary)
+            {
+                try
+                {
+                    gestoraPersonaBL.BorrarPersonaBL(personaSeleccionadavm.Id); // mensaje de si seguro desea 
+                    visibilidadError = "Collapsed";
+
+                }
+                catch (Exception ex)
+                {
+                    visibilidadError = "Visible";
+                }
+                NotifyPropertyChanged("VmListaPersonasConDepartamento");
+                NotifyPropertyChanged("VisibilidadError");
+                NotifyPropertyChanged("PersonaSeleccionadavm");
 
             }
-            catch (Exception ex) {
-                visibilidadError = "Visible";
-            }
-            
-            NotifyPropertyChanged("VmListaPersonasConDepartamento");
-            NotifyPropertyChanged("VisibilidadError");
-            NotifyPropertyChanged("PersonaSeleccionadavm");
+            else
+            { }
+         
         }
+
         #endregion
         private bool dcCanExecuteGuardarNuevaPersona()
         {
             return true;//!(String.IsNullOrEmpty(personaSeleccionadavm.Apellidos)  &&  String.IsNullOrEmpty(personaSeleccionadavm.Nombre)); // el nombre y el apellido(amhadir funcion behind de cambio de color) tienen que estar rellenos, el departamento lo va a estar. 
         }
 
-        private void dcActionGuardarNuevaPersona()
+        /// <summary>
+        /// Muestra mensaje en la pantalla si se desea o no borrar a la persona, si es asi, la borra si no sigue
+        /// </summary>
+        private async void dcActionGuardarNuevaPersona()
         {
 
-            try { 
-                gestoraPersonaBL.InsertPersona(personaSeleccionadavm);
-                visibilidadError = "Collapsed";
-            }catch (Exception ex) {
-                visibilidadError = "Visible";
+            ContentDialog deleteFileDialog = new ContentDialog
+            {
+                Title = "Guardar nueva persona?",
+                Content = "Guardar nueva persona?",
+                PrimaryButtonText = "Save",
+                CloseButtonText = "Cancel"
+            };
+
+            ContentDialogResult result = await deleteFileDialog.ShowAsync();
+
+            // Delete the file if the user clicked the primary button.
+            /// Otherwise, do nothing.
+            if (result == ContentDialogResult.Primary)
+            {
+                try
+                {
+                    gestoraPersonaBL.InsertPersona(personaSeleccionadavm);
+                    visibilidadError = "Collapsed";
+                }
+                catch (Exception ex)
+                {
+                    visibilidadError = "Visible";
+                }
+                NotifyPropertyChanged("VisibilidadError");
+                NotifyPropertyChanged("VmListaPersonasConDepartamento");
             }
-            NotifyPropertyChanged("VisibilidadError");
-            NotifyPropertyChanged("VmListaPersonasConDepartamento");
+            else
+            {
+            }
+         
         }
-
-
-
-        
 
 
         private bool dcCanExecuteActualizarPersona()
@@ -168,12 +213,41 @@ namespace CRUD_PersonasDef_UWP.ViewModel
         /// </summary>
         /// <returns></returns>
 
-        private void dcActionActualizarPersona()
+        private async void dcActionActualizarPersona()
         {
-            gestoraPersonaBL.UpdatePersonaBL(personaSeleccionadavm);
-            NotifyPropertyChanged("PersonaSeleccionadavm");
-            NotifyPropertyChanged("VisibilidadError");
-            NotifyPropertyChanged("VmListaPersonasConDepartamento");
+
+            ContentDialog deleteFileDialog = new ContentDialog
+            {
+                Title = "Actualizar la siguente persona?",
+                Content = "Actualizar la siguente persona",
+                PrimaryButtonText = "Save",
+                CloseButtonText = "Cancel"
+            };
+
+            ContentDialogResult result = await deleteFileDialog.ShowAsync();
+
+            // Delete the file if the user clicked the primary button.
+            /// Otherwise, do nothing.
+            if (result == ContentDialogResult.Primary)
+            {
+                try
+                {
+                    gestoraPersonaBL.UpdatePersonaBL(personaSeleccionadavm);
+                    visibilidadError = "Collapsed";
+                }
+                catch (Exception ex)
+                {
+                    visibilidadError = "Visible";
+                }
+
+
+                NotifyPropertyChanged("PersonaSeleccionadavm");
+                NotifyPropertyChanged("VisibilidadError");
+                NotifyPropertyChanged("VmListaPersonasConDepartamento");
+            }
+            else
+            {
+            }
         }
 
         #endregion

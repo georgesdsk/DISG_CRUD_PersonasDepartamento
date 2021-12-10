@@ -27,6 +27,11 @@ namespace CRUD_PersonasDef_UWP.Views
             this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Si el sender es nulo se pone le border en rojo
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
 
         private void tbNombre_Changing(TextBox sender, TextBoxTextChangingEventArgs args)
         {
@@ -36,6 +41,7 @@ namespace CRUD_PersonasDef_UWP.Views
                 sender.BorderThickness = new Thickness(3);
                 sender.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Red);
                 sender.PlaceholderForeground = new SolidColorBrush(Windows.UI.Colors.Red);
+
             }
             else
             {

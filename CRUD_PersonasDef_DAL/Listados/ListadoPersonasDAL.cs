@@ -1,5 +1,4 @@
-﻿using CRUD_Personas_DAL.Conexion;
-using CRUD_PersonasDef_Entidades;
+﻿using CRUD_PersonasDef_Entidades;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -7,6 +6,10 @@ using System.Text;
 
 namespace CRUD_PersonasDef_DAL.Listados
 {
+
+    /// <summary>
+    /// Clase que trabajo con el listado completo de personas, lo unico que hace es el select de todas las personas
+    /// </summary>
    public class ListadoPersonasDAL
     {
 
@@ -23,6 +26,7 @@ namespace CRUD_PersonasDef_DAL.Listados
 
         #region metodos
         /// Este metodo deberia devolver un data reader cargado con la info y la clsListado generara la lista
+        /// 
         public List<clsPersona> GetListadoPersonas()
         {
             miComando = new SqlCommand();

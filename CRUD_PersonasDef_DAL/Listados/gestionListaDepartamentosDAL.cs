@@ -1,4 +1,4 @@
-﻿using CRUD_Personas_DAL.Conexion;
+﻿
 using CRUD_PersonasDef_Entidades;
 using System;
 using System.Collections.Generic;
@@ -7,6 +7,9 @@ using System.Text;
 
 namespace CRUD_PersonasDef_DAL.Listados
 {
+    /// <summary>
+    /// Clase con la funcionalidad de consulta sobre la lista de departamentos
+    /// </summary>
    public class GestionListaDepartamentosDAL
     {
         #region propiedadesPrivadas
@@ -21,6 +24,11 @@ namespace CRUD_PersonasDef_DAL.Listados
             miConexion = new clsMyConnection();
         }
 
+
+        /// <summary>
+        /// Devuelve la lista completa de departamentos
+        /// </summary>
+        /// <returns></returns>
         public List<clsDepartamento> ListadoDepartamentosDAL() {
             List<clsDepartamento> listaDepartamentos = new List<clsDepartamento>();
             clsDepartamento departamentoManejado;

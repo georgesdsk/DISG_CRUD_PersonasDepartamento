@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    RequestedTheme="Dark" MinWidth="400"   >
+    RequestedTheme="Dark" MinWidth="400">
 
     <Page.DataContext>
         <mv:PersonasVM></mv:PersonasVM>
@@ -18,13 +18,16 @@
     <Page.Resources>
         <Style x:Key="TextBlockInfo" TargetType="TextBlock">
             <Setter Property="FontSize" Value="15"></Setter>
-            <Setter Property="Margin" Value="10"></Setter>
+            <Setter Property="Margin" Value="20"></Setter>
             <Setter Property="TextWrapping" Value="WrapWholeWords"></Setter>
         </Style>
         <Style x:Key="TextBoxInfo" TargetType="TextBox">
             <Setter Property="FontSize" Value="15"></Setter>
             <Setter Property="Margin" Value="10,20"></Setter>
             <Setter Property="TextWrapping" Value="WrapWholeWords"></Setter>
+            <Setter Property="Height" Value="auto"></Setter>
+            <Setter Property="MinWidth" Value="100"></Setter>
+
 
         </Style>
         <Style x:Key="Botones" TargetType="Button">
@@ -40,16 +43,60 @@
 
             <Setter Property="Margin" Value="30,20"></Setter>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontSize" Value="30"></Setter>
+            <Setter Property="FontSize" Value=""></Setter>
         </Style>
         <converter:clsConverterDate x:Key="dataConverter"/>
     </Page.Resources>
 
     <RelativePanel>
-
-        <StackPanel x:Name="tituloIzquierdo"  RelativePanel.AlignLeftWithPanel="True" Orientation="Horizontal" >
+        <StackPanel Margin="20"   x:Name="tituloDerecho" RelativePanel.AlignBottomWith="tituloIzquierdo" RelativePanel.AlignTopWithPanel="True"  RelativePanel.AlignRightWith="Formulario" RelativePanel.RightOf="tituloIzquierdo" Orientation="Horizontal" BorderBrush="{ThemeResource AppBarToggleButtonCheckedDisabledBackgroundThemeBrush}" BorderThickness="1" >
             <TextBlock Style="{StaticResource Titulos}" x:Name="tbInfoDePersona" Text="Información de la persona" Visibility="{Binding VisibilidadMenuInfo}" ></TextBlock>
             <TextBlock Style="{StaticResource Titulos}" x:Name="tbAnhadirPersona" Text="Ingresa la nueva persona" Visibility="{Binding VisibilidadMenuEdicion}"></TextBlock>
+            <StackPanel Visibility="{Binding VisibilidadMenuInfo}"   Orientation="Horizontal" >
+                <AppBarButton Style="{StaticResource Botones}" Label="Guardar cambios" Command="{Binding VmDCActualizarPersona}"  Icon="Save" ></AppBarButton>
+                <AppBarButton Style="{StaticResource Botones}" Label="Borrar persona" Command="{Binding VmDCEliminarPersona}"  Icon="Delete" ></AppBarButton>
+            </StackPanel>
+
+
+        </StackPanel>
+
+        <ListView RelativePanel.Below="tituloIzquierdo" RelativePanel.AlignBottomWithPanel="True"  RelativePanel.AlignLeftWithPanel="True" Background="{ThemeResource BackButtonPointerOverBackgroundThemeBrush}" BorderBrush="{ThemeResource AppBarToggleButtonCheckedDisabledBackgroundThemeBrush}" BorderThickness="1"
+                  Margin="20,35"  x:Name="listaPersonas"
+              SelectedItem="{Binding PersonaSeleccionadavm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+              ItemsSource="{Binding VmListaPersonasConDepartamento}" >
+            <ListView.ItemTemplate >
+                <DataTemplate>
+                    <RelativePanel MinWidth="300"  >
+                        <!-- La foto-->
+
+                        <Ellipse RelativePanel.AlignLeftWithPanel="True"
+                                RelativePanel.AlignTopWithPanel="True"
+                                Margin="15" 
+                                x:Name="imagen" Height="70" Width="70">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding Foto}"  />
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <!--
+                        <Border BorderBrush ="White"
+                                BorderThickness="1"
+                                CornerRadius="5"
+                                RelativePanel.AlignLeftWithPanel="True"
+                                RelativePanel.AlignTopWithPanel="True"
+                                Margin="15" 
+                                x:Name="imagen" >
+                            <Border.Background >
+                                <ImageBrush  AlignmentX="Center"  ImageSource="{Binding Foto}" />
+                            </Border.Background>
+                        </Border>-->
+                        <TextBlock x:Name="nombre" RelativePanel.RightOf="imagen" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" FontSize="15" Margin="10" Style="{StaticResource TextBlockInfo}" Text="{Binding Nombre}"></TextBlock>
+                        <TextBlock  RelativePanel.Below="nombre" RelativePanel.AlignLeftWith="nombre" FontSize="15" Margin="10" Style="{StaticResource TextBlockInfo}" Text="{Binding Apellidos}"></TextBlock>
+                    </RelativePanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <StackPanel Margin="20" x:Name="tituloIzquierdo"  RelativePanel.AlignLeftWithPanel="True" Orientation="Horizontal" BorderBrush="{ThemeResource AppBarToggleButtonCheckedDisabledBackgroundThemeBrush}" BorderThickness="1">
+            <TextBlock  Style="{StaticResource Titulos}" Text="Lista de personas" ></TextBlock>
             <AppBarButton Style="{StaticResource Botones}" Visibility="{Binding VisibilidadMenuEdicion, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  Label="Guardar nueva persona" Command="{Binding VmDCGuardarNuevaPersona}"  Icon="Save" ></AppBarButton>
             <AppBarButton   Style="{StaticResource Botones}" Label="Persona Nueva" Margin="15" Icon="Add"
                       Command="{Binding VmDCAnhadirPersona}"
@@ -57,33 +104,10 @@
                       Visibility="{Binding VisibilidadMenuInfo}"
                       ></AppBarButton>
         </StackPanel>
-        
-        <ListView RelativePanel.Below="tituloIzquierdo" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWith="tituloIzquierdo" RelativePanel.AlignLeftWithPanel="True" Background="{ThemeResource BackButtonPointerOverBackgroundThemeBrush}" BorderThickness="1" BorderBrush="{ThemeResource AppBarBorderThemeBrush}"
-                  Margin="20,35"  x:Name="listaPersonas"
-              SelectedItem="{Binding PersonaSeleccionadavm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-              ItemsSource="{Binding VmListaPersonasConDepartamento}" >
-            <ListView.ItemTemplate >
-                <DataTemplate>
-                    <StackPanel Margin="5,0" Orientation="Horizontal">
-                        <!-- La foto-->
-                        <Image Margin="15" MinHeight="30" MaxHeight="100" Source="{Binding Foto}"></Image>
-                        <TextBlock FontSize="15" Margin="10" Style="{StaticResource TextBlockInfo}" Text="{Binding Nombre}"></TextBlock>
-                        <TextBlock FontSize="15" Margin="10" Style="{StaticResource TextBlockInfo}" Text="{Binding Apellidos}"></TextBlock>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <StackPanel x:Name="tituloDerecho" RelativePanel.RightOf="tituloIzquierdo" RelativePanel.AlignRightWithPanel="True" Orientation="Horizontal">
-            <TextBlock  Style="{StaticResource Titulos}" Text="Lista de personas" Grid.Column="0" Grid.Row="0"></TextBlock>
-            <StackPanel Visibility="{Binding VisibilidadMenuInfo}" Margin="15"  Orientation="Horizontal" >
-                <AppBarButton Style="{StaticResource Botones}" Label="Guardar cambios" Command="{Binding VmDCActualizarPersona}"  Icon="Save" ></AppBarButton>
-                <AppBarButton Style="{StaticResource Botones}" Label="Borrar persona" Command="{Binding VmDCEliminarPersona}"  Icon="Delete" ></AppBarButton>
-            </StackPanel>
-        </StackPanel>
-       
-        
 
-        <Grid x:Name="Formulario" RelativePanel.RightOf="listaPersonas" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="tituloDerecho" Margin="20" Background="{ThemeResource BackButtonPointerOverBackgroundThemeBrush}"
+
+
+        <Grid  x:Name="Formulario" RelativePanel.RightOf="listaPersonas"  RelativePanel.AlignTopWith="listaPersonas" Margin="20,35" Background="{ThemeResource BackButtonPointerOverBackgroundThemeBrush}"
               BorderBrush="{ThemeResource AppBarToggleButtonCheckedDisabledBackgroundThemeBrush}" BorderThickness="1" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
@@ -100,10 +124,10 @@
                 <ColumnDefinition ></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Style="{StaticResource TextBlockInfo}" Grid.Row="0" Grid.Column="0"> Nombre:</TextBlock>
+            <TextBlock Style="{StaticResource TextBlockInfo}" Grid.Row="0" Grid.Column="0"> Nombre:*</TextBlock>
             <TextBox x:Name="tbNombre" TextChanging="tbNombre_Changing" Text="{Binding PersonaSeleccionadavm.Nombre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TextBoxInfo}" Grid.Row="0" Grid.Column="1"></TextBox>
 
-            <TextBlock  Style="{StaticResource TextBlockInfo}" Grid.Row="1" Grid.Column="0"> Apellidos:</TextBlock>
+            <TextBlock  Style="{StaticResource TextBlockInfo}" Grid.Row="1" Grid.Column="0"> Apellidos:*</TextBlock>
             <TextBox  x:Name="tbApellido" TextChanging="tbNombre_Changing"  Text="{Binding PersonaSeleccionadavm.Apellidos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TextBoxInfo}" Grid.Row="1" Grid.Column="1"></TextBox>
 
             <TextBlock Style="{StaticResource TextBlockInfo}" Grid.Row="2" Grid.Column="0"> Telefono:</TextBlock>
@@ -128,18 +152,23 @@
             </ComboBox>
 
 
-            <Image Margin="10" Grid.Column="2" Grid.RowSpan="2" Grid.Row="0" Source="{Binding PersonaSeleccionadavm.Foto}"></Image>
+            <Image Margin="40" Grid.Column="2" Grid.RowSpan="3" Grid.Row="0" MinWidth="30" MaxWidth="200" Source="{Binding PersonaSeleccionadavm.Foto}"></Image>
             <!--foto-->
             <!--selectItemdepartamento-->
+            <TextBlock Margin="20" Text="*Campos requeridos"  Style="{StaticResource TextBlockInfo}" Grid.Column="2" Grid.Row="5" >
 
+            </TextBlock>
         </Grid>
         <StackPanel Background="{ThemeResource BackButtonPointerOverBackgroundThemeBrush}" Visibility="{Binding VisibilidadError}" Margin="20" BorderBrush="DarkRed" BorderThickness="5" RelativePanel.Below="Formulario" RelativePanel.RightOf="listaPersonas" >
-        <TextBlock Style="{StaticResource Titulos}" Foreground="Red">
+            <TextBlock Style="{StaticResource Titulos}" Foreground="Red">
             Ha habido un fallo con la base de datos
-        </TextBlock>
+            </TextBlock>
         </StackPanel>
 
+
+
     </RelativePanel>
+
 </Page>
 
 

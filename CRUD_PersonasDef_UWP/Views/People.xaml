@@ -36,6 +36,7 @@
             <Setter Property="HorizontalAlignment" Value="Right"></Setter>
             <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
             <Setter Property="Margin" Value="10"></Setter>
+            <Setter Property="Background" Value="{ThemeResource BackButtonPointerOverBackgroundThemeBrush}"></Setter>
 
         </Style>
         <Style x:Key="Titulos" TargetType="TextBlock">

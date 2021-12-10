@@ -45,6 +45,7 @@ namespace CRUD_PersonasDef_UWP.ViewModel
         /// <summary>
         /// Variables que controlan la visibilidad de diferentes objetos
         /// </summary>
+        
         String visibilidadMenuInfo;
         String visibilidadMenuEdicion;
         String visibilidadError;
@@ -58,17 +59,19 @@ namespace CRUD_PersonasDef_UWP.ViewModel
         {
             listadoPersonasBL = new ListadoPersonasBL();
             listadoDepartamentosBL = new ListadoDepartamentosBL();
-            
+
             try
             {
                 vmListaDepartamentos = listadoDepartamentosBL.ListaDepartamentosBL;
                 visibilidadError = "Collapsed";
+                
             }
             catch (Exception e)
             {
+                mensajeError();
                 visibilidadError = "Visible";
             }
-            
+
             NotifyPropertyChanged("VisibilidadError");
 
             gestoraDepartamentoBL = new GestoraDepartamentoBL();
@@ -81,9 +84,10 @@ namespace CRUD_PersonasDef_UWP.ViewModel
 
             visibilidadMenuInfo = "Visible";
             visibilidadMenuEdicion = "Collapsed";
-            
+
         }
 
+        #endregion
         #region commands
 
         /// <summary>
@@ -146,6 +150,7 @@ namespace CRUD_PersonasDef_UWP.ViewModel
                 }
                 catch (Exception ex)
                 {
+                    mensajeError();
                     visibilidadError = "Visible";
                 }
                 NotifyPropertyChanged("VmListaPersonasConDepartamento");
@@ -155,13 +160,31 @@ namespace CRUD_PersonasDef_UWP.ViewModel
             }
             else
             { }
-         
+
         }
 
         #endregion
         private bool dcCanExecuteGuardarNuevaPersona()
         {
             return true;//!(String.IsNullOrEmpty(personaSeleccionadavm.Apellidos)  &&  String.IsNullOrEmpty(personaSeleccionadavm.Nombre)); // el nombre y el apellido(amhadir funcion behind de cambio de color) tienen que estar rellenos, el departamento lo va a estar. 
+        }
+
+
+        /// <summary>
+        /// Metodo que lanza un content dialog de simple aviso
+        /// </summary>
+
+        private async void mensajeError() {
+
+            ContentDialog deleteFileDialog = new ContentDialog
+            {
+                Title = "Fatal ERROR",
+                Content = "Ha habido un error con la base de datos",
+                CloseButtonText = "Ok"
+            };
+
+            await deleteFileDialog.ShowAsync();
+
         }
 
         /// <summary>
@@ -191,6 +214,7 @@ namespace CRUD_PersonasDef_UWP.ViewModel
                 }
                 catch (Exception ex)
                 {
+                    mensajeError();
                     visibilidadError = "Visible";
                 }
                 NotifyPropertyChanged("VisibilidadError");
@@ -237,6 +261,7 @@ namespace CRUD_PersonasDef_UWP.ViewModel
                 }
                 catch (Exception ex)
                 {
+                    mensajeError();
                     visibilidadError = "Visible";
                 }
 
@@ -250,8 +275,7 @@ namespace CRUD_PersonasDef_UWP.ViewModel
             }
         }
 
-        #endregion
-
+    
 
         public ObservableCollection<clsPersonaConDepartamento> VmListaPersonasConDepartamento//todo ponerlo en el constructor
         {

@@ -8,7 +8,11 @@ using System.Text;
 // esto puede fallar
 namespace CRUD_PersonasDef_BL
 {
-   public class ListadoPersonasBL
+
+    /// <summary>
+    ///  funcionalidad de intermediario con la base de datos
+    /// </summary>
+    public class ListadoPersonasBL
     {
 
         ListadoPersonasDAL gestionListaPersonasDAL;

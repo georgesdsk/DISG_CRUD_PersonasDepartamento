@@ -8,7 +8,9 @@ namespace CRUD_PersonasDef_BL.Gestoras
 {
    public  class GestoraPersonaBL
     {
-
+        /// <summary>
+        ///  funcionalidad de intermediario con la base de datos
+        /// </summary>
 
         GestoraPersonas gestoraPersonaDAL;
 

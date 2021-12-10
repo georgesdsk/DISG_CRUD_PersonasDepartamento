@@ -6,6 +6,10 @@ using System.Text;
 
 namespace CRUD_PersonasDef_BL.Gestoras
 {
+
+    /// <summary>
+    ///  funcionalidad de intermediario con la base de datos
+    /// </summary>
    public class GestoraDepartamentoBL
     {
         gestoraDepartamentos gestoraDepartamentos;

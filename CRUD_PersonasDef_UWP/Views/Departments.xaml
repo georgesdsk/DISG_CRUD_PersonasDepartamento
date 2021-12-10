@@ -5,10 +5,140 @@
     xmlns:local="using:CRUD_PersonasDef_UWP.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm ="using:CRUD_PersonasDef_UWP.ViewModel"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    RequestedTheme="Dark"
+    >
+    <Page.DataContext>
+        <vm:DepartamentosVM></vm:DepartamentosVM>
+    </Page.DataContext>
 
-    <Grid>
-        <TextBlock Text="Adoooooooooooooooooooooo"/>
-    </Grid>
+    <Page.Resources>
+        <Style x:Key="TextBlockInfo" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15"></Setter>
+            <Setter Property="Margin" Value="20"></Setter>
+            <Setter Property="TextWrapping" Value="WrapWholeWords"></Setter>
+        </Style>
+        <Style x:Key="TextBoxInfo" TargetType="TextBox">
+            <Setter Property="FontSize" Value="15"></Setter>
+            <Setter Property="Margin" Value="10,20"></Setter>
+            <Setter Property="TextWrapping" Value="WrapWholeWords"></Setter>
+            <Setter Property="Height" Value="auto"></Setter>
+            <Setter Property="MinWidth" Value="100"></Setter>
+        </Style>
+        <Style x:Key="Botones" TargetType="Button">
+            <Setter Property="BorderBrush" Value="{ThemeResource CheckBoxBorderThemeBrush}"></Setter>
+            <Setter Property="BorderThickness" Value="0.5"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+            <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
+            <Setter Property="Margin" Value="10"></Setter>
+            <Setter Property="Background" Value="{ThemeResource BackButtonPointerOverBackgroundThemeBrush}"></Setter>
+
+        </Style>
+        <Style x:Key="Titulos" TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="WrapWholeWords"></Setter>
+            <Setter Property="Margin" Value="30,20"></Setter>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value=""></Setter>
+        </Style>
+
+    </Page.Resources>
+
+    <RelativePanel>
+        <StackPanel Margin="20"   x:Name="tituloDerecho" RelativePanel.AlignBottomWith="tituloIzquierdo" RelativePanel.AlignTopWithPanel="True"  RelativePanel.AlignRightWith="Formulario" RelativePanel.RightOf="tituloIzquierdo" Orientation="Horizontal" BorderBrush="{ThemeResource AppBarToggleButtonCheckedDisabledBackgroundThemeBrush}" BorderThickness="1" >
+            <TextBlock Style="{StaticResource Titulos}" x:Name="tbInfoDeDepartamento" Text="Información de  Departamento" Visibility="{Binding VisibilidadMenuInfo}" ></TextBlock>
+            <TextBlock Style="{StaticResource Titulos}" x:Name="tbAnhadirDepartamento" Text="Ingresa el nuevo Departamento" Visibility="{Binding VisibilidadMenuEdicion}"></TextBlock>
+            <StackPanel Visibility="{Binding VisibilidadMenuInfo}"   Orientation="Horizontal" >
+                <AppBarButton Style="{StaticResource Botones}" Label="Guardar cambios" Command="{Binding VmDCActualizarDepartamento}"  Icon="Save" ></AppBarButton>
+                <AppBarButton Style="{StaticResource Botones}" Label="Borrar Departamento" Command="{Binding VmDCEliminarDepartamento}"  Icon="Delete" ></AppBarButton>
+            </StackPanel>
+
+
+        </StackPanel>
+
+        <ListView RelativePanel.Below="tituloIzquierdo" RelativePanel.AlignBottomWithPanel="True"  RelativePanel.AlignLeftWithPanel="True"
+            Background="{ThemeResource BackButtonPointerOverBackgroundThemeBrush}"
+            BorderBrush="{ThemeResource AppBarToggleButtonCheckedDisabledBackgroundThemeBrush}" BorderThickness="1"
+            Margin="20,35"  x:Name="listaDepartamentos"
+            SelectedItem="{Binding DepartamentoSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            ItemsSource="{Binding VmListaDepartamentosConDepartamento}" >
+            <ListView.ItemTemplate >
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" MinWidth="300"  >
+                        <!-- 
+
+                        <Ellipse
+                            x:Name="imagen" Height="70" Width="70">             
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding Foto}"  />
+                            </Ellipse.Fill>
+                        </Ellipse>-->
+                        <TextBlock x:Name="nombre"  RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" FontSize="15" Margin="10" Style="{StaticResource TextBlockInfo}" Text="{Binding Nombre}"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <StackPanel Margin="20" x:Name="tituloIzquierdo"  RelativePanel.AlignLeftWithPanel="True" Orientation="Horizontal" BorderBrush="{ThemeResource AppBarToggleButtonCheckedDisabledBackgroundThemeBrush}" BorderThickness="1">
+            <TextBlock  Style="{StaticResource Titulos}" Text="Lista de Departamentos" ></TextBlock>
+            <AppBarButton Style="{StaticResource Botones}" Visibility="{Binding VisibilidadMenuEdicion, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  Label="Guardar nuevo Departamento" Command="{Binding VmDCGuardarNuevaDepartamento}"  Icon="Save" ></AppBarButton>
+            <AppBarButton   Style="{StaticResource Botones}" Label="Departamento Nuevo" Margin="15" Icon="Add"
+        Command="{Binding VmDCAnhadirDepartamento}"
+        HorizontalAlignment="Right"  VerticalAlignment="Top"
+        Visibility="{Binding VisibilidadMenuInfo}"
+        ></AppBarButton>
+        </StackPanel>
+
+
+
+        <Grid  x:Name="Formulario" RelativePanel.RightOf="listaDepartamentos"  RelativePanel.AlignTopWith="listaDepartamentos" Margin="20,35" Background="{ThemeResource BackButtonPointerOverBackgroundThemeBrush}"
+        BorderBrush="{ThemeResource AppBarToggleButtonCheckedDisabledBackgroundThemeBrush}" BorderThickness="1" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition ></ColumnDefinition>
+                <ColumnDefinition ></ColumnDefinition>
+                <ColumnDefinition ></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Style="{StaticResource TextBlockInfo}" Grid.Row="0" Grid.Column="0"> Nombre:*</TextBlock>
+            <TextBox x:Name="tbNombre"  Text="{Binding DepartamentoSeleccionado.Nombre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TextBoxInfo}" Grid.Row="0" Grid.Column="1"></TextBox>
+
+            <TextBlock  Style="{StaticResource TextBlockInfo}" Grid.Row="1" Grid.Column="0"> ID:</TextBlock>
+            <TextBlock  x:Name="tbApellido"  Text="{Binding DepartamentoSeleccionado.ID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TextBlockInfo}" Grid.Row="1" Grid.Column="1"></TextBlock>
+
+            <!--
+            <ComboBox Grid.Column="1" Grid.Row="2" Margin="10,20"
+                ItemsSource="{Binding VmListaDepartamentos}"
+                SelectedValue="{Binding DepartamentoSeleccionado.IDDepartamento, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectedValuePath="ID" >    
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Nombre}"></TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            -->
+
+
+
+            <!--foto-->
+            <!--selectItemdepartamento-->
+            <TextBlock Margin="20" Text="*Campos requeridos"  Style="{StaticResource TextBlockInfo}" Grid.Column="2" Grid.Row="5" >
+
+            </TextBlock>
+        </Grid>
+        <StackPanel Background="{ThemeResource BackButtonPointerOverBackgroundThemeBrush}" Visibility="{Binding VisibilidadError}" Margin="20" BorderBrush="DarkRed" BorderThickness="5" RelativePanel.Below="Formulario" RelativePanel.RightOf="listaDepartamentos" >
+            <TextBlock Style="{StaticResource Titulos}" Foreground="Red">
+        Ha habido un fallo con la base de datos
+            </TextBlock>
+        </StackPanel>
+
+
+
+    </RelativePanel>
+
 </Page>

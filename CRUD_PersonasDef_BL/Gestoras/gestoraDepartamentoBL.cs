@@ -22,5 +22,20 @@ namespace CRUD_PersonasDef_BL.Gestoras
         public int UpdateDepartamento(clsDepartamento departamento) {
             return gestoraDepartamentos.UpdateDepartamento(departamento);
         }
+
+        public void UpdateDepartamentoBL(clsDepartamento departamentoSeleccionado)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void InsertDepartamento(clsDepartamento departamentoSeleccionado)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BorrarDepartamentoBL(object id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -41,7 +41,6 @@
         </Style>
         <Style x:Key="Titulos" TargetType="TextBlock">
             <Setter Property="TextWrapping" Value="WrapWholeWords"></Setter>
-
             <Setter Property="Margin" Value="30,20"></Setter>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="FontSize" Value=""></Setter>
@@ -61,7 +60,9 @@
 
         </StackPanel>
 
-        <ListView RelativePanel.Below="tituloIzquierdo" RelativePanel.AlignBottomWithPanel="True"  RelativePanel.AlignLeftWithPanel="True" Background="{ThemeResource BackButtonPointerOverBackgroundThemeBrush}" BorderBrush="{ThemeResource AppBarToggleButtonCheckedDisabledBackgroundThemeBrush}" BorderThickness="1"
+        <ListView RelativePanel.Below="tituloIzquierdo" RelativePanel.AlignBottomWithPanel="True"  RelativePanel.AlignLeftWithPanel="True"
+                  Background="{ThemeResource BackButtonPointerOverBackgroundThemeBrush}"
+ BorderBrush="{ThemeResource AppBarToggleButtonCheckedDisabledBackgroundThemeBrush}" BorderThickness="1"
                   Margin="20,35"  x:Name="listaPersonas"
               SelectedItem="{Binding PersonaSeleccionadavm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
               ItemsSource="{Binding VmListaPersonasConDepartamento}" >
@@ -96,7 +97,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <StackPanel Margin="20" x:Name="tituloIzquierdo"  RelativePanel.AlignLeftWithPanel="True" Orientation="Horizontal" BorderBrush="{ThemeResource AppBarToggleButtonCheckedDisabledBackgroundThemeBrush}" BorderThickness="1">
+        <StackPanel Margin="20" x:Name="tituloIzquierdo"  RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWith="listaPersonas" Orientation="Horizontal" BorderBrush="{ThemeResource AppBarToggleButtonCheckedDisabledBackgroundThemeBrush}" BorderThickness="1">
             <TextBlock  Style="{StaticResource Titulos}" Text="Lista de personas" ></TextBlock>
             <AppBarButton Style="{StaticResource Botones}" Visibility="{Binding VisibilidadMenuEdicion, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  Label="Guardar nueva persona" Command="{Binding VmDCGuardarNuevaPersona}"  Icon="Save" ></AppBarButton>
             <AppBarButton   Style="{StaticResource Botones}" Label="Persona Nueva" Margin="15" Icon="Add"

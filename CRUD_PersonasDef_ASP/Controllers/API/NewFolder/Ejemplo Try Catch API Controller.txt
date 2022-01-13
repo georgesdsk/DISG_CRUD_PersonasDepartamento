@@ -1,0 +1,18 @@
+public IEnumerable<clsProducto> Get(){
+            List<clsProducto> listadoProductos;
+
+            try {
+                listadoProductos = new ClsListadosProductos_BL().getProductList();
+            } catch (Exception e) {
+                throw new HttpResponseException(HttpStatusCode.ServiceUnavailable);
+            }
+            
+            if (listadoProductos == null || listadoProductos.Count == 0){
+                throw new HttpResponseException(HttpStatusCode.NoContent);
+            }
+            return listadoProductos;
+        }
+         hay que generar un archivo con una contraseña en azure 
+            vamos al app service
+
+            para debugear hay que darle al  f12 source 

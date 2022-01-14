@@ -1,4 +1,5 @@
-﻿using CRUD_PersonasDef_BL;
+﻿
+using CRUD_PersonasDef_BL;
 using CRUD_PersonasDef_Entidades;
 using CRUD_PersonasDef_UWP.Models;
 using CRUD_PersonasDef_UWP.ViewModel;
@@ -59,6 +60,7 @@ namespace CRUD_PersonasDef_UWP.ViewModel
             try
             {
                 vmListaDepartamentos = listadoDepartamentosBL.ListaDepartamentosBL;
+                departamentoSeleccionado = new clsDepartamento();
                 visibilidadError = "Collapsed";
 
             }
@@ -77,8 +79,8 @@ namespace CRUD_PersonasDef_UWP.ViewModel
             vmDCMenuAnhadirDepartamento = new DelegateCommand(dcActionAnhadirDepartamento, dcCanExecuteAnhadirDepartamento);
             vmDCGuardarNuevaDepartamento = new DelegateCommand(dcActionGuardarNuevaDepartamento, dcCanExecuteGuardarNuevaDepartamento);
 
-            visibilidadMenuInfo = "Visible";
-            visibilidadMenuEdicion = "Collapsed";
+            visibilidadMenuInfo = "Collapsed";
+            visibilidadMenuEdicion = "Visible";
 
         }
 
@@ -101,19 +103,19 @@ namespace CRUD_PersonasDef_UWP.ViewModel
         /// </summary>
         private void dcActionAnhadirDepartamento()
         {
-            departamentoSeleccionado = new clsDepartamento();
+            DepartamentoSeleccionado = new clsDepartamento();
             visibilidadMenuInfo = "Collapsed";
             visibilidadMenuEdicion = "Visible";
 
             NotifyPropertyChanged("VisibilidadMenuInfo");
             NotifyPropertyChanged("VisibilidadMenuEdicion");
-            NotifyPropertyChanged("DepartamentoSeleccionadavm");
+            NotifyPropertyChanged("DepartamentoSeleccionado");
 
         }
 
         private bool dcCanExecuteEliminarDepartamento()
         {
-            return !(departamentoSeleccionado == null);
+            return !(DepartamentoSeleccionado == null);
         }
 
 
@@ -139,7 +141,7 @@ namespace CRUD_PersonasDef_UWP.ViewModel
             {
                 try
                 {
-                    gestoraDepartamentoBL.BorrarDepartamentoBL(departamentoSeleccionado.ID); // mensaje de si seguro desea 
+                    gestoraDepartamentoBL.BorrarDepartamentoBL(DepartamentoSeleccionado.ID); // mensaje de si seguro desea TODO MENSAJE DE LOS FALLOS
                     visibilidadError = "Collapsed";
 
                 }
@@ -148,20 +150,21 @@ namespace CRUD_PersonasDef_UWP.ViewModel
                     mensajeError();
                     visibilidadError = "Visible";
                 }
-                NotifyPropertyChanged("VmListaDepartamentosConDepartamento");
-                NotifyPropertyChanged("VisibilidadError");
-                NotifyPropertyChanged("DepartamentoSeleccionadavm");
+             
 
             }
             else
             { }
+            NotifyPropertyChanged("VmListaDepartamentos");
+            NotifyPropertyChanged("VisibilidadError");
+            NotifyPropertyChanged("DepartamentoSeleccionado");
 
         }
 
         #endregion
         private bool dcCanExecuteGuardarNuevaDepartamento()
         {
-            return true;//!(String.IsNullOrEmpty(DepartamentoSeleccionadavm.Apellidos)  &&  String.IsNullOrEmpty(DepartamentoSeleccionadavm.Nombre)); // el nombre y el apellido(amhadir funcion behind de cambio de color) tienen que estar rellenos, el departamento lo va a estar. 
+            return true;//!(String.IsNullOrEmpty(DepartamentoSeleccionado.Apellidos)  &&  String.IsNullOrEmpty(DepartamentoSeleccionado.Nombre)); // el nombre y el apellido(amhadir funcion behind de cambio de color) tienen que estar rellenos, el departamento lo va a estar. 
         }
 
 
@@ -205,7 +208,7 @@ namespace CRUD_PersonasDef_UWP.ViewModel
             {
                 try
                 {
-                    gestoraDepartamentoBL.InsertDepartamento(departamentoSeleccionado);
+                    gestoraDepartamentoBL.InsertDepartamento(DepartamentoSeleccionado.Nombre);
                     visibilidadError = "Collapsed";
                 }
                 catch (Exception ex)
@@ -213,19 +216,21 @@ namespace CRUD_PersonasDef_UWP.ViewModel
                     mensajeError();
                     visibilidadError = "Visible";
                 }
-                NotifyPropertyChanged("VisibilidadError");
-                NotifyPropertyChanged("VmListaDepartamentosConDepartamento");
+              
             }
             else
             {
             }
+               NotifyPropertyChanged("VmListaDepartamentos");
+                NotifyPropertyChanged("VisibilidadError");
+                NotifyPropertyChanged("DepartamentoSeleccionado");
 
         }
 
 
         private bool dcCanExecuteActualizarDepartamento()
         {
-            return !(departamentoSeleccionado == null);
+            return !(DepartamentoSeleccionado == null);
         }
 
         /// <summary>
@@ -252,7 +257,7 @@ namespace CRUD_PersonasDef_UWP.ViewModel
             {
                 try
                 {
-                    gestoraDepartamentoBL.UpdateDepartamentoBL(departamentoSeleccionado);
+                    gestoraDepartamentoBL.UpdateDepartamentoBL(DepartamentoSeleccionado);
                     visibilidadError = "Collapsed";
                 }
                 catch (Exception ex)
@@ -261,14 +266,16 @@ namespace CRUD_PersonasDef_UWP.ViewModel
                     visibilidadError = "Visible";
                 }
 
+              
 
-                NotifyPropertyChanged("DepartamentoSeleccionadavm");
-                NotifyPropertyChanged("VisibilidadError");
-                NotifyPropertyChanged("VmListaDepartamentosConDepartamento");
             }
             else
             {
             }
+            NotifyPropertyChanged("VmListaDepartamentos");
+            NotifyPropertyChanged("DepartamentoSeleccionado");
+            NotifyPropertyChanged("VisibilidadError");
+
         }
 
         public DelegateCommand VmDCEliminarDepartamento { get => vmDCEliminarDepartamento; }
@@ -279,7 +286,18 @@ namespace CRUD_PersonasDef_UWP.ViewModel
         public string VisibilidadMenuEdicion { get => visibilidadMenuEdicion; }
         public DelegateCommand VmDCGuardarNuevaDepartamento { get => vmDCGuardarNuevaDepartamento; }
         public string VisibilidadError { get => visibilidadError; set => visibilidadError = value; }
+        public clsDepartamento DepartamentoSeleccionado { get => departamentoSeleccionado;
+            set
+            {
+                visibilidadMenuInfo = "Visible";
+                visibilidadMenuEdicion = "Collapsed";
+                departamentoSeleccionado = value;
+                NotifyPropertyChanged("DepartamentoSeleccionado");
+                NotifyPropertyChanged("VisibilidadMenuInfo");
+                NotifyPropertyChanged("VisibilidadMenuEdicion");
 
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -293,5 +311,11 @@ namespace CRUD_PersonasDef_UWP.ViewModel
 
     }
 }
+
+
+
+
+
+
 
 

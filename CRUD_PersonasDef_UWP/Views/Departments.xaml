@@ -46,7 +46,7 @@
     </Page.Resources>
 
     <RelativePanel>
-        <StackPanel Margin="20"   x:Name="tituloDerecho" RelativePanel.AlignBottomWith="tituloIzquierdo" RelativePanel.AlignTopWithPanel="True"  RelativePanel.AlignRightWith="Formulario" RelativePanel.RightOf="tituloIzquierdo" Orientation="Horizontal" BorderBrush="{ThemeResource AppBarToggleButtonCheckedDisabledBackgroundThemeBrush}" BorderThickness="1" >
+        <StackPanel Margin="20"   x:Name="tituloDerecho" RelativePanel.AlignBottomWith="tituloIzquierdo" RelativePanel.AlignTopWithPanel="True"   RelativePanel.RightOf="tituloIzquierdo" Orientation="Horizontal" BorderBrush="{ThemeResource AppBarToggleButtonCheckedDisabledBackgroundThemeBrush}" BorderThickness="1" >
             <TextBlock Style="{StaticResource Titulos}" x:Name="tbInfoDeDepartamento" Text="Información de  Departamento" Visibility="{Binding VisibilidadMenuInfo}" ></TextBlock>
             <TextBlock Style="{StaticResource Titulos}" x:Name="tbAnhadirDepartamento" Text="Ingresa el nuevo Departamento" Visibility="{Binding VisibilidadMenuEdicion}"></TextBlock>
             <StackPanel Visibility="{Binding VisibilidadMenuInfo}"   Orientation="Horizontal" >
@@ -62,7 +62,7 @@
             BorderBrush="{ThemeResource AppBarToggleButtonCheckedDisabledBackgroundThemeBrush}" BorderThickness="1"
             Margin="20,35"  x:Name="listaDepartamentos"
             SelectedItem="{Binding DepartamentoSeleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            ItemsSource="{Binding VmListaDepartamentosConDepartamento}" >
+            ItemsSource="{Binding VmListaDepartamentos}" >
             <ListView.ItemTemplate >
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" MinWidth="300"  >

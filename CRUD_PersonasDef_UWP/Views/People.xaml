@@ -97,7 +97,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <StackPanel Margin="20" x:Name="tituloIzquierdo"  RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWith="listaPersonas" Orientation="Horizontal" BorderBrush="{ThemeResource AppBarToggleButtonCheckedDisabledBackgroundThemeBrush}" BorderThickness="1">
+        <StackPanel Margin="20" x:Name="tituloIzquierdo"  RelativePanel.AlignLeftWithPanel="True"  Orientation="Horizontal" BorderBrush="{ThemeResource AppBarToggleButtonCheckedDisabledBackgroundThemeBrush}" BorderThickness="1">
             <TextBlock  Style="{StaticResource Titulos}" Text="Lista de personas" ></TextBlock>
             <AppBarButton Style="{StaticResource Botones}" Visibility="{Binding VisibilidadMenuEdicion, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  Label="Guardar nueva persona" Command="{Binding VmDCGuardarNuevaPersona}"  Icon="Save" ></AppBarButton>
             <AppBarButton   Style="{StaticResource Botones}" Label="Persona Nueva" Margin="15" Icon="Add"

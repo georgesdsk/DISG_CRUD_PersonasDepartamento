@@ -19,23 +19,20 @@ namespace CRUD_PersonasDef_BL.Gestoras
             gestoraDepartamentos = new gestoraDepartamentos() ;
         }
 
-        public int UpdateDepartamento(clsDepartamento departamento) {
-            return gestoraDepartamentos.UpdateDepartamento(departamento);
+      
+        public int UpdateDepartamentoBL(clsDepartamento departamentoSeleccionado)
+        {
+            return gestoraDepartamentos.UpdateDepartamento(departamentoSeleccionado);
         }
 
-        public void UpdateDepartamentoBL(clsDepartamento departamentoSeleccionado)
+        public int  InsertDepartamento(string nombreDepartamento)
         {
-            throw new NotImplementedException();
+            return gestoraDepartamentos.InsertDepartamento(nombreDepartamento);
         }
 
-        public void InsertDepartamento(clsDepartamento departamentoSeleccionado)
+        public int BorrarDepartamentoBL(int idDepartamento)
         {
-            throw new NotImplementedException();
-        }
-
-        public void BorrarDepartamentoBL(object id)
-        {
-            throw new NotImplementedException();
+            return gestoraDepartamentos.DeleteDepartamento(idDepartamento); // se puede hacer que las personas se queden en la base de datos, incluso desde aqui, tienes que mirar que personas tienen x departamento e insertarlo en otro// o simplemente borrarlo y dejarlo en null en la bbdd( MIRARLO)
         }
     }
 }
